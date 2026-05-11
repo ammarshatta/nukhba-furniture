@@ -27,6 +27,7 @@ const products = defineCollection({
       question: z.string(),
       answer: z.string(),
     })).default([]),
+    bodyAr: z.string().optional(),
     waText: z.string(),
     waTextAr: z.string(),
     relatedProducts: z.array(z.string()).default([]),

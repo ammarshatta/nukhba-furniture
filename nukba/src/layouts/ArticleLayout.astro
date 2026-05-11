@@ -7,9 +7,10 @@ export interface Props {
   post: CollectionEntry<'blog'>;
   lang?: 'en' | 'ar';
   relatedPosts?: CollectionEntry<'blog'>[];
+  alternateUrl?: string;
 }
 
-const { post, lang = 'en', relatedPosts = [] } = Astro.props;
+const { post, lang = 'en', relatedPosts = [], alternateUrl } = Astro.props;
 const isAr = lang === 'ar';
 const d = post.data;
 
@@ -55,9 +56,10 @@ const updatedLabel   = isAr ? 'تحديث:'                : 'Updated:';
 ---
 
 <BaseLayout
-  title={`${d.title} | Nukhba`}
+  title={`${isAr ? (d.titleAr || d.title) : d.title} | نُخبة`}
   description={d.excerpt}
   currentPath={`/blog/${d.slug}`}
+  alternateUrl={alternateUrl}
   lang={lang}
   ogType="article"
   ogImage={d.coverImage}

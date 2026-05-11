@@ -2,11 +2,10 @@
 export const prerender = true;
 
 import { getCollection } from 'astro:content';
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import ProductGrid from '../../components/product/ProductGrid.astro';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import ProductGrid from '../../../components/product/ProductGrid.astro';
 
 const allProducts = await getCollection('products', p => p.data.active);
-
 const products = allProducts.sort(
   (a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime()
 );
@@ -14,25 +13,21 @@ const products = allProducts.sort(
 const siteUrl = import.meta.env.PUBLIC_SITE_URL || 'https://nukhba.com';
 
 const breadcrumbs = [
-  { name: 'Home', url: `${siteUrl}/` },
-  { name: 'Products', url: `${siteUrl}/products` },
+  { name: 'Home', url: `${siteUrl}/en` },
+  { name: 'Products', url: `${siteUrl}/en/products` },
 ];
 ---
 
 <BaseLayout
-  title="منتجاتنا — أثاث فاخر | نُخبة"
-  description="استكشف مجموعة نُخبة الكاملة من الأثاث الفاخر. قطع غرف النوم وغرف الجلوس وغرف الطعام والمكاتب المصنوعة يدوياً للمنازل المصرية."
-  currentPath="/products"
-  alternateUrl="/en/products"
-  lang="ar"
+  title="Our Products — Luxury Furniture | Nukhba"
+  description="Browse Nukhba's complete luxury furniture collection. Handcrafted bedroom, living room, dining room and office pieces for Egyptian homes."
+  currentPath="/en/products"
+  alternateUrl="/products"
+  lang="en"
   ogType="website"
   breadcrumbs={breadcrumbs}
 >
-  <!-- Page header -->
-  <section
-    class="py-16 lg:py-20"
-    style="background-color:var(--color-beige);"
-  >
+  <section class="py-16 lg:py-20" style="background-color:var(--color-beige);">
     <div class="max-w-7xl mx-auto px-6 lg:px-12 text-center">
       <span class="section-eyebrow">The Collection</span>
       <h1 class="section-title">Our Furniture Collection</h1>
@@ -42,10 +37,9 @@ const breadcrumbs = [
     </div>
   </section>
 
-  <!-- Products grid -->
   <section class="py-16 lg:py-24">
     <div class="max-w-7xl mx-auto px-6 lg:px-12">
-      <ProductGrid products={products} lang="ar" showFilter={true} />
+      <ProductGrid products={products} lang="en" showFilter={true} />
     </div>
   </section>
 </BaseLayout>

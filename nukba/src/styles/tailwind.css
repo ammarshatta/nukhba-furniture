@@ -20,8 +20,8 @@
 
   /* ─── Typography ─────────────────────────────────────────── */
   --font-serif:    'Playfair Display', 'Amiri', Georgia, serif;
-  --font-sans:     'Inter', 'Noto Sans Arabic', system-ui, sans-serif;
-  --font-arabic:   'Noto Sans Arabic', 'IBM Plex Sans Arabic', sans-serif;
+  --font-sans:     'Inter', 'IBM Plex Sans Arabic', system-ui, sans-serif;
+  --font-arabic:   'IBM Plex Sans Arabic', 'Amiri', sans-serif;
 
   /* ─── Spacing / Sizing ───────────────────────────────────── */
   --radius-sm:  4px;
@@ -67,16 +67,19 @@
     letter-spacing: -0.02em;
   }
 
+  [dir="rtl"] body,
   [dir="rtl"] {
-    font-family: var(--font-arabic);
+    font-family: 'IBM Plex Sans Arabic', sans-serif;
+    line-height: 1.85;
   }
 
   [dir="rtl"] h1,
   [dir="rtl"] h2,
   [dir="rtl"] h3,
   [dir="rtl"] h4 {
-    font-family: var(--font-arabic);
+    font-family: 'Amiri', serif;
     letter-spacing: 0;
+    line-height: 1.35;
   }
 
   ::selection {
@@ -87,6 +90,18 @@
   img {
     display: block;
     max-width: 100%;
+    background: linear-gradient(135deg, var(--color-beige) 0%, var(--color-beige-dark) 100%);
+  }
+
+  /* Subtle film-grain texture overlay — matches old v3 aesthetic */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 9997;
+    pointer-events: none;
+    opacity: 0.022;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   }
 
   a {

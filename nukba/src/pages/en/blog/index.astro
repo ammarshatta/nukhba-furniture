@@ -2,11 +2,10 @@
 export const prerender = true;
 
 import { getCollection } from 'astro:content';
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import BlogGrid from '../../components/blog/BlogGrid.astro';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import BlogGrid from '../../../components/blog/BlogGrid.astro';
 
 const allPosts = await getCollection('blog');
-
 const posts = allPosts.sort(
   (a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime()
 );
@@ -14,21 +13,20 @@ const posts = allPosts.sort(
 const siteUrl = import.meta.env.PUBLIC_SITE_URL || 'https://nukhba.com';
 
 const breadcrumbs = [
-  { name: 'Home', url: `${siteUrl}/` },
-  { name: 'Blog', url: `${siteUrl}/blog` },
+  { name: 'Home', url: `${siteUrl}/en` },
+  { name: 'Journal', url: `${siteUrl}/en/blog` },
 ];
 ---
 
 <BaseLayout
-  title="مدونة الأثاث | نُخبة"
-  description="أدلة متخصصة وأحدث الاتجاهات ورؤى حول المواد من محرري نُخبة. كل ما تحتاج معرفته لاختيار الأثاث الفاخر والعناية به."
-  currentPath="/blog"
-  alternateUrl="/en/blog"
-  lang="ar"
+  title="Furniture Journal | Nukhba"
+  description="Expert guides, material breakdowns, and design trends from the Nukhba editorial team. Everything you need to know about choosing and caring for luxury furniture."
+  currentPath="/en/blog"
+  alternateUrl="/blog"
+  lang="en"
   ogType="website"
   breadcrumbs={breadcrumbs}
 >
-  {/* ── Hero header ── */}
   <section
     class="py-20 lg:py-28 text-center"
     style="background-color:var(--color-walnut);"
@@ -56,10 +54,9 @@ const breadcrumbs = [
     </div>
   </section>
 
-  {/* ── Blog grid ── */}
   <section class="py-16 lg:py-24">
     <div class="max-w-7xl mx-auto px-6 lg:px-12">
-      <BlogGrid posts={posts} lang="ar" showFilter={true} />
+      <BlogGrid posts={posts} lang="en" showFilter={true} />
     </div>
   </section>
 </BaseLayout>

@@ -1,19 +1,19 @@
 ---
 export const prerender = true;
 import { getCollection } from 'astro:content';
-import BaseLayout from '../layouts/BaseLayout.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
 
 const allLocations = await getCollection('locations');
 
-const waNumber = import.meta.env.PUBLIC_WA_NUMBER || '201112007555';
+const waNumber = import.meta.env.PUBLIC_WA_NUMBER || '201234567890';
 const waUrl = `https://wa.me/${waNumber}?text=${encodeURIComponent('Hello, I would like to inquire about Nukhba furniture.')}`;
 const phoneDisplay = '+20 123 456 7890';
 const phoneHref = `tel:+${waNumber}`;
 const instagramUrl = 'https://www.instagram.com/nukhba_furniture/';
 
 const breadcrumbs = [
-  { name: 'Home', url: '/' },
-  { name: 'Contact', url: '/contact' },
+  { name: 'Home', url: '/en' },
+  { name: 'Contact', url: '/en/contact' },
 ];
 
 const firstLocation = allLocations[0];
@@ -24,21 +24,16 @@ function formatHours(hours: string): string {
 ---
 
 <BaseLayout
-  title="اتصل بنا | نُخبة"
-  description="تواصل مع نُخبة — العلامة التجارية للأثاث الفاخر في مصر. تحدّث معنا عبر واتساب أو اتصل بنا أو زُر معارضنا في القاهرة."
-  currentPath="/contact"
-  alternateUrl="/en/contact"
-  lang="ar"
+  title="Contact Us | Nukhba"
+  description="Get in touch with Nukhba — Egypt's luxury furniture brand. Chat on WhatsApp, call us, or visit our showrooms in Cairo."
+  currentPath="/en/contact"
+  alternateUrl="/contact"
+  lang="en"
   breadcrumbs={breadcrumbs}
 >
 
-  <!-- ── Hero ─────────────────────────────────────────────── -->
   <section class="relative bg-walnut overflow-hidden" style="padding: 120px 8% 100px;">
-    <div
-      aria-hidden="true"
-      class="absolute inset-0 opacity-10"
-      style="background: radial-gradient(ellipse 80% 60% at 50% 0%, var(--color-gold), transparent);"
-    ></div>
+    <div aria-hidden="true" class="absolute inset-0 opacity-10" style="background: radial-gradient(ellipse 80% 60% at 50% 0%, var(--color-gold), transparent);"></div>
     <div class="relative max-w-4xl mx-auto text-center">
       <span class="section-eyebrow" style="color:var(--color-gold);">We're Here to Help</span>
       <h1 class="section-title" style="color:#fff; font-size:clamp(2.5rem,5vw,4rem);">Contact Us</h1>
@@ -48,18 +43,16 @@ function formatHours(hours: string): string {
     </div>
   </section>
 
-  <!-- ── Breadcrumb ─────────────────────────────────────── -->
   <nav aria-label="Breadcrumb" class="bg-beige border-b border-beige-dark">
     <div class="max-w-7xl mx-auto px-6 lg:px-8 py-3">
       <ol class="flex items-center gap-2 text-sm" style="color:var(--color-warm-gray);">
-        <li><a href="/" class="hover:text-gold transition-colors">Home</a></li>
+        <li><a href="/en" class="hover:text-gold transition-colors">Home</a></li>
         <li aria-hidden="true" class="opacity-40">/</li>
         <li style="color:var(--color-walnut); font-weight:500;">Contact</li>
       </ol>
     </div>
   </nav>
 
-  <!-- ── Contact Options Grid ───────────────────────────── -->
   <section class="bg-beige" style="padding: 96px 8%;">
     <div class="max-w-7xl mx-auto">
       <div class="text-center mb-16" data-reveal>
@@ -69,15 +62,10 @@ function formatHours(hours: string): string {
           Our team is available 7 days a week to answer questions and help you find the perfect piece.
         </p>
       </div>
-
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
 
-        <!-- WhatsApp -->
         <div class="card p-10 text-center" data-reveal style="transition-delay:0s;">
-          <div
-            class="mx-auto mb-6 flex items-center justify-center rounded-full"
-            style="width:72px; height:72px; background:rgba(37,211,102,.12);"
-          >
+          <div class="mx-auto mb-6 flex items-center justify-center rounded-full" style="width:72px; height:72px; background:rgba(37,211,102,.12);">
             <svg width="36" height="36" viewBox="0 0 24 24" fill="#25D366" aria-hidden="true">
               <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
               <path d="M12 0C5.373 0 0 5.373 0 12c0 2.117.549 4.104 1.51 5.829L0 24l6.335-1.485A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 0 1-5.007-1.374l-.36-.214-3.722.873.936-3.612-.235-.373A9.818 9.818 0 1 1 12 21.818z"/>
@@ -87,23 +75,13 @@ function formatHours(hours: string): string {
           <p style="color:var(--color-warm-gray); font-size:0.9rem; margin-bottom:1.75rem; line-height:1.6;">
             The fastest way to reach our design consultants. We typically reply within minutes.
           </p>
-          <a
-            href={waUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="inline-flex items-center gap-2 rounded-lg font-semibold transition-all"
-            style="background:#25D366; color:#fff; padding:0.75rem 1.75rem; font-size:0.875rem;"
-          >
+          <a href={waUrl} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 rounded-lg font-semibold transition-all" style="background:#25D366; color:#fff; padding:0.75rem 1.75rem; font-size:0.875rem;">
             Chat Now
           </a>
         </div>
 
-        <!-- Phone -->
         <div class="card p-10 text-center" data-reveal style="transition-delay:0.1s;">
-          <div
-            class="mx-auto mb-6 flex items-center justify-center rounded-full"
-            style="width:72px; height:72px; background:rgba(196,164,74,.12);"
-          >
+          <div class="mx-auto mb-6 flex items-center justify-center rounded-full" style="width:72px; height:72px; background:rgba(196,164,74,.12);">
             <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="var(--color-gold)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.39 2 2 0 0 1 3.6 1h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 8.91a16 16 0 0 0 6 6l.77-.77a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
             </svg>
@@ -112,31 +90,20 @@ function formatHours(hours: string): string {
           <p style="color:var(--color-warm-gray); font-size:0.9rem; margin-bottom:1.75rem; line-height:1.6;">
             Call us directly to speak with a showroom consultant during business hours.
           </p>
-          <a
-            href={phoneHref}
-            class="inline-flex items-center gap-2 rounded-lg font-semibold transition-all btn-gold"
-            style="justify-content:center;"
-          >
+          <a href={phoneHref} class="inline-flex items-center gap-2 rounded-lg font-semibold transition-all btn-gold" style="justify-content:center;">
             {phoneDisplay}
           </a>
         </div>
 
-        <!-- Instagram -->
         <div class="card p-10 text-center" data-reveal style="transition-delay:0.2s;">
-          <div
-            class="mx-auto mb-6 flex items-center justify-center rounded-full"
-            style="width:72px; height:72px; background:rgba(225,48,108,.1);"
-          >
+          <div class="mx-auto mb-6 flex items-center justify-center rounded-full" style="width:72px; height:72px; background:rgba(225,48,108,.1);">
             <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="url(#ig-grad)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <defs>
                 <linearGradient id="ig-grad" x1="0%" y1="100%" x2="100%" y2="0%">
-                  <stop offset="0%" stop-color="#F58529"/>
-                  <stop offset="50%" stop-color="#DD2A7B"/>
-                  <stop offset="100%" stop-color="#8134AF"/>
+                  <stop offset="0%" stop-color="#F58529"/><stop offset="50%" stop-color="#DD2A7B"/><stop offset="100%" stop-color="#8134AF"/>
                 </linearGradient>
               </defs>
-              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
-              <circle cx="12" cy="12" r="4"/>
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/>
               <circle cx="17.5" cy="6.5" r="0.5" fill="url(#ig-grad)" stroke="none"/>
             </svg>
           </div>
@@ -144,13 +111,7 @@ function formatHours(hours: string): string {
           <p style="color:var(--color-warm-gray); font-size:0.9rem; margin-bottom:1.75rem; line-height:1.6;">
             Browse our latest collections, room inspiration, and behind-the-scenes content.
           </p>
-          <a
-            href={instagramUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="btn-outline"
-            style="color:var(--color-walnut); justify-content:center;"
-          >
+          <a href={instagramUrl} target="_blank" rel="noopener noreferrer" class="btn-outline" style="color:var(--color-walnut); justify-content:center;">
             @nukhba_furniture
           </a>
         </div>
@@ -159,7 +120,6 @@ function formatHours(hours: string): string {
     </div>
   </section>
 
-  <!-- ── Showrooms ──────────────────────────────────────── -->
   <section class="bg-cream" style="padding: 96px 8%;">
     <div class="max-w-7xl mx-auto">
       <div class="text-center mb-16" data-reveal>
@@ -169,74 +129,36 @@ function formatHours(hours: string): string {
           Explore our full collection in person. Our consultants are on hand to help you design your space.
         </p>
       </div>
-
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
         {allLocations.map((loc, i) => (
-          <div
-            class="card overflow-hidden"
-            data-reveal
-            style={`transition-delay:${i * 0.1}s;`}
-          >
+          <div class="card overflow-hidden" data-reveal style={`transition-delay:${i * 0.1}s;`}>
             {loc.data.image && (
               <div class="overflow-hidden" style="aspect-ratio:16/7;">
-                <img
-                  src={loc.data.image}
-                  alt={`${loc.data.name} interior`}
-                  class="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
-                  width="640"
-                  height="280"
-                  loading="lazy"
-                />
+                <img src={loc.data.image} alt={`${loc.data.name} interior`} class="w-full h-full object-cover transition-transform duration-700 hover:scale-105" width="640" height="280" loading="lazy" />
               </div>
             )}
             <div class="p-8">
-              <h3 style="font-family:var(--font-serif); font-size:1.25rem; color:var(--color-walnut); margin-bottom:.25rem;">
-                {loc.data.name}
-              </h3>
+              <h3 style="font-family:var(--font-serif); font-size:1.25rem; color:var(--color-walnut); margin-bottom:.25rem;">{loc.data.name}</h3>
               <p style="font-size:0.8rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--color-gold); font-weight:500; margin-bottom:1.25rem;">
                 {loc.data.area}, {loc.data.city}
               </p>
-
               <dl class="space-y-3" style="font-size:0.9rem; color:var(--color-warm-gray);">
                 <div class="flex gap-3">
-                  <svg class="shrink-0 mt-0.5" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
-                  </svg>
+                  <svg class="shrink-0 mt-0.5" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
                   <span>{loc.data.address}</span>
                 </div>
                 <div class="flex gap-3">
-                  <svg class="shrink-0 mt-0.5" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
-                  </svg>
+                  <svg class="shrink-0 mt-0.5" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
                   <span>{formatHours(loc.data.hours)}</span>
                 </div>
                 <div class="flex gap-3">
-                  <svg class="shrink-0 mt-0.5" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.39 2 2 0 0 1 3.6 1h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 8.91a16 16 0 0 0 6 6l.77-.77a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
-                  </svg>
-                  <a href={`tel:+${loc.data.phone}`} style="color:var(--color-walnut); font-weight:500;">
-                    +{loc.data.phone}
-                  </a>
+                  <svg class="shrink-0 mt-0.5" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.39 2 2 0 0 1 3.6 1h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 8.91a16 16 0 0 0 6 6l.77-.77a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                  <a href={`tel:+${loc.data.phone}`} style="color:var(--color-walnut); font-weight:500;">+{loc.data.phone}</a>
                 </div>
               </dl>
-
               <div class="mt-6 flex gap-3 flex-wrap">
-                <a
-                  href={loc.data.googleMapsUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="btn-gold"
-                  style="font-size:0.8rem; padding:0.625rem 1.25rem;"
-                >
-                  Get Directions
-                </a>
-                <a
-                  href={`/locations/${loc.data.slug}`}
-                  class="btn-outline"
-                  style="color:var(--color-walnut); font-size:0.8rem; padding:0.625rem 1.25rem;"
-                >
-                  View Details
-                </a>
+                <a href={loc.data.googleMapsUrl} target="_blank" rel="noopener noreferrer" class="btn-gold" style="font-size:0.8rem; padding:0.625rem 1.25rem;">Get Directions</a>
+                <a href={`/en/locations/${loc.data.slug}`} class="btn-outline" style="color:var(--color-walnut); font-size:0.8rem; padding:0.625rem 1.25rem;">View Details</a>
               </div>
             </div>
           </div>
@@ -245,7 +167,6 @@ function formatHours(hours: string): string {
     </div>
   </section>
 
-  <!-- ── Map Embed ───────────────────────────────────────── -->
   {firstLocation?.data.mapEmbedSrc && (
     <section class="bg-beige" style="padding: 0 8% 96px;">
       <div class="max-w-7xl mx-auto">
@@ -254,20 +175,8 @@ function formatHours(hours: string): string {
           <h2 class="section-title">{firstLocation.data.name}</h2>
           <p style="color:var(--color-warm-gray); margin-top:.5rem;">{firstLocation.data.address}</p>
         </div>
-        <div
-          class="overflow-hidden rounded-2xl"
-          style="box-shadow:var(--shadow-card);"
-          data-reveal
-        >
-          <iframe
-            loading="lazy"
-            src={firstLocation.data.mapEmbedSrc}
-            width="100%"
-            height="400"
-            style="border:0; display:block;"
-            allowfullscreen
-            title={`Map showing ${firstLocation.data.name}`}
-          ></iframe>
+        <div class="overflow-hidden rounded-2xl" style="box-shadow:var(--shadow-card);" data-reveal>
+          <iframe loading="lazy" src={firstLocation.data.mapEmbedSrc} width="100%" height="400" style="border:0; display:block;" allowfullscreen title={`Map showing ${firstLocation.data.name}`}></iframe>
         </div>
       </div>
     </section>

@@ -3,7 +3,7 @@ import type { CollectionEntry } from 'astro:content';
 const SITE_URL = import.meta.env.PUBLIC_SITE_URL || 'https://nukhba.com';
 const BRAND = 'Nukhba';
 const BRAND_AR = 'نُخبة';
-const WA_NUMBER = import.meta.env.PUBLIC_WA_NUMBER || '201234567890';
+const WA_NUMBER = import.meta.env.PUBLIC_WA_NUMBER || '201112007555';
 const INSTAGRAM = import.meta.env.PUBLIC_INSTAGRAM_URL || 'https://instagram.com/nukhba.eg';
 
 export function buildOrganizationSchema() {
@@ -209,6 +209,7 @@ export function buildSitemapXml(
     { url: `${baseUrl}/faq`, p: '0.7', f: 'monthly' },
     { url: `${baseUrl}/locations`, p: '0.8', f: 'monthly' },
     { url: `${baseUrl}/ar`, p: '0.9', f: 'daily' },
+    { url: `${baseUrl}/en`, p: '0.9', f: 'daily' },
   ];
   const all = [
     ...staticPages,

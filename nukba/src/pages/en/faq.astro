@@ -1,17 +1,16 @@
 ---
 export const prerender = true;
 import { getCollection } from 'astro:content';
-import BaseLayout from '../layouts/BaseLayout.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
 
 const allFaqs = await getCollection('faqs');
 const sortedFaqs = allFaqs.sort((a, b) => a.data.order - b.data.order);
 
 const faqsForSchema = sortedFaqs.map(f => ({
-  question: f.data.questionAr ?? f.data.question,
-  answer: f.data.answerAr ?? f.data.answer,
+  question: f.data.question,
+  answer: f.data.answer,
 }));
 
-// Group by category in a defined order
 const categoryConfig: Record<string, { label: string; description: string }> = {
   general: {
     label: 'General Questions',
@@ -33,7 +32,6 @@ const categoryConfig: Record<string, { label: string; description: string }> = {
 
 const categoryOrder = ['general', 'products', 'delivery', 'customization'];
 
-// Build grouped map
 const grouped = new Map<string, typeof sortedFaqs>();
 for (const faq of sortedFaqs) {
   const cat = faq.data.category || 'general';
@@ -41,35 +39,29 @@ for (const faq of sortedFaqs) {
   grouped.get(cat)!.push(faq);
 }
 
-// Ensure ordered display — known categories first, then any extras
 const orderedCategories = [
   ...categoryOrder.filter(c => grouped.has(c)),
   ...[...grouped.keys()].filter(c => !categoryOrder.includes(c)),
 ];
 
 const breadcrumbs = [
-  { name: 'Home', url: '/' },
-  { name: 'FAQ', url: '/faq' },
+  { name: 'Home', url: '/en' },
+  { name: 'FAQ', url: '/en/faq' },
 ];
 ---
 
 <BaseLayout
-  title="الأسئلة الشائعة | نُخبة"
-  description="اعثر على إجابات للأسئلة الشائعة حول أثاث نُخبة — المواد والتوصيل والتخصيص والمعارض وأكثر."
-  currentPath="/faq"
-  alternateUrl="/en/faq"
-  lang="ar"
+  title="FAQ — Frequently Asked Questions | Nukhba"
+  description="Find answers to common questions about Nukhba furniture — materials, delivery, customization, showrooms, and more."
+  currentPath="/en/faq"
+  alternateUrl="/faq"
+  lang="en"
   breadcrumbs={breadcrumbs}
   faqs={faqsForSchema}
 >
 
-  <!-- ── Hero ─────────────────────────────────────────────── -->
   <section class="relative bg-walnut overflow-hidden" style="padding: 120px 8% 100px;">
-    <div
-      aria-hidden="true"
-      class="absolute inset-0 opacity-10"
-      style="background: radial-gradient(ellipse 80% 60% at 50% 0%, var(--color-gold), transparent);"
-    ></div>
+    <div aria-hidden="true" class="absolute inset-0 opacity-10" style="background: radial-gradient(ellipse 80% 60% at 50% 0%, var(--color-gold), transparent);"></div>
     <div class="relative max-w-4xl mx-auto text-center">
       <span class="section-eyebrow" style="color:var(--color-gold);">Need Answers?</span>
       <h1 class="section-title" style="color:#fff; font-size:clamp(2.5rem,5vw,4rem);">
@@ -81,30 +73,23 @@ const breadcrumbs = [
     </div>
   </section>
 
-  <!-- ── Breadcrumb ─────────────────────────────────────── -->
   <nav aria-label="Breadcrumb" class="bg-beige border-b border-beige-dark">
     <div class="max-w-7xl mx-auto px-6 lg:px-8 py-3">
       <ol class="flex items-center gap-2 text-sm" style="color:var(--color-warm-gray);">
-        <li><a href="/" class="hover:text-gold transition-colors">Home</a></li>
+        <li><a href="/en" class="hover:text-gold transition-colors">Home</a></li>
         <li aria-hidden="true" class="opacity-40">/</li>
         <li style="color:var(--color-walnut); font-weight:500;">FAQ</li>
       </ol>
     </div>
   </nav>
 
-  <!-- ── FAQ Content ────────────────────────────────────── -->
   <section class="bg-cream" style="padding: 96px 8%;">
     <div class="max-w-4xl mx-auto">
-
       {orderedCategories.map((cat, catIndex) => {
         const faqs = grouped.get(cat) ?? [];
         const config = categoryConfig[cat] ?? { label: cat.charAt(0).toUpperCase() + cat.slice(1), description: '' };
         return (
-          <div
-            class={catIndex > 0 ? 'mt-20' : ''}
-            data-reveal
-          >
-            <!-- Category heading -->
+          <div class={catIndex > 0 ? 'mt-20' : ''} data-reveal>
             <div class="mb-8 pb-4" style="border-bottom:2px solid var(--color-beige-dark);">
               <span class="section-eyebrow">
                 {String(catIndex + 1).padStart(2, '0')} / {String(orderedCategories.length).padStart(2, '0')}
@@ -116,8 +101,6 @@ const breadcrumbs = [
                 <p style="color:var(--color-warm-gray); font-size:0.95rem;">{config.description}</p>
               )}
             </div>
-
-            <!-- Accordion items -->
             <div class="space-y-3">
               {faqs.map((faq) => (
                 <details
@@ -128,12 +111,9 @@ const breadcrumbs = [
                     class="flex items-center justify-between gap-4 cursor-pointer select-none list-none"
                     style="padding:1.25rem 1.5rem;"
                   >
-                    <span
-                      style="font-family:var(--font-serif); font-size:1.05rem; color:var(--color-walnut); font-weight:600; line-height:1.4; flex:1;"
-                    >
-                      {faq.data.questionAr ?? faq.data.question}
+                    <span style="font-family:var(--font-serif); font-size:1.05rem; color:var(--color-walnut); font-weight:600; line-height:1.4; flex:1;">
+                      {faq.data.question}
                     </span>
-                    <!-- +/- indicator -->
                     <span
                       aria-hidden="true"
                       class="shrink-0 flex items-center justify-center rounded-full transition-colors duration-200"
@@ -143,10 +123,8 @@ const breadcrumbs = [
                       <span class="faq-minus" style="display:none;">−</span>
                     </span>
                   </summary>
-                  <div
-                    style="padding:0 1.5rem 1.5rem; color:var(--color-warm-gray); font-size:0.95rem; line-height:1.8;"
-                  >
-                    <p>{faq.data.answerAr ?? faq.data.answer}</p>
+                  <div style="padding:0 1.5rem 1.5rem; color:var(--color-warm-gray); font-size:0.95rem; line-height:1.8;">
+                    <p>{faq.data.answer}</p>
                   </div>
                 </details>
               ))}
@@ -154,11 +132,9 @@ const breadcrumbs = [
           </div>
         );
       })}
-
     </div>
   </section>
 
-  <!-- ── Still Have Questions CTA ──────────────────────── -->
   <section class="bg-walnut" style="padding: 80px 8%;">
     <div class="max-w-3xl mx-auto text-center" data-reveal>
       <span class="section-eyebrow" style="color:var(--color-gold);">We're Happy to Help</span>
@@ -182,7 +158,7 @@ const breadcrumbs = [
           </svg>
           Ask on WhatsApp
         </a>
-        <a href="/contact" class="btn-outline" style="color:#fff; border-color:rgba(255,255,255,0.4);">
+        <a href="/en/contact" class="btn-outline" style="color:#fff; border-color:rgba(255,255,255,0.4);">
           All Contact Options
         </a>
       </div>

@@ -38,30 +38,33 @@ const featuredPosts = allPosts
 const homepageFaqs = allFaqs
   .sort((a, b) => a.data.order - b.data.order)
   .slice(0, 6)
-  .map(f => ({ question: f.data.question, answer: f.data.answer }));
+  .map(f => ({
+    question: f.data.questionAr ?? f.data.question,
+    answer: f.data.answerAr ?? f.data.answer,
+  }));
 
 const siteUrl = import.meta.env.PUBLIC_SITE_URL || 'https://nukhba.com';
 ---
 
 <BaseLayout
-  title="Nukhba — Luxury Furniture Egypt"
-  description="Egypt's premier luxury furniture brand. Premium modern bedroom, living room, dining room and office furniture. Handcrafted for Egyptian homes."
+  title="نُخبة — أثاث فاخر في مصر"
+  description="أفضل علامة تجارية للأثاث الفاخر في مصر. أثاث غرف نوم وصالونات وسفرة ومكاتب مودرن. مصنوع بعناية للمنازل المصرية."
   currentPath="/"
-  lang="en"
-  alternateUrl={`${siteUrl}/ar`}
+  lang="ar"
+  alternateUrl={`${siteUrl}/en`}
   ogType="website"
   faqs={homepageFaqs}
 >
-  <HeroSection lang="en" />
-  <MarqueeBar lang="en" />
-  <FeaturedCollections categories={sortedCategories} lang="en" />
-  <BestSellers products={featuredProducts} lang="en" />
-  <AboutSection lang="en" />
-  <WhyChooseUs lang="en" />
-  <EducationalContent posts={featuredPosts} lang="en" />
-  <TestimonialsSection lang="en" />
-  <FAQSection faqs={homepageFaqs} lang="en" />
-  <InstagramGallery lang="en" />
-  <WhatsAppCTASection lang="en" />
-  <LocationSection locations={allLocations} lang="en" />
+  <HeroSection lang="ar" />
+  <MarqueeBar lang="ar" />
+  <FeaturedCollections categories={sortedCategories} lang="ar" />
+  <BestSellers products={featuredProducts} lang="ar" />
+  <AboutSection lang="ar" />
+  <WhyChooseUs lang="ar" />
+  <EducationalContent posts={featuredPosts} lang="ar" />
+  <TestimonialsSection lang="ar" />
+  <FAQSection faqs={homepageFaqs} lang="ar" />
+  <InstagramGallery lang="ar" />
+  <WhatsAppCTASection lang="ar" />
+  <LocationSection locations={allLocations} lang="ar" />
 </BaseLayout>

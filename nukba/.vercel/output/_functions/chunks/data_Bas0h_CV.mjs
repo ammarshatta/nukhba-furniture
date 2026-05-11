@@ -6,7 +6,7 @@ const CATEGORIES_KEY = "nukba/categories.json";
 const SETTINGS_KEY = "nukba/settings.json";
 const DEFAULT_SETTINGS = {
   settings: {
-    waNumber: "201234567890",
+    waNumber: "201112007555",
     siteTitleAr: "نُخبة للأثاث الفاخر",
     siteTitleEn: "Nukba Luxury Furniture"
   },

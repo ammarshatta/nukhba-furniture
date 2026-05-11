@@ -1,0 +1,67 @@
+---
+export const prerender = true;
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import HeroSection from '../../components/home/HeroSection.astro';
+import MarqueeBar from '../../components/home/MarqueeBar.astro';
+import FeaturedCollections from '../../components/home/FeaturedCollections.astro';
+import BestSellers from '../../components/home/BestSellers.astro';
+import AboutSection from '../../components/home/AboutSection.astro';
+import WhyChooseUs from '../../components/home/WhyChooseUs.astro';
+import EducationalContent from '../../components/home/EducationalContent.astro';
+import TestimonialsSection from '../../components/home/TestimonialsSection.astro';
+import FAQSection from '../../components/home/FAQSection.astro';
+import InstagramGallery from '../../components/home/InstagramGallery.astro';
+import WhatsAppCTASection from '../../components/home/WhatsAppCTASection.astro';
+import LocationSection from '../../components/home/LocationSection.astro';
+
+const [allProducts, allCategories, allPosts, allFaqs, allLocations] = await Promise.all([
+  getCollection('products', p => p.data.active),
+  getCollection('categories'),
+  getCollection('blog'),
+  getCollection('faqs'),
+  getCollection('locations'),
+]);
+
+const featuredProducts = allProducts
+  .filter(p => p.data.featured)
+  .sort((a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime())
+  .slice(0, 4);
+
+const sortedCategories = allCategories.sort((a, b) => a.data.order - b.data.order);
+
+const featuredPosts = allPosts
+  .filter(p => p.data.featured)
+  .sort((a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime())
+  .slice(0, 3);
+
+const homepageFaqs = allFaqs
+  .sort((a, b) => a.data.order - b.data.order)
+  .slice(0, 6)
+  .map(f => ({ question: f.data.question, answer: f.data.answer }));
+
+const siteUrl = import.meta.env.PUBLIC_SITE_URL || 'https://nukhba.com';
+---
+
+<BaseLayout
+  title="Nukhba — Luxury Furniture Egypt"
+  description="Egypt's premier luxury furniture brand. Premium modern bedroom, living room, dining room and office furniture. Handcrafted for Egyptian homes."
+  currentPath="/en"
+  lang="en"
+  alternateUrl={siteUrl}
+  ogType="website"
+  faqs={homepageFaqs}
+>
+  <HeroSection lang="en" />
+  <MarqueeBar lang="en" />
+  <FeaturedCollections categories={sortedCategories} lang="en" />
+  <BestSellers products={featuredProducts} lang="en" />
+  <AboutSection lang="en" />
+  <WhyChooseUs lang="en" />
+  <EducationalContent posts={featuredPosts} lang="en" />
+  <TestimonialsSection lang="en" />
+  <FAQSection faqs={homepageFaqs} lang="en" />
+  <InstagramGallery lang="en" />
+  <WhatsAppCTASection lang="en" />
+  <LocationSection locations={allLocations} lang="en" />
+</BaseLayout>

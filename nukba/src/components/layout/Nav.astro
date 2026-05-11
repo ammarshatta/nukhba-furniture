@@ -4,17 +4,24 @@ interface Props {
   currentPath?: string;
 }
 
-const { lang = 'en', currentPath = '/' } = Astro.props;
+const { lang = 'ar', currentPath = '/' } = Astro.props;
 const isAr = lang === 'ar';
 
-function altPath(p: string) {
-  if (isAr) return p.replace(/^\/ar/, '') || '/';
-  return '/ar' + (p === '/' ? '' : p);
+// Arabic = root paths  |  English = /en/... paths
+function altPath(p: string): string {
+  if (isAr) {
+    // Currently on Arabic page (root), link to English equivalent
+    if (p === '/') return '/en';
+    return '/en' + p;
+  }
+  // Currently on English page (/en/...), link to Arabic equivalent (root)
+  if (p === '/en' || p === '/en/') return '/';
+  return p.replace(/^\/en/, '') || '/';
 }
 
 const navLinks = isAr
   ? [
-      { href: '/ar', label: 'الرئيسية' },
+      { href: '/', label: 'الرئيسية' },
       { href: '/collections', label: 'المجموعات' },
       { href: '/products', label: 'المنتجات' },
       { href: '/blog', label: 'المدونة' },
@@ -22,15 +29,15 @@ const navLinks = isAr
       { href: '/contact', label: 'اتصل بنا' },
     ]
   : [
-      { href: '/', label: 'Home' },
-      { href: '/collections', label: 'Collections' },
-      { href: '/products', label: 'Products' },
-      { href: '/blog', label: 'Journal' },
-      { href: '/about', label: 'About' },
-      { href: '/contact', label: 'Contact' },
+      { href: '/en', label: 'Home' },
+      { href: '/en/collections', label: 'Collections' },
+      { href: '/en/products', label: 'Products' },
+      { href: '/en/blog', label: 'Journal' },
+      { href: '/en/about', label: 'About' },
+      { href: '/en/contact', label: 'Contact' },
     ];
 
-const waNumber = import.meta.env.PUBLIC_WA_NUMBER || '201234567890';
+const waNumber = import.meta.env.PUBLIC_WA_NUMBER || '201112007555';
 const waUrl = `https://wa.me/${waNumber}`;
 ---
 
@@ -42,21 +49,29 @@ const waUrl = `https://wa.me/${waNumber}`;
   <div class="max-w-7xl mx-auto px-6 lg:px-8">
     <div class="flex items-center justify-between" style="height:72px;">
 
-      <!-- Logo -->
+      <!-- Logo — SVG arch mark + stacked Amiri text (matches original brand) -->
       <a
         href={isAr ? '/ar' : '/'}
-        class="flex items-center gap-3 group"
+        class="flex items-center gap-2 group"
         aria-label="Nukhba - Home"
+        style="text-decoration:none;"
       >
-        <div
-          class="w-9 h-9 rounded-lg flex items-center justify-center font-bold transition-transform group-hover:scale-105"
-          style="background:var(--color-walnut); color:var(--color-gold); font-family:var(--font-serif); font-size:1.1rem;"
-        >
-          N
-        </div>
-        <div class="hidden sm:flex flex-col leading-none">
-          <span style="font-family:var(--font-serif); color:var(--color-walnut); font-size:1.125rem; font-weight:600; letter-spacing:-0.02em;">Nukhba</span>
-          <span style="font-family:'Amiri',serif; color:var(--color-gold); font-size:0.875rem;" dir="rtl">نُخبة</span>
+        <!-- Arch / doorway SVG mark -->
+        <svg width="38" height="38" viewBox="0 0 44 44" fill="none" aria-hidden="true" style="flex-shrink:0; transition:opacity .25s;" class="group-hover:opacity-75">
+          <path d="M8 38 L8 20 Q8 8 22 8 Q36 8 36 20 L36 38" stroke="var(--color-walnut)" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <path d="M13 38 L13 21 Q13 13 22 13 Q31 13 31 21 L31 38" stroke="var(--color-gold)" stroke-width="1.5" fill="none" stroke-linecap="round" opacity=".75"/>
+          <line x1="5" y1="38" x2="39" y2="38" stroke="var(--color-walnut)" stroke-width="2" stroke-linecap="round"/>
+          <circle cx="22" cy="9" r="2.5" fill="var(--color-gold)"/>
+          <rect x="20.5" y="22.5" width="3" height="3" fill="var(--color-gold)" opacity=".5" transform="rotate(45 22 24)"/>
+        </svg>
+        <div class="flex flex-col leading-none transition-opacity group-hover:opacity-80">
+          <span
+            style="font-family:'Amiri',serif; font-size:1.5rem; font-weight:400; color:var(--color-walnut); line-height:1; letter-spacing:0.5px;"
+            dir="rtl"
+          >نُخبة</span>
+          <span
+            style="font-family:'Inter',sans-serif; font-size:0.58rem; font-weight:400; color:var(--color-warm-gray); letter-spacing:3px; text-transform:uppercase; margin-top:2px;"
+          >Nukhba Furniture</span>
         </div>
       </a>
 

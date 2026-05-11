@@ -2,18 +2,14 @@
 export const prerender = true;
 
 import { getCollection } from 'astro:content';
-import type { CollectionEntry } from 'astro:content';
-import BaseLayout from '../../layouts/BaseLayout.astro';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
 
 const siteUrl = import.meta.env.PUBLIC_SITE_URL || 'https://nukhba.com';
 
-// Fetch all categories sorted by order, and all active products
 const allCategories = await getCollection('categories');
 const categories = allCategories.sort((a, b) => a.data.order - b.data.order);
 
 const allProducts = await getCollection('products', p => p.data.active);
-
-// Pre-compute product count per category slug
 const productCounts: Record<string, number> = {};
 for (const p of allProducts) {
   const cat = p.data.category;
@@ -21,39 +17,31 @@ for (const p of allProducts) {
 }
 
 const breadcrumbs = [
-  { name: 'Home', url: `${siteUrl}/` },
-  { name: 'Collections', url: `${siteUrl}/collections` },
+  { name: 'Home', url: `${siteUrl}/en` },
+  { name: 'Collections', url: `${siteUrl}/en/collections` },
 ];
 ---
 
 <BaseLayout
-  title="مجموعاتنا — أثاث فاخر | نُخبة"
-  description="استكشف مجموعات نُخبة المنتقاة من الأثاث — غرف النوم والجلوس والطعام والمكاتب المصنوعة من أجود الخامات للمنازل المصرية."
-  currentPath="/collections"
-  alternateUrl="/en/collections"
-  lang="ar"
+  title="Our Collections — Luxury Furniture | Nukhba"
+  description="Explore Nukhba's curated furniture collections — bedroom, living room, dining room, and office pieces crafted from premium materials for Egyptian homes."
+  currentPath="/en/collections"
+  alternateUrl="/collections"
+  lang="en"
   ogType="website"
   breadcrumbs={breadcrumbs}
 >
-  <!-- ── Hero ──────────────────────────────────────────────────── -->
   <section
     class="relative py-20 lg:py-28 overflow-hidden"
     style="background-color:var(--color-walnut);"
   >
-    <!-- Subtle background pattern -->
     <div
       class="absolute inset-0 opacity-5 pointer-events-none"
       style="background-image:radial-gradient(circle at 25% 50%, var(--color-gold) 0%, transparent 60%), radial-gradient(circle at 75% 50%, var(--color-gold-light) 0%, transparent 60%);"
       aria-hidden="true"
     ></div>
-
     <div class="relative max-w-7xl mx-auto px-6 lg:px-12 text-center">
-      <span
-        class="section-eyebrow"
-        style="color:var(--color-gold);"
-      >
-        Our Craft
-      </span>
+      <span class="section-eyebrow" style="color:var(--color-gold);">Our Craft</span>
       <h1
         class="font-serif mt-2 mb-5"
         style="font-size:clamp(2.25rem,5vw,3.75rem); color:#fff; font-weight:600; line-height:1.15; letter-spacing:-0.02em;"
@@ -69,40 +57,27 @@ const breadcrumbs = [
     </div>
   </section>
 
-  <!-- ── Collection Grid ───────────────────────────────────────── -->
   <section class="py-16 lg:py-24" style="background-color:var(--color-cream);">
     <div class="max-w-7xl mx-auto px-6 lg:px-12">
       {categories.length === 0 ? (
         <div class="text-center py-24">
-          <p style="color:var(--color-warm-gray); font-size:1.0625rem;">
-            No collections available at the moment.
-          </p>
+          <p style="color:var(--color-warm-gray); font-size:1.0625rem;">No collections available at the moment.</p>
         </div>
       ) : (
-        <ul
-          class="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
-          role="list"
-          aria-label="Furniture collections"
-        >
+        <ul class="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3" role="list" aria-label="Furniture collections">
           {categories.map((category, i) => {
             const count = productCounts[category.data.slug] ?? 0;
             const descExcerpt = category.data.description.length > 110
               ? category.data.description.slice(0, 110).trimEnd() + '…'
               : category.data.description;
-
             return (
-              <li
-                role="listitem"
-                data-reveal
-                style={`animation-delay:${(i % 3) * 0.08}s;`}
-              >
+              <li role="listitem" data-reveal style={`animation-delay:${(i % 3) * 0.08}s;`}>
                 <a
-                  href={`/collections/${category.data.slug}`}
+                  href={`/en/collections/${category.data.slug}`}
                   class="group block relative overflow-hidden"
                   style="border-radius:var(--radius-lg); aspect-ratio:4/3; background-color:var(--color-walnut-dark);"
                   aria-label={`${category.data.name} — ${count} product${count !== 1 ? 's' : ''}`}
                 >
-                  <!-- Background image -->
                   {category.data.image && (
                     <img
                       src={category.data.image}
@@ -112,8 +87,6 @@ const breadcrumbs = [
                       style="will-change:transform;"
                     />
                   )}
-
-                  <!-- Gradient overlay — darkens on hover -->
                   <div
                     class="absolute inset-0 transition-opacity duration-500"
                     style="background:linear-gradient(to top, rgba(20,10,5,0.85) 0%, rgba(20,10,5,0.45) 55%, rgba(20,10,5,0.15) 100%); opacity:1;"
@@ -124,53 +97,29 @@ const breadcrumbs = [
                     style="background:rgba(20,10,5,0.25);"
                     aria-hidden="true"
                   ></div>
-
-                  <!-- Content overlay -->
                   <div class="absolute inset-0 flex flex-col justify-end p-6">
-                    <!-- Product count badge -->
                     <span
                       class="inline-flex self-start items-center mb-3 px-2.5 py-1 rounded-full text-xs font-semibold uppercase tracking-widest"
                       style="background:rgba(196,164,74,0.22); color:var(--color-gold-light); border:1px solid rgba(196,164,74,0.35); backdrop-filter:blur(4px);"
                     >
                       {count} {count === 1 ? 'Product' : 'Products'}
                     </span>
-
-                    <!-- Category name -->
                     <h2
                       class="font-serif mb-2 leading-tight"
                       style="font-size:clamp(1.4rem,2.5vw,1.8rem); color:#fff; font-weight:600; letter-spacing:-0.01em;"
                     >
                       {category.data.name}
                     </h2>
-
-                    <!-- Description excerpt -->
-                    <p
-                      class="mb-4 leading-relaxed"
-                      style="font-size:0.875rem; color:rgba(255,255,255,0.72); line-height:1.6;"
-                    >
+                    <p class="mb-4 leading-relaxed" style="font-size:0.875rem; color:rgba(255,255,255,0.72); line-height:1.6;">
                       {descExcerpt}
                     </p>
-
-                    <!-- View Collection CTA -->
                     <span
                       class="inline-flex items-center gap-2 self-start transition-all duration-300 group-hover:gap-3"
                       style="font-size:0.8rem; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; color:var(--color-gold-light);"
                     >
                       View Collection
-                      <svg
-                        width="14"
-                        height="14"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2.5"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        aria-hidden="true"
-                        class="transition-transform duration-300 group-hover:translate-x-1"
-                      >
-                        <line x1="5" y1="12" x2="19" y2="12"/>
-                        <polyline points="12 5 19 12 12 19"/>
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="transition-transform duration-300 group-hover:translate-x-1">
+                        <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
                       </svg>
                     </span>
                   </div>
@@ -183,22 +132,16 @@ const breadcrumbs = [
     </div>
   </section>
 
-  <!-- ── Brand Strip ───────────────────────────────────────────── -->
-  <section
-    class="py-16"
-    style="background-color:var(--color-beige);"
-  >
+  <section class="py-16" style="background-color:var(--color-beige);">
     <div class="max-w-3xl mx-auto px-6 text-center" data-reveal>
       <span class="section-eyebrow">Crafted in Egypt</span>
-      <h2 class="section-title mb-4">
-        Quality That Endures
-      </h2>
+      <h2 class="section-title mb-4">Quality That Endures</h2>
       <p class="section-subtitle mx-auto" style="text-align:center; margin-inline:auto;">
         Every Nukhba piece is built to last generations — solid wood joinery, hand-finished surfaces, and proportions tailored to Egyptian living spaces.
       </p>
       <div class="mt-8 flex flex-wrap gap-4 justify-center">
-        <a href="/products" class="btn-primary">Browse All Products</a>
-        <a href="/contact" class="btn-outline" style="color:var(--color-walnut); border-color:var(--color-walnut);">Get in Touch</a>
+        <a href="/en/products" class="btn-primary">Browse All Products</a>
+        <a href="/en/contact" class="btn-outline" style="color:var(--color-walnut); border-color:var(--color-walnut);">Get in Touch</a>
       </div>
     </div>
   </section>

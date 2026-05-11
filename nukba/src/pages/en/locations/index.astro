@@ -1,13 +1,13 @@
 ---
 export const prerender = true;
 import { getCollection } from 'astro:content';
-import BaseLayout from '../../layouts/BaseLayout.astro';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
 
 const allLocations = await getCollection('locations');
 
 const breadcrumbs = [
-  { name: 'Home', url: '/' },
-  { name: 'Locations', url: '/locations' },
+  { name: 'Home', url: '/en' },
+  { name: 'Locations', url: '/en/locations' },
 ];
 
 function formatHours(hours: string): string {
@@ -19,47 +19,37 @@ function formatHours(hours: string): string {
 ---
 
 <BaseLayout
-  title="معارضنا | نُخبة"
-  description="زُر أحد معارض نُخبة في القاهرة أو الجيزة لتجربة مجموعة الأثاث الفاخر الكاملة شخصياً. مستشارو التصميم متاحون كل يوم."
-  currentPath="/locations"
-  alternateUrl="/en/locations"
-  lang="ar"
+  title="Our Showrooms | Nukhba"
+  description="Visit a Nukhba showroom in Cairo or Giza to experience our full luxury furniture collection in person. Design consultants available every day."
+  currentPath="/en/locations"
+  alternateUrl="/locations"
+  lang="en"
   breadcrumbs={breadcrumbs}
 >
 
-  <!-- ── Hero ─────────────────────────────────────────────── -->
   <section class="relative bg-walnut overflow-hidden" style="padding: 120px 8% 100px;">
-    <div
-      aria-hidden="true"
-      class="absolute inset-0 opacity-10"
-      style="background: radial-gradient(ellipse 80% 60% at 50% 0%, var(--color-gold), transparent);"
-    ></div>
+    <div aria-hidden="true" class="absolute inset-0 opacity-10" style="background: radial-gradient(ellipse 80% 60% at 50% 0%, var(--color-gold), transparent);"></div>
     <div class="relative max-w-4xl mx-auto text-center">
       <span class="section-eyebrow" style="color:var(--color-gold);">In-Person Experience</span>
-      <h1 class="section-title" style="color:#fff; font-size:clamp(2.5rem,5vw,4rem);">
-        Visit Our Showrooms
-      </h1>
+      <h1 class="section-title" style="color:#fff; font-size:clamp(2.5rem,5vw,4rem);">Visit Our Showrooms</h1>
       <p class="section-subtitle mt-4 mx-auto" style="color:rgba(255,255,255,0.7); max-width:560px;">
         Nothing replaces the experience of sitting on a sofa, running your hand along a walnut surface, or seeing how a piece catches the light. Come discover Nukhba in person.
       </p>
     </div>
   </section>
 
-  <!-- ── Breadcrumb ─────────────────────────────────────── -->
   <nav aria-label="Breadcrumb" class="bg-beige border-b border-beige-dark">
     <div class="max-w-7xl mx-auto px-6 lg:px-8 py-3">
       <ol class="flex items-center gap-2 text-sm" style="color:var(--color-warm-gray);">
-        <li><a href="/" class="hover:text-gold transition-colors">Home</a></li>
+        <li><a href="/en" class="hover:text-gold transition-colors">Home</a></li>
         <li aria-hidden="true" class="opacity-40">/</li>
         <li style="color:var(--color-walnut); font-weight:500;">Locations</li>
       </ol>
     </div>
   </nav>
 
-  <!-- ── Locations Grid ─────────────────────────────────── -->
   <section class="bg-cream" style="padding: 96px 8%;">
     <div class="max-w-7xl mx-auto">
-
       <div class="text-center mb-16" data-reveal>
         <span class="section-eyebrow">Cairo & Giza</span>
         <h2 class="section-title">{allLocations.length} Showrooms Across Egypt</h2>
@@ -70,16 +60,8 @@ function formatHours(hours: string): string {
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
         {allLocations.map((loc, i) => (
-          <article
-            class="card overflow-hidden group"
-            data-reveal
-            style={`transition-delay:${i * 0.1}s;`}
-          >
-            <!-- Image -->
-            <div
-              class="overflow-hidden relative"
-              style="aspect-ratio:16/9; background:var(--color-beige-dark);"
-            >
+          <article class="card overflow-hidden group" data-reveal style={`transition-delay:${i * 0.1}s;`}>
+            <div class="overflow-hidden relative" style="aspect-ratio:16/9; background:var(--color-beige-dark);">
               {loc.data.image ? (
                 <img
                   src={loc.data.image}
@@ -96,70 +78,33 @@ function formatHours(hours: string): string {
                   </svg>
                 </div>
               )}
-              <div
-                class="absolute inset-0 transition-opacity duration-300"
-                style="background:linear-gradient(to top, rgba(61,43,31,.6) 0%, transparent 50%); opacity:0.6;"
-                aria-hidden="true"
-              ></div>
+              <div class="absolute inset-0 transition-opacity duration-300" style="background:linear-gradient(to top, rgba(61,43,31,.6) 0%, transparent 50%); opacity:0.6;" aria-hidden="true"></div>
               <div class="absolute bottom-0 left-0 p-5">
-                <span
-                  class="inline-block px-3 py-1 rounded-full text-xs font-semibold"
-                  style="background:var(--color-gold); color:var(--color-walnut-dark); letter-spacing:0.08em; text-transform:uppercase;"
-                >
+                <span class="inline-block px-3 py-1 rounded-full text-xs font-semibold" style="background:var(--color-gold); color:var(--color-walnut-dark); letter-spacing:0.08em; text-transform:uppercase;">
                   {loc.data.city}
                 </span>
               </div>
             </div>
-
-            <!-- Content -->
             <div class="p-8">
-              <h3 style="font-family:var(--font-serif); font-size:1.35rem; color:var(--color-walnut); margin-bottom:.25rem;">
-                {loc.data.name}
-              </h3>
-              <p style="font-size:0.8rem; color:var(--color-gold); letter-spacing:0.1em; text-transform:uppercase; font-weight:500; margin-bottom:1.5rem;">
-                {loc.data.area}
-              </p>
-
+              <h3 style="font-family:var(--font-serif); font-size:1.35rem; color:var(--color-walnut); margin-bottom:.25rem;">{loc.data.name}</h3>
+              <p style="font-size:0.8rem; color:var(--color-gold); letter-spacing:0.1em; text-transform:uppercase; font-weight:500; margin-bottom:1.5rem;">{loc.data.area}</p>
               <dl class="space-y-3 mb-6">
                 <div class="flex items-start gap-3">
-                  <svg class="shrink-0 mt-0.5" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
-                  </svg>
+                  <svg class="shrink-0 mt-0.5" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
                   <span style="font-size:0.9rem; color:var(--color-warm-gray); line-height:1.5;">{loc.data.address}</span>
                 </div>
                 <div class="flex items-start gap-3">
-                  <svg class="shrink-0 mt-0.5" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
-                  </svg>
+                  <svg class="shrink-0 mt-0.5" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
                   <span style="font-size:0.9rem; color:var(--color-warm-gray);">{formatHours(loc.data.hours)}</span>
                 </div>
                 <div class="flex items-start gap-3">
-                  <svg class="shrink-0 mt-0.5" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.39 2 2 0 0 1 3.6 1h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 8.91a16 16 0 0 0 6 6l.77-.77a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
-                  </svg>
-                  <a href={`tel:+${loc.data.phone}`} style="font-size:0.9rem; color:var(--color-walnut); font-weight:500;">
-                    +{loc.data.phone}
-                  </a>
+                  <svg class="shrink-0 mt-0.5" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.39 2 2 0 0 1 3.6 1h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 8.91a16 16 0 0 0 6 6l.77-.77a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                  <a href={`tel:+${loc.data.phone}`} style="font-size:0.9rem; color:var(--color-walnut); font-weight:500;">+{loc.data.phone}</a>
                 </div>
               </dl>
-
               <div class="flex gap-3 flex-wrap">
-                <a
-                  href={loc.data.googleMapsUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="btn-gold"
-                  style="font-size:0.8rem; padding:0.625rem 1.25rem;"
-                >
-                  Get Directions
-                </a>
-                <a
-                  href={`/locations/${loc.data.slug}`}
-                  class="btn-outline"
-                  style="color:var(--color-walnut); font-size:0.8rem; padding:0.625rem 1.25rem;"
-                >
-                  View Details
-                </a>
+                <a href={loc.data.googleMapsUrl} target="_blank" rel="noopener noreferrer" class="btn-gold" style="font-size:0.8rem; padding:0.625rem 1.25rem;">Get Directions</a>
+                <a href={`/en/locations/${loc.data.slug}`} class="btn-outline" style="color:var(--color-walnut); font-size:0.8rem; padding:0.625rem 1.25rem;">View Details</a>
               </div>
             </div>
           </article>
@@ -168,18 +113,15 @@ function formatHours(hours: string): string {
     </div>
   </section>
 
-  <!-- ── Book a Visit CTA ───────────────────────────────── -->
   <section class="bg-green" style="padding: 80px 8%;">
     <div class="max-w-3xl mx-auto text-center" data-reveal>
       <span class="section-eyebrow" style="color:var(--color-gold);">Plan Your Visit</span>
-      <h2 style="font-family:var(--font-serif); font-size:clamp(1.8rem,3vw,2.5rem); color:#fff; margin-bottom:1rem;">
-        Book a Private Consultation
-      </h2>
+      <h2 style="font-family:var(--font-serif); font-size:clamp(1.8rem,3vw,2.5rem); color:#fff; margin-bottom:1rem;">Book a Private Consultation</h2>
       <p style="color:rgba(255,255,255,0.7); font-size:1rem; line-height:1.7; margin-bottom:2rem;">
         Message us on WhatsApp to schedule a private showroom appointment with one of our design consultants — no queues, just dedicated attention to your space.
       </p>
       <a
-        href={`https://wa.me/${import.meta.env.PUBLIC_WA_NUMBER || '201112007555'}?text=${encodeURIComponent('Hello, I would like to book a showroom appointment.')}`}
+        href={`https://wa.me/${import.meta.env.PUBLIC_WA_NUMBER || '201234567890'}?text=${encodeURIComponent('Hello, I would like to book a showroom appointment.')}`}
         target="_blank"
         rel="noopener noreferrer"
         class="inline-flex items-center gap-3 rounded-lg font-semibold transition-all"

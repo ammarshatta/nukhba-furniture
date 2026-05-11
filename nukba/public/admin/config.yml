@@ -1,7 +1,11 @@
 backend:
   name: github
-  repo: OWNER/REPO
+  repo: ammarshatta/nukhba-furniture      # ← Replace with your GitHub username/repo once created
   branch: main
+
+# Uncomment the line below to use the CMS locally without GitHub:
+# (run "npx decap-server" in a second terminal alongside "npm run dev")
+# local_backend: true
 
 media_folder: public/images/uploads
 public_folder: /images/uploads

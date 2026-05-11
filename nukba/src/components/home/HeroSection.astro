@@ -7,7 +7,7 @@ const { lang = 'en' } = Astro.props;
 const isAr = lang === 'ar';
 const dir = isAr ? 'rtl' : 'ltr';
 
-const waNumber = import.meta.env.PUBLIC_WA_NUMBER || '201234567890';
+const waNumber = import.meta.env.PUBLIC_WA_NUMBER || '201112007555';
 const waUrl = `https://wa.me/${waNumber}?text=${encodeURIComponent(isAr ? 'مرحباً، أريد الاستفسار عن أثاثكم الفاخر' : 'Hello, I would like to inquire about your luxury furniture')}`;
 
 const content = {
@@ -27,7 +27,7 @@ const content = {
   class="relative min-h-screen flex items-center justify-center overflow-hidden"
   dir={dir}
   aria-label={isAr ? 'القسم الرئيسي' : 'Hero section'}
-  style="background-image: url('/images/hero-bg.jpg'), linear-gradient(135deg, var(--color-walnut-dark) 0%, var(--color-green-dark) 100%); background-size: cover; background-position: center; background-repeat: no-repeat;"
+  style="background-image: url('https://images.unsplash.com/photo-1618219944342-824e40a13285?w=1600&q=80&fm=webp&fit=crop'), linear-gradient(135deg, var(--color-walnut-dark) 0%, var(--color-green-dark) 100%); background-size: cover; background-position: center; background-repeat: no-repeat;"
 >
   <!-- Dark gradient overlay -->
   <div

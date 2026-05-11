@@ -20,7 +20,7 @@ interface Props {
 const { location } = Astro.props;
 const d = location.data;
 
-const waNumber = import.meta.env.PUBLIC_WA_NUMBER || '201234567890';
+const waNumber = import.meta.env.PUBLIC_WA_NUMBER || '201112007555';
 const waUrl = `https://wa.me/${waNumber}?text=${encodeURIComponent(`Hello, I would like to visit the ${d.name} showroom.`)}`;
 
 const breadcrumbs = [
@@ -38,10 +38,11 @@ function formatHours(hours: string): string {
 ---
 
 <BaseLayout
-  title={`${d.name} | Nukhba Luxury Furniture`}
-  description={`Visit the ${d.name} at ${d.address}. Open ${formatHours(d.hours)}. Egypt's premier luxury furniture showroom.`}
+  title={`${d.nameAr || d.name} | نُخبة للأثاث الفاخر`}
+  description={`زُر ${d.nameAr || d.name} في ${d.address}. مفتوح ${formatHours(d.hours)}. أبرز معارض الأثاث الفاخر في مصر.`}
   currentPath={`/locations/${d.slug}`}
-  lang="en"
+  alternateUrl={`/en/locations/${d.slug}`}
+  lang="ar"
   breadcrumbs={breadcrumbs}
   ogImage={d.image}
 >
