@@ -1,0 +1,61 @@
+---
+import PublicLayout from '../../layouts/PublicLayout.astro';
+import ProductCard from '../../components/product/ProductCard.astro';
+import { getCategoryBySlug, getProducts, getCategories } from '../../lib/storyblok';
+import { getSettings } from '../../lib/data';
+
+const { slug } = Astro.params;
+if (!slug) return Astro.redirect('/');
+
+const [cat, products, categories, settings] = await Promise.all([
+  getCategoryBySlug(slug),
+  getProducts(),
+  getCategories(),
+  getSettings(),
+]);
+
+if (!cat) return Astro.redirect('/');
+
+const lang = 'ar' as const;
+const baseUrl = import.meta.env.PUBLIC_SITE_URL ?? 'https://nukba.com';
+const refToken = Astro.url.searchParams.get('ref') ?? Astro.cookies.get('nukba_ref')?.value ?? undefined;
+const catProducts = products.filter(p => p.active && p.category === slug);
+---
+
+<PublicLayout
+  lang={lang}
+  title={cat.nameAr}
+  description={`تصفح تشكيلة ${cat.nameAr} الفاخرة من نُخبة — ${catProducts.length} منتج متاح`}
+  canonical={`${baseUrl}/category/${slug}`}
+  alternateUrl={`${baseUrl}/en/category/${slug}`}
+  settings={settings}
+  categories={categories}
+  breadcrumbs={[
+    { name: 'الرئيسية', url: `${baseUrl}/` },
+    { name: cat.nameAr, url: `${baseUrl}/category/${slug}` },
+  ]}
+>
+  <div class="cat-page">
+    <div class="cat-page-head" data-r>
+      <div class="s-eyebrow">{cat.nameAr}</div>
+      <h1 class="s-heading">{cat.nameAr}</h1>
+      <p class="s-sub">
+        {catProducts.length === 0
+          ? 'لا توجد منتجات في هذا التصنيف بعد'
+          : `${catProducts.length} منتج متاح`}
+      </p>
+    </div>
+
+    <div class="pgrid">
+      {catProducts.map(product => (
+        <ProductCard product={product} lang={lang} globalWaNumber={settings.waNumber} refToken={refToken} />
+      ))}
+    </div>
+
+    {catProducts.length === 0 && (
+      <p style="text-align:center;color:var(--muted);padding:60px 0;">
+        لا توجد منتجات في هذا التصنيف بعد
+      </p>
+    )}
+  </div>
+</PublicLayout>

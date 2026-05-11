@@ -1,0 +1,133 @@
+---
+interface Props {
+  lang?: 'en' | 'ar';
+}
+
+const { lang = 'en' } = Astro.props;
+const isAr = lang === 'ar';
+const dir = isAr ? 'rtl' : 'ltr';
+
+const eyebrow = isAr ? 'آراء عملائنا' : 'Client Stories';
+const heading = isAr ? 'ما يقوله عملاؤنا' : 'What Our Clients Say';
+const subtitle = isAr
+  ? 'آلاف الأسر المصرية تثق في نُخبة لتأثيث منازلها بالفخامة والأناقة'
+  : 'Thousands of Egyptian families trust Nukhba to furnish their homes with luxury and elegance.';
+
+const testimonialsEn = [
+  {
+    text: 'The bedroom suite we ordered exceeded all expectations. The craftsmanship is extraordinary — worth every pound. Nukhba truly delivers on its promise of luxury.',
+    name: 'Ahmed K.',
+    location: 'New Cairo',
+    initial: 'A',
+    stars: 5,
+  },
+  {
+    text: 'Our living room was completely transformed with the Palazzo sofa set. Incredibly comfortable, stunning to look at. Our guests never stop asking about it.',
+    name: 'Layla M.',
+    location: 'Sheikh Zayed',
+    initial: 'L',
+    stars: 5,
+  },
+  {
+    text: 'The custom office desk they made for me is perfection. They respected every detail I asked for. This is what premium service looks like.',
+    name: 'Omar S.',
+    location: 'Maadi',
+    initial: 'O',
+    stars: 5,
+  },
+];
+
+const testimonialsAr = [
+  {
+    text: 'طقم غرفة النوم الذي طلبناه فاق كل التوقعات. الحرفية استثنائية — تستحق كل قرش. نُخبة تفي بوعدها بالفعل.',
+    name: 'أحمد ك.',
+    location: 'القاهرة الجديدة',
+    initial: 'أ',
+    stars: 5,
+  },
+  {
+    text: 'غرفة معيشتنا تحولت تماماً مع طقم كنب باليتسو. مريح بشكل لا يصدق وجماله لافت للنظر. ضيوفنا لا يتوقفون عن السؤال عنه.',
+    name: 'ليلى م.',
+    location: 'الشيخ زايد',
+    initial: 'ل',
+    stars: 5,
+  },
+  {
+    text: 'مكتب العمل المخصص الذي صنعوه لي هو الكمال بعينه. احترموا كل تفصيلة طلبتها. هذا ما تبدو عليه الخدمة المتميزة.',
+    name: 'عمر س.',
+    location: 'المعادي',
+    initial: 'ع',
+    stars: 5,
+  },
+];
+
+const testimonials = isAr ? testimonialsAr : testimonialsEn;
+---
+
+<section
+  class="py-20 lg:py-28"
+  dir={dir}
+  style="background-color: var(--color-beige);"
+  data-reveal
+>
+  <div class="max-w-7xl mx-auto px-6 lg:px-12">
+    <!-- Header -->
+    <div class="text-center mb-14" data-reveal>
+      <span class="section-eyebrow">{eyebrow}</span>
+      <h2 class="section-title">{heading}</h2>
+      <p class="section-subtitle" style="margin-inline: auto; text-align: center;">{subtitle}</p>
+    </div>
+
+    <!-- Testimonials grid -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+      {testimonials.map((testimonial, i) => (
+        <div
+          class="relative rounded-2xl p-8 flex flex-col gap-5"
+          style="background: #fff; box-shadow: var(--shadow-card);"
+          data-reveal
+        >
+          <!-- Large quote mark -->
+          <div
+            class="absolute top-5 font-serif font-bold leading-none pointer-events-none select-none"
+            style={`${isAr ? 'right: 1.5rem;' : 'left: 1.5rem;'} font-size: 5rem; color: var(--color-gold); opacity: 0.15; line-height: 1; font-family: var(--font-serif);`}
+            aria-hidden="true"
+          >
+            {isAr ? '„' : '"'}
+          </div>
+
+          <!-- Stars -->
+          <div class="flex gap-0.5" aria-label={`${testimonial.stars} stars`}>
+            {Array.from({ length: testimonial.stars }).map(() => (
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="color: var(--color-gold);" aria-hidden="true">
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+              </svg>
+            ))}
+          </div>
+
+          <!-- Review text -->
+          <blockquote
+            class="flex-1"
+            style="font-size: 0.9375rem; color: var(--color-matte); line-height: 1.75; font-style: italic;"
+          >
+            "{testimonial.text}"
+          </blockquote>
+
+          <!-- Customer -->
+          <div class="flex items-center gap-3 pt-4" style="border-top: 1px solid var(--color-beige-dark);">
+            <div
+              class="w-10 h-10 rounded-full flex items-center justify-center font-semibold text-sm flex-shrink-0"
+              style="background: var(--color-walnut); color: var(--color-gold); font-family: var(--font-serif);"
+              aria-hidden="true"
+            >
+              {testimonial.initial}
+            </div>
+            <div>
+              <div class="text-sm font-semibold" style="color: var(--color-walnut);">{testimonial.name}</div>
+              <div class="text-xs" style="color: var(--color-warm-gray);">{testimonial.location}</div>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

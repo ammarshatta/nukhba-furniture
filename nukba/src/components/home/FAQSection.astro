@@ -1,0 +1,115 @@
+---
+interface FAQItem {
+  question: string;
+  answer: string;
+  questionAr?: string;
+  answerAr?: string;
+}
+
+interface Props {
+  faqs: FAQItem[];
+  lang?: 'en' | 'ar';
+}
+
+const { faqs, lang = 'en' } = Astro.props;
+const isAr = lang === 'ar';
+const dir = isAr ? 'rtl' : 'ltr';
+
+const eyebrow = isAr ? 'لديك سؤال؟' : 'Got Questions?';
+const heading = isAr ? 'الأسئلة الشائعة' : 'Frequently Asked Questions';
+const subtitle = isAr
+  ? 'إجابات لأكثر الأسئلة شيوعاً حول أثاثنا وخدماتنا وعملية الطلب'
+  : 'Answers to the most common questions about our furniture, services, and ordering process.';
+---
+
+<section
+  class="py-0"
+  dir={dir}
+  data-reveal
+>
+  <!-- Walnut header band -->
+  <div style="background-color: var(--color-walnut); padding: 4.5rem 0 5rem;">
+    <div class="max-w-7xl mx-auto px-6 lg:px-12 text-center">
+      <span class="section-eyebrow" style="color: var(--color-gold);">{eyebrow}</span>
+      <h2
+        class="font-serif mb-4"
+        style="font-family: var(--font-serif); font-size: clamp(2rem, 4vw, 3rem); color: #fff; font-weight: 600; letter-spacing: -0.02em;"
+      >{heading}</h2>
+      <p style="color: rgba(255,255,255,0.62); font-size: 1.0625rem; max-width: 520px; margin-inline: auto; line-height: 1.7;">
+        {subtitle}
+      </p>
+    </div>
+  </div>
+
+  <!-- Accordion body -->
+  <div style="background-color: var(--color-cream); padding: 3rem 0 5rem;">
+    <div class="max-w-3xl mx-auto px-6 lg:px-8" style="margin-top: -2rem;">
+      <div class="faq-list flex flex-col gap-3">
+        {faqs.map((item, i) => {
+          const q = isAr && item.questionAr ? item.questionAr : item.question;
+          const a = isAr && item.answerAr ? item.answerAr : item.answer;
+          return (
+            <details
+              class="faq-item rounded-xl overflow-hidden group"
+              style="background: #fff; box-shadow: var(--shadow-soft);"
+              name="faq-accordion"
+            >
+              <summary
+                class="faq-summary flex items-center justify-between gap-4 cursor-pointer select-none list-none py-5 px-6"
+                style="font-family: var(--font-serif); font-size: 1.05rem; font-weight: 600; color: var(--color-walnut); transition: color 0.2s ease;"
+              >
+                <span>{q}</span>
+                <!-- +/- indicator -->
+                <span
+                  class="faq-indicator flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center transition-all duration-300"
+                  style="background: rgba(196,164,74,0.1); color: var(--color-gold);"
+                  aria-hidden="true"
+                >
+                  <svg class="plus-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+                    <line x1="12" y1="5" x2="12" y2="19"/>
+                    <line x1="5" y1="12" x2="19" y2="12"/>
+                  </svg>
+                  <svg class="minus-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" style="display:none;">
+                    <line x1="5" y1="12" x2="19" y2="12"/>
+                  </svg>
+                </span>
+              </summary>
+              <div
+                class="faq-body px-6 pb-6"
+                style="font-size: 0.9375rem; color: var(--color-warm-gray); line-height: 1.75; border-top: 1px solid var(--color-beige-dark); padding-top: 1rem;"
+              >
+                {a}
+              </div>
+            </details>
+          );
+        })}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .faq-summary::-webkit-details-marker { display: none; }
+  .faq-summary::marker { display: none; }
+
+  details[open] .faq-summary {
+    color: var(--color-gold);
+  }
+  details[open] .faq-indicator {
+    background: rgba(196,164,74,0.18);
+    transform: rotate(0deg);
+  }
+  details[open] .plus-icon {
+    display: none;
+  }
+  details[open] .minus-icon {
+    display: block;
+  }
+
+  .faq-item {
+    transition: box-shadow 0.2s ease;
+  }
+  .faq-item:hover {
+    box-shadow: var(--shadow-card);
+  }
+</style>

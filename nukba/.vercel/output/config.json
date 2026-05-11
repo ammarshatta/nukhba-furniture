@@ -1,0 +1,116 @@
+{
+	"version": 3,
+	"routes": [
+		{
+			"handle": "filesystem"
+		},
+		{
+			"src": "^/_astro/(.*)$",
+			"headers": {
+				"cache-control": "public, max-age=31536000, immutable"
+			},
+			"continue": true
+		},
+		{
+			"src": "^/_server-islands/([^/]+?)/?$",
+			"dest": "_render"
+		},
+		{
+			"src": "^/_image/?$",
+			"dest": "_render"
+		},
+		{
+			"src": "^/admin/ai-generator/?$",
+			"dest": "_render"
+		},
+		{
+			"src": "^/admin/login/?$",
+			"dest": "_render"
+		},
+		{
+			"src": "^/admin/settings/?$",
+			"dest": "_render"
+		},
+		{
+			"src": "^/admin/tokens/?$",
+			"dest": "_render"
+		},
+		{
+			"src": "^/admin/?$",
+			"dest": "_render"
+		},
+		{
+			"src": "^/api/admin/ai-generate/?$",
+			"dest": "_render"
+		},
+		{
+			"src": "^/api/admin/login/?$",
+			"dest": "_render"
+		},
+		{
+			"src": "^/api/admin/logout/?$",
+			"dest": "_render"
+		},
+		{
+			"src": "^/api/admin/storyblok/products/?$",
+			"dest": "_render"
+		},
+		{
+			"src": "^/api/admin/tokens/([^/]+?)/?$",
+			"dest": "_render"
+		},
+		{
+			"src": "^/api/admin/tokens/?$",
+			"dest": "_render"
+		},
+		{
+			"src": "^/api/admin/upload/?$",
+			"dest": "_render"
+		},
+		{
+			"src": "^/api/track/?$",
+			"dest": "_render"
+		},
+		{
+			"src": "^/category/([^/]+?)/?$",
+			"dest": "_render"
+		},
+		{
+			"src": "^/en/category/([^/]+?)/?$",
+			"dest": "_render"
+		},
+		{
+			"src": "^/en/products/([^/]+?)/?$",
+			"dest": "_render"
+		},
+		{
+			"src": "^/en/?$",
+			"dest": "_render"
+		},
+		{
+			"src": "^/products/([^/]+?)/?$",
+			"dest": "_render"
+		},
+		{
+			"src": "^/robots\\.txt$",
+			"dest": "_render"
+		},
+		{
+			"src": "^/sitemap\\.xml$",
+			"dest": "_render"
+		},
+		{
+			"src": "^/$",
+			"dest": "_render"
+		},
+		{
+			"src": "^/404/?$",
+			"dest": "_render"
+		},
+		{
+			"src": "^/.*$",
+			"dest": "_render",
+			"status": 404
+		}
+	]
+}

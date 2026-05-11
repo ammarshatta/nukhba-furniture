@@ -1,0 +1,89 @@
+---
+import BaseHead from '../components/layout/BaseHead.astro';
+import Nav from '../components/layout/Nav.astro';
+import Footer from '../components/layout/Footer.astro';
+import WhatsAppFAB from '../components/layout/WhatsAppFAB.astro';
+import SEO from '../components/seo/SEO.astro';
+import type { CollectionEntry } from 'astro:content';
+
+export interface Props {
+  title: string;
+  description: string;
+  canonical?: string;
+  lang?: 'en' | 'ar';
+  alternateUrl?: string;
+  ogImage?: string;
+  ogType?: 'website' | 'product' | 'article';
+  product?: CollectionEntry<'products'>;
+  article?: CollectionEntry<'blog'>;
+  breadcrumbs?: Array<{ name: string; url: string }>;
+  faqs?: Array<{ question: string; answer: string }>;
+  noindex?: boolean;
+  currentPath?: string;
+}
+
+const {
+  title,
+  description,
+  canonical,
+  lang = 'en',
+  alternateUrl,
+  ogImage,
+  ogType = 'website',
+  product,
+  article,
+  breadcrumbs,
+  faqs,
+  noindex = false,
+  currentPath = '/',
+} = Astro.props;
+
+const dir = lang === 'ar' ? 'rtl' : 'ltr';
+const siteUrl = import.meta.env.PUBLIC_SITE_URL || 'https://nukhba.com';
+const resolvedCanonical = canonical ?? `${siteUrl}${currentPath}`;
+---
+
+<!DOCTYPE html>
+<html lang={lang} dir={dir} class="scroll-smooth">
+<head>
+  <BaseHead />
+  <SEO
+    title={title}
+    description={description}
+    canonical={resolvedCanonical}
+    lang={lang}
+    alternateUrl={alternateUrl}
+    ogImage={ogImage}
+    ogType={ogType}
+    product={product}
+    article={article}
+    breadcrumbs={breadcrumbs}
+    faqs={faqs}
+    noindex={noindex}
+  />
+</head>
+<body style="background:var(--color-cream);">
+  <Nav lang={lang} currentPath={currentPath} />
+  <main id="main-content">
+    <slot />
+  </main>
+  <Footer lang={lang} />
+  <WhatsAppFAB lang={lang} />
+
+  <!-- Reveal on scroll -->
+  <script>
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            e.target.classList.add('revealed');
+            observer.unobserve(e.target);
+          }
+        });
+      },
+      { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+    );
+    document.querySelectorAll('[data-reveal]').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>

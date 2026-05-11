@@ -1,0 +1,276 @@
+---
+export const prerender = true;
+
+import { getCollection } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+  const locations = await getCollection('locations');
+  return locations.map(loc => ({
+    params: { slug: loc.data.slug },
+    props: { location: loc },
+  }));
+}
+
+interface Props {
+  location: CollectionEntry<'locations'>;
+}
+
+const { location } = Astro.props;
+const d = location.data;
+
+const waNumber = import.meta.env.PUBLIC_WA_NUMBER || '201234567890';
+const waUrl = `https://wa.me/${waNumber}?text=${encodeURIComponent(`Hello, I would like to visit the ${d.name} showroom.`)}`;
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Locations', url: '/locations' },
+  { name: d.name, url: `/locations/${d.slug}` },
+];
+
+function formatHours(hours: string): string {
+  return hours
+    .replace('Mo-Th', 'Mon–Thu')
+    .replace('Sa-Su', 'Sat–Sun')
+    .replace('Mo-Su', 'Mon–Sun');
+}
+---
+
+<BaseLayout
+  title={`${d.name} | Nukhba Luxury Furniture`}
+  description={`Visit the ${d.name} at ${d.address}. Open ${formatHours(d.hours)}. Egypt's premier luxury furniture showroom.`}
+  currentPath={`/locations/${d.slug}`}
+  lang="en"
+  breadcrumbs={breadcrumbs}
+  ogImage={d.image}
+>
+
+  <!-- ── Hero ─────────────────────────────────────────────── -->
+  <section
+    class="relative overflow-hidden"
+    style={`min-height:480px; display:flex; align-items:flex-end; padding:0 8% 72px; background:${d.image ? `url('${d.image}') center/cover no-repeat` : 'var(--color-walnut)'};`}
+  >
+    <!-- Overlay -->
+    <div
+      aria-hidden="true"
+      class="absolute inset-0"
+      style="background:linear-gradient(to top, rgba(26,10,0,.85) 30%, rgba(26,10,0,.35) 70%, transparent);"
+    ></div>
+
+    <div class="relative max-w-7xl mx-auto w-full">
+      <div class="max-w-2xl">
+        <span
+          class="inline-block mb-4 px-3 py-1 rounded-full text-xs font-semibold"
+          style="background:var(--color-gold); color:var(--color-walnut-dark); letter-spacing:0.1em; text-transform:uppercase;"
+        >
+          {d.area}, {d.city}
+        </span>
+        <h1 style="font-family:var(--font-serif); font-size:clamp(2rem,4.5vw,3.5rem); color:#fff; line-height:1.15; margin-bottom:1rem;">
+          {d.name}
+        </h1>
+        <p style="color:rgba(255,255,255,0.75); font-size:1.05rem; display:flex; align-items:flex-start; gap:8px;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="margin-top:3px; shrink:0;">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+          </svg>
+          {d.address}
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Breadcrumb ─────────────────────────────────────── -->
+  <nav aria-label="Breadcrumb" class="bg-beige border-b border-beige-dark">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8 py-3">
+      <ol class="flex items-center gap-2 text-sm flex-wrap" style="color:var(--color-warm-gray);">
+        <li><a href="/" class="hover:text-gold transition-colors">Home</a></li>
+        <li aria-hidden="true" class="opacity-40">/</li>
+        <li><a href="/locations" class="hover:text-gold transition-colors">Locations</a></li>
+        <li aria-hidden="true" class="opacity-40">/</li>
+        <li style="color:var(--color-walnut); font-weight:500;">{d.name}</li>
+      </ol>
+    </div>
+  </nav>
+
+  <!-- ── Main Content: Details + Map ───────────────────── -->
+  <section class="bg-cream" style="padding: 80px 8%;">
+    <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+
+      <!-- Left: Location Details -->
+      <div data-reveal>
+        <span class="section-eyebrow">Showroom Details</span>
+        <h2 style="font-family:var(--font-serif); font-size:clamp(1.6rem,3vw,2.25rem); color:var(--color-walnut); margin-bottom:2rem;">
+          Visit &amp; Contact Information
+        </h2>
+
+        <dl class="space-y-6">
+          <!-- Address -->
+          <div class="flex gap-4">
+            <div
+              class="shrink-0 flex items-center justify-center rounded-full"
+              style="width:44px; height:44px; background:rgba(196,164,74,.12);"
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-gold)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+              </svg>
+            </div>
+            <div>
+              <dt style="font-size:0.75rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--color-gold); font-weight:600; margin-bottom:.25rem;">Address</dt>
+              <dd style="color:var(--color-walnut); font-size:0.95rem; line-height:1.6;">{d.address}</dd>
+            </div>
+          </div>
+
+          <!-- Hours -->
+          <div class="flex gap-4">
+            <div
+              class="shrink-0 flex items-center justify-center rounded-full"
+              style="width:44px; height:44px; background:rgba(196,164,74,.12);"
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-gold)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+              </svg>
+            </div>
+            <div>
+              <dt style="font-size:0.75rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--color-gold); font-weight:600; margin-bottom:.25rem;">Opening Hours</dt>
+              <dd style="color:var(--color-walnut); font-size:0.95rem; line-height:1.6;">{formatHours(d.hours)}</dd>
+            </div>
+          </div>
+
+          <!-- Phone -->
+          <div class="flex gap-4">
+            <div
+              class="shrink-0 flex items-center justify-center rounded-full"
+              style="width:44px; height:44px; background:rgba(196,164,74,.12);"
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-gold)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.39 2 2 0 0 1 3.6 1h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 8.91a16 16 0 0 0 6 6l.77-.77a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+              </svg>
+            </div>
+            <div>
+              <dt style="font-size:0.75rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--color-gold); font-weight:600; margin-bottom:.25rem;">Phone</dt>
+              <dd>
+                <a href={`tel:+${d.phone}`} style="color:var(--color-walnut); font-size:0.95rem; font-weight:500;">
+                  +{d.phone}
+                </a>
+              </dd>
+            </div>
+          </div>
+
+          <!-- WhatsApp -->
+          <div class="flex gap-4">
+            <div
+              class="shrink-0 flex items-center justify-center rounded-full"
+              style="width:44px; height:44px; background:rgba(37,211,102,.1);"
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="#25D366" aria-hidden="true">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+                <path d="M12 0C5.373 0 0 5.373 0 12c0 2.117.549 4.104 1.51 5.829L0 24l6.335-1.485A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 0 1-5.007-1.374l-.36-.214-3.722.873.936-3.612-.235-.373A9.818 9.818 0 1 1 12 21.818z"/>
+              </svg>
+            </div>
+            <div>
+              <dt style="font-size:0.75rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--color-gold); font-weight:600; margin-bottom:.25rem;">WhatsApp</dt>
+              <dd>
+                <a
+                  href={waUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style="color:var(--color-walnut); font-size:0.95rem; font-weight:500;"
+                >
+                  +{d.whatsapp}
+                </a>
+              </dd>
+            </div>
+          </div>
+        </dl>
+
+        <!-- Action Buttons -->
+        <div class="mt-10 flex flex-wrap gap-4">
+          <a
+            href={d.googleMapsUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn-gold"
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+            </svg>
+            Get Directions
+          </a>
+          <a
+            href={waUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-2 rounded-lg font-semibold transition-all"
+            style="background:#25D366; color:#fff; padding:0.875rem 2rem; font-size:0.875rem; letter-spacing:0.06em; text-transform:uppercase;"
+          >
+            Book Appointment
+          </a>
+        </div>
+      </div>
+
+      <!-- Right: Map Embed -->
+      <div data-reveal style="transition-delay:0.15s;">
+        {d.mapEmbedSrc ? (
+          <div
+            class="overflow-hidden rounded-2xl"
+            style="box-shadow:var(--shadow-card);"
+          >
+            <iframe
+              loading="lazy"
+              src={d.mapEmbedSrc}
+              width="100%"
+              height="460"
+              style="border:0; display:block;"
+              allowfullscreen
+              title={`Map showing ${d.name} location`}
+            ></iframe>
+          </div>
+        ) : (
+          <div
+            class="rounded-2xl flex flex-col items-center justify-center gap-4"
+            style="min-height:460px; background:var(--color-beige); border:1.5px solid var(--color-beige-dark);"
+          >
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--color-gold)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+            </svg>
+            <p style="color:var(--color-warm-gray); font-size:0.9rem;">Map coming soon</p>
+            <a
+              href={d.googleMapsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn-gold"
+              style="font-size:0.8rem; padding:0.625rem 1.25rem;"
+            >
+              Open in Google Maps
+            </a>
+          </div>
+        )}
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── Nearby Products CTA ───────────────────────────── -->
+  <section class="bg-walnut" style="padding: 80px 8%;">
+    <div class="max-w-5xl mx-auto" data-reveal>
+      <div class="text-center mb-10">
+        <span class="section-eyebrow" style="color:var(--color-gold);">While You're Here</span>
+        <h2 style="font-family:var(--font-serif); font-size:clamp(1.8rem,3vw,2.5rem); color:#fff; margin-bottom:1rem;">
+          Explore What's In Store
+        </h2>
+        <p style="color:rgba(255,255,255,0.65); font-size:1rem; line-height:1.7; max-width:520px; margin:0 auto 2rem;">
+          Browse our full product range online before you visit, or discover curated collections designed for complete rooms.
+        </p>
+      </div>
+      <div class="flex flex-wrap gap-4 justify-center">
+        <a href="/products" class="btn-primary" style="background:var(--color-gold); color:var(--color-walnut-dark);">
+          Browse All Products
+        </a>
+        <a href="/collections" class="btn-outline" style="color:#fff; border-color:rgba(255,255,255,0.4);">
+          View Collections
+        </a>
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>

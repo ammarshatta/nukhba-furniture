@@ -1,0 +1,76 @@
+---
+interface Props {
+  existingImages?: string[];
+  fieldName?: string;
+}
+
+const { existingImages = [], fieldName = 'images' } = Astro.props;
+const id = `uploader-${Math.random().toString(36).slice(2)}`;
+---
+
+<div class="img-upload-zone" id={id + '-zone'}>
+  <div>📤</div>
+  <p>Drag & drop images or <strong>click to browse</strong></p>
+  <p style="font-size:.75rem;opacity:.7;margin-top:4px;">JPG · PNG · WebP</p>
+  <input type="file" id={id + '-input'} accept="image/*" multiple style="display:none;" />
+</div>
+
+<div class="img-previews" id={id + '-previews'}></div>
+<div id={id + '-hidden'}></div>
+
+<script define:vars={{ id, existingImages, fieldName }}>
+  const zone = document.getElementById(id + '-zone');
+  const input = document.getElementById(id + '-input');
+  const previews = document.getElementById(id + '-previews');
+  const hidden = document.getElementById(id + '-hidden');
+  let urls = [...existingImages];
+
+  function render() {
+    if (!previews || !hidden) return;
+    previews.innerHTML = urls.map((url, i) => `
+      <div class="img-prev">
+        <img src="${url}" alt=""/>
+        <button type="button" class="rm-img" data-idx="${i}">×</button>
+      </div>`).join('');
+    hidden.innerHTML = urls.map(url =>
+      `<input type="hidden" name="${fieldName}" value="${url}" />`
+    ).join('');
+    previews.querySelectorAll('.rm-img').forEach(btn => {
+      btn.addEventListener('click', () => {
+        urls.splice(parseInt((btn as HTMLElement).dataset.idx ?? '0'), 1);
+        render();
+      });
+    });
+  }
+
+  async function uploadFile(file) {
+    const fd = new FormData();
+    fd.append('file', file);
+    const res = await fetch('/api/admin/upload', { method: 'POST', body: fd });
+    if (!res.ok) throw new Error('Upload failed');
+    const { url } = await res.json();
+    return url;
+  }
+
+  zone?.addEventListener('click', () => input?.click());
+  zone?.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('over'); });
+  zone?.addEventListener('dragleave', () => zone.classList.remove('over'));
+  zone?.addEventListener('drop', async e => {
+    e.preventDefault();
+    zone.classList.remove('over');
+    const files = Array.from(e.dataTransfer?.files ?? []).filter(f => f.type.startsWith('image/'));
+    for (const f of files) {
+      try { urls.push(await uploadFile(f)); render(); } catch {}
+    }
+  });
+
+  input?.addEventListener('change', async () => {
+    const files = Array.from((input as HTMLInputElement).files ?? []);
+    for (const f of files) {
+      try { urls.push(await uploadFile(f)); render(); } catch {}
+    }
+    (input as HTMLInputElement).value = '';
+  });
+
+  render();
+</script>

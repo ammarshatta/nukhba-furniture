@@ -1,0 +1,198 @@
+---
+export const prerender = true;
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const allFaqs = await getCollection('faqs');
+const sortedFaqs = allFaqs.sort((a, b) => a.data.order - b.data.order);
+
+const faqsForSchema = sortedFaqs.map(f => ({
+  question: f.data.question,
+  answer: f.data.answer,
+}));
+
+// Group by category in a defined order
+const categoryConfig: Record<string, { label: string; description: string }> = {
+  general: {
+    label: 'General Questions',
+    description: 'Everything you need to know about Nukhba as a brand.',
+  },
+  products: {
+    label: 'Products & Materials',
+    description: 'Details about our furniture collections, materials, and specifications.',
+  },
+  delivery: {
+    label: 'Delivery & Installation',
+    description: 'Shipping, delivery coverage, timelines, and installation services.',
+  },
+  customization: {
+    label: 'Customization & Orders',
+    description: 'How to place custom orders, timelines, and available options.',
+  },
+};
+
+const categoryOrder = ['general', 'products', 'delivery', 'customization'];
+
+// Build grouped map
+const grouped = new Map<string, typeof sortedFaqs>();
+for (const faq of sortedFaqs) {
+  const cat = faq.data.category || 'general';
+  if (!grouped.has(cat)) grouped.set(cat, []);
+  grouped.get(cat)!.push(faq);
+}
+
+// Ensure ordered display — known categories first, then any extras
+const orderedCategories = [
+  ...categoryOrder.filter(c => grouped.has(c)),
+  ...[...grouped.keys()].filter(c => !categoryOrder.includes(c)),
+];
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'FAQ', url: '/faq' },
+];
+---
+
+<BaseLayout
+  title="Frequently Asked Questions | Nukhba Luxury Furniture"
+  description="Find answers to common questions about Nukhba furniture — materials, delivery, customization, showrooms, and more."
+  currentPath="/faq"
+  lang="en"
+  breadcrumbs={breadcrumbs}
+  faqs={faqsForSchema}
+>
+
+  <!-- ── Hero ─────────────────────────────────────────────── -->
+  <section class="relative bg-walnut overflow-hidden" style="padding: 120px 8% 100px;">
+    <div
+      aria-hidden="true"
+      class="absolute inset-0 opacity-10"
+      style="background: radial-gradient(ellipse 80% 60% at 50% 0%, var(--color-gold), transparent);"
+    ></div>
+    <div class="relative max-w-4xl mx-auto text-center">
+      <span class="section-eyebrow" style="color:var(--color-gold);">Need Answers?</span>
+      <h1 class="section-title" style="color:#fff; font-size:clamp(2.5rem,5vw,4rem);">
+        Frequently Asked Questions
+      </h1>
+      <p class="section-subtitle mt-4 mx-auto" style="color:rgba(255,255,255,0.7); max-width:520px;">
+        Everything you need to know about Nukhba furniture, ordering, delivery, and customization.
+      </p>
+    </div>
+  </section>
+
+  <!-- ── Breadcrumb ─────────────────────────────────────── -->
+  <nav aria-label="Breadcrumb" class="bg-beige border-b border-beige-dark">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8 py-3">
+      <ol class="flex items-center gap-2 text-sm" style="color:var(--color-warm-gray);">
+        <li><a href="/" class="hover:text-gold transition-colors">Home</a></li>
+        <li aria-hidden="true" class="opacity-40">/</li>
+        <li style="color:var(--color-walnut); font-weight:500;">FAQ</li>
+      </ol>
+    </div>
+  </nav>
+
+  <!-- ── FAQ Content ────────────────────────────────────── -->
+  <section class="bg-cream" style="padding: 96px 8%;">
+    <div class="max-w-4xl mx-auto">
+
+      {orderedCategories.map((cat, catIndex) => {
+        const faqs = grouped.get(cat) ?? [];
+        const config = categoryConfig[cat] ?? { label: cat.charAt(0).toUpperCase() + cat.slice(1), description: '' };
+        return (
+          <div
+            class={catIndex > 0 ? 'mt-20' : ''}
+            data-reveal
+          >
+            <!-- Category heading -->
+            <div class="mb-8 pb-4" style="border-bottom:2px solid var(--color-beige-dark);">
+              <span class="section-eyebrow">
+                {String(catIndex + 1).padStart(2, '0')} / {String(orderedCategories.length).padStart(2, '0')}
+              </span>
+              <h2 style="font-family:var(--font-serif); font-size:clamp(1.6rem,3vw,2.25rem); color:var(--color-walnut); margin-bottom:.5rem;">
+                {config.label}
+              </h2>
+              {config.description && (
+                <p style="color:var(--color-warm-gray); font-size:0.95rem;">{config.description}</p>
+              )}
+            </div>
+
+            <!-- Accordion items -->
+            <div class="space-y-3">
+              {faqs.map((faq) => (
+                <details
+                  class="group rounded-xl overflow-hidden"
+                  style="background:#fff; box-shadow:var(--shadow-soft); border:1px solid var(--color-beige-dark);"
+                >
+                  <summary
+                    class="flex items-center justify-between gap-4 cursor-pointer select-none list-none"
+                    style="padding:1.25rem 1.5rem;"
+                  >
+                    <span
+                      style="font-family:var(--font-serif); font-size:1.05rem; color:var(--color-walnut); font-weight:600; line-height:1.4; flex:1;"
+                    >
+                      {faq.data.question}
+                    </span>
+                    <!-- +/- indicator -->
+                    <span
+                      aria-hidden="true"
+                      class="shrink-0 flex items-center justify-center rounded-full transition-colors duration-200"
+                      style="width:28px; height:28px; background:rgba(196,164,74,.15); color:var(--color-gold); font-size:1.2rem; font-weight:300; line-height:1;"
+                    >
+                      <span class="faq-plus">+</span>
+                      <span class="faq-minus" style="display:none;">−</span>
+                    </span>
+                  </summary>
+                  <div
+                    style="padding:0 1.5rem 1.5rem; color:var(--color-warm-gray); font-size:0.95rem; line-height:1.8;"
+                  >
+                    <p>{faq.data.answer}</p>
+                  </div>
+                </details>
+              ))}
+            </div>
+          </div>
+        );
+      })}
+
+    </div>
+  </section>
+
+  <!-- ── Still Have Questions CTA ──────────────────────── -->
+  <section class="bg-walnut" style="padding: 80px 8%;">
+    <div class="max-w-3xl mx-auto text-center" data-reveal>
+      <span class="section-eyebrow" style="color:var(--color-gold);">We're Happy to Help</span>
+      <h2 style="font-family:var(--font-serif); font-size:clamp(1.8rem,3vw,2.5rem); color:#fff; margin-bottom:1rem;">
+        Still Have Questions?
+      </h2>
+      <p style="color:rgba(255,255,255,0.65); font-size:1rem; line-height:1.7; margin-bottom:2rem;">
+        Our design consultants are available 7 days a week via WhatsApp or by phone.
+      </p>
+      <div class="flex flex-wrap gap-4 justify-center">
+        <a
+          href={`https://wa.me/${import.meta.env.PUBLIC_WA_NUMBER || '201234567890'}?text=${encodeURIComponent('Hello, I have a question about Nukhba furniture.')}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-3 rounded-lg font-semibold transition-all"
+          style="background:#25D366; color:#fff; padding:0.875rem 2rem; font-size:0.9rem;"
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+            <path d="M12 0C5.373 0 0 5.373 0 12c0 2.117.549 4.104 1.51 5.829L0 24l6.335-1.485A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 0 1-5.007-1.374l-.36-.214-3.722.873.936-3.612-.235-.373A9.818 9.818 0 1 1 12 21.818z"/>
+          </svg>
+          Ask on WhatsApp
+        </a>
+        <a href="/contact" class="btn-outline" style="color:#fff; border-color:rgba(255,255,255,0.4);">
+          All Contact Options
+        </a>
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>
+
+<style>
+  details[open] .faq-plus { display: none; }
+  details[open] .faq-minus { display: inline !important; }
+  details summary::-webkit-details-marker { display: none; }
+  details summary::marker { display: none; }
+</style>

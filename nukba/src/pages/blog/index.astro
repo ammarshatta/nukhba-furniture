@@ -1,0 +1,64 @@
+---
+export const prerender = true;
+
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import BlogGrid from '../../components/blog/BlogGrid.astro';
+
+const allPosts = await getCollection('blog');
+
+const posts = allPosts.sort(
+  (a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime()
+);
+
+const siteUrl = import.meta.env.PUBLIC_SITE_URL || 'https://nukhba.com';
+
+const breadcrumbs = [
+  { name: 'Home', url: `${siteUrl}/` },
+  { name: 'Blog', url: `${siteUrl}/blog` },
+];
+---
+
+<BaseLayout
+  title="Furniture Journal | Nukhba"
+  description="Expert guides, trends, and material insights from Nukhba's editors. Everything you need to know to choose, care for, and live with luxury furniture."
+  currentPath="/blog"
+  lang="en"
+  ogType="website"
+  breadcrumbs={breadcrumbs}
+>
+  {/* ── Hero header ── */}
+  <section
+    class="py-20 lg:py-28 text-center"
+    style="background-color:var(--color-walnut);"
+    data-reveal
+  >
+    <div class="max-w-3xl mx-auto px-6 lg:px-12">
+      <span
+        class="section-eyebrow"
+        style="color:var(--color-gold); margin-bottom:1rem; display:inline-block;"
+      >
+        Knowledge &amp; Inspiration
+      </span>
+      <h1
+        class="section-title"
+        style="color:var(--color-cream); font-size:clamp(2.25rem, 5vw, 4rem); margin-bottom:1.25rem;"
+      >
+        Furniture Journal
+      </h1>
+      <p
+        class="section-subtitle mx-auto"
+        style="color:rgba(250,250,247,0.7); max-width:560px; text-align:center;"
+      >
+        Expert guides, material breakdowns, and design trends — everything you need to make confident furniture decisions for your home.
+      </p>
+    </div>
+  </section>
+
+  {/* ── Blog grid ── */}
+  <section class="py-16 lg:py-24">
+    <div class="max-w-7xl mx-auto px-6 lg:px-12">
+      <BlogGrid posts={posts} lang="en" showFilter={true} />
+    </div>
+  </section>
+</BaseLayout>

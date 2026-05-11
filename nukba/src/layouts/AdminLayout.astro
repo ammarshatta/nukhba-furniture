@@ -1,0 +1,60 @@
+---
+import AdminNav from '../components/admin/AdminNav.astro';
+import '../styles/global.css';
+import '../styles/admin.css';
+
+interface Props {
+  title?: string;
+  subtitle?: string;
+}
+
+const { title = 'Admin', subtitle } = Astro.props;
+
+const currentPath = Astro.url.pathname;
+---
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{title} — Nukba Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <meta name="robots" content="noindex,nofollow" />
+</head>
+<body class="admin-body">
+  <div class="admin-shell">
+    <AdminNav currentPath={currentPath} />
+    <div class="admin-main">
+      <div class="admin-topbar">
+        <div>
+          <div class="admin-page-title">{title}</div>
+          {subtitle && <div class="admin-page-sub">{subtitle}</div>}
+        </div>
+        <slot name="topbar-actions" />
+      </div>
+      <slot />
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+  <script>
+    window.showToast = (msg: string, type?: string) => {
+      const t = document.getElementById('toast');
+      if (!t) return;
+      t.textContent = msg;
+      t.style.background = type === 'error' ? '#c0392b' : 'var(--walnut)';
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 2500);
+    };
+
+    // Confirm delete
+    document.querySelectorAll('[data-confirm]').forEach(btn => {
+      btn.addEventListener('click', e => {
+        if (!confirm((btn as HTMLElement).dataset.confirm ?? 'Are you sure?')) e.preventDefault();
+      });
+    });
+  </script>
+</body>
+</html>

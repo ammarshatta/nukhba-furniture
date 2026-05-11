@@ -1,0 +1,128 @@
+---
+interface Props {
+  lang?: 'en' | 'ar';
+}
+
+const { lang = 'en' } = Astro.props;
+const isAr = lang === 'ar';
+const dir = isAr ? 'rtl' : 'ltr';
+
+const eyebrow = isAr ? 'لماذا نُخبة' : 'Why Nukhba';
+const heading = isAr ? 'التميز في كل تفصيلة' : 'Excellence in Every Detail';
+const subtitle = isAr
+  ? 'أربعة ركائز تجعل نُخبة الخيار الأول لكل من يبحث عن الفخامة الحقيقية'
+  : 'Four pillars that make Nukhba the first choice for those who seek genuine luxury.';
+
+const pillars = isAr
+  ? [
+      {
+        heading: 'خامات فاخرة',
+        body: 'نختار فقط أجود الأخشاب الصلبة والأحجار الطبيعية والأقمشة الفاخرة من موردين عالميين موثوقين.',
+        icon: 'diamond',
+      },
+      {
+        heading: 'حرفية متقنة',
+        body: 'كل قطعة تُصنع على يد حرفيين مصريين مهرة يمتلكون عقوداً من الخبرة في صناعة الأثاث الفاخر.',
+        icon: 'star',
+      },
+      {
+        heading: 'تصميم حسب الطلب',
+        body: 'مصمم لمساحتك وذوقك وميزانيتك. يعمل مصممونا معك عن قرب لإحياء رؤيتك.',
+        icon: 'pencil',
+      },
+      {
+        heading: 'دعم مدى الحياة',
+        body: 'نقف خلف كل قطعة بدعم ما بعد البيع الشامل وإرشادات الصيانة والضمان.',
+        icon: 'shield',
+      },
+    ]
+  : [
+      {
+        heading: 'Premium Materials',
+        body: 'We source only the finest solid woods, natural stones, and premium fabrics from trusted global suppliers.',
+        icon: 'diamond',
+      },
+      {
+        heading: 'Master Craftsmanship',
+        body: 'Every piece is crafted by skilled Egyptian artisans with decades of experience in luxury furniture making.',
+        icon: 'star',
+      },
+      {
+        heading: 'Custom Design',
+        body: 'Tailored to your space, taste, and budget. Our designers work closely with you to bring your vision to life.',
+        icon: 'pencil',
+      },
+      {
+        heading: 'Lifetime Support',
+        body: 'We stand behind every piece with comprehensive after-sale support, maintenance guidance, and warranty.',
+        icon: 'shield',
+      },
+    ];
+
+const icons: Record<string, string> = {
+  diamond: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.7 10.3a2.41 2.41 0 0 0 0 3.41l7.59 7.59a2.41 2.41 0 0 0 3.41 0l7.59-7.59a2.41 2.41 0 0 0 0-3.41L13.71 2.71a2.41 2.41 0 0 0-3.41 0z"/></svg>`,
+  star: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`,
+  pencil: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>`,
+  shield: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>`,
+};
+---
+
+<section
+  class="py-20 lg:py-28"
+  dir={dir}
+  style="background-color: var(--color-walnut);"
+  data-reveal
+>
+  <div class="max-w-7xl mx-auto px-6 lg:px-12">
+    <!-- Header -->
+    <div class="text-center mb-14" data-reveal>
+      <span
+        class="section-eyebrow"
+        style="color: var(--color-gold);"
+      >{eyebrow}</span>
+      <h2
+        class="font-serif mb-4"
+        style="font-family: var(--font-serif); font-size: clamp(2rem, 4vw, 3rem); color: #fff; font-weight: 600; letter-spacing: -0.02em;"
+      >{heading}</h2>
+      <p
+        style="color: rgba(255,255,255,0.62); font-size: 1.0625rem; max-width: 520px; margin-inline: auto; line-height: 1.7;"
+      >{subtitle}</p>
+    </div>
+
+    <!-- Pillars grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+      {pillars.map((pillar, i) => (
+        <div
+          class="pillar-card rounded-2xl p-8 flex flex-col gap-5"
+          style="background: rgba(255,255,255,0.05); border: 1px solid rgba(196,164,74,0.18); transition: background 0.3s ease, border-color 0.3s ease;"
+          data-reveal
+        >
+          <!-- Icon -->
+          <div
+            class="w-14 h-14 rounded-xl flex items-center justify-center"
+            style="background: rgba(196,164,74,0.12); color: var(--color-gold);"
+            set:html={icons[pillar.icon]}
+          />
+
+          <!-- Text -->
+          <div>
+            <h3
+              class="font-serif mb-3"
+              style="font-size: 1.15rem; font-weight: 600; color: #fff; line-height: 1.3;"
+            >{pillar.heading}</h3>
+            <p
+              style="font-size: 0.9375rem; color: rgba(255,255,255,0.62); line-height: 1.7;"
+            >{pillar.body}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .pillar-card:hover {
+    background: rgba(255,255,255,0.08) !important;
+    border-color: rgba(196,164,74,0.38) !important;
+  }
+</style>

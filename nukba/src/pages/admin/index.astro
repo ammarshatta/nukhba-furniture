@@ -1,0 +1,90 @@
+---
+import AdminLayout from '../../layouts/AdminLayout.astro';
+// TODO: reconnect to new admin flow
+
+const products: any[] = [];
+const categories: any[] = [];
+const tokens: any[] = [];
+
+const activeProducts = 0;
+const totalHits = 0;
+const recentProducts: any[] = [];
+---
+
+<AdminLayout title="Dashboard" subtitle="Overview of your store">
+  <div class="stat-grid">
+    <div class="stat-card">
+      <div class="icon">🛋️</div>
+      <div class="num">{products.length}</div>
+      <div class="lbl">Total Products</div>
+    </div>
+    <div class="stat-card">
+      <div class="icon">✅</div>
+      <div class="num">{activeProducts}</div>
+      <div class="lbl">Active Products</div>
+    </div>
+    <div class="stat-card">
+      <div class="icon">📂</div>
+      <div class="num">{categories.length}</div>
+      <div class="lbl">Categories</div>
+    </div>
+    <div class="stat-card">
+      <div class="icon">🔗</div>
+      <div class="num">{totalHits}</div>
+      <div class="lbl">Total Link Hits</div>
+    </div>
+  </div>
+
+  <div class="a-card">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+      <h3 style="font-size:1rem;color:var(--walnut);">Recent Products</h3>
+      <div style="display:flex;gap:8px;">
+        <a href="/admin/ai-generator" class="btn-primary">✨ AI Generator</a>
+      </div>
+    </div>
+
+    {recentProducts.length === 0 ? (
+      <p style="color:var(--muted);font-size:.88rem;text-align:center;padding:24px 0;">
+        No products yet. <a href="/admin/ai-generator" style="color:var(--gold);">Generate your first product with AI →</a>
+      </p>
+    ) : (
+      <table class="a-table">
+        <thead>
+          <tr>
+            <th>Image</th>
+            <th>Name (AR)</th>
+            <th>Category</th>
+            <th>Price</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {recentProducts.map(p => (
+            <tr>
+              <td>
+                {p.images[0]
+                  ? <img src={p.images[0]} class="td-img" alt={p.nameAr} />
+                  : <div style="width:48px;height:36px;background:var(--sand);border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:.8rem;">📷</div>
+                }
+              </td>
+              <td class="td-name">{p.nameAr}</td>
+              <td>{p.category}</td>
+              <td>{p.price || '—'}</td>
+              <td>
+                <span class={`badge ${p.active ? 'badge-green' : 'badge-muted'}`}>
+                  {p.active ? 'Active' : 'Hidden'}
+                </span>
+              </td>
+              <td>
+                <div class="actions">
+                  <a href={`/products/${p.slug}`} target="_blank" class="btn-sm">View</a>
+                </div>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    )}
+  </div>
+</AdminLayout>

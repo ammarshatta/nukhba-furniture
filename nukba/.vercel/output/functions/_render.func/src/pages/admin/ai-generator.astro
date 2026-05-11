@@ -1,0 +1,256 @@
+---
+import AdminLayout from '../../layouts/AdminLayout.astro';
+import { getCategories } from '../../lib/storyblok';
+import { getSettings } from '../../lib/data';
+
+const [categories, settings] = await Promise.all([getCategories(), getSettings()]);
+---
+
+<AdminLayout title="AI Product Generator" subtitle="Upload product photos and let Claude generate bilingual content">
+
+  <!-- Instructions -->
+  <div class="a-card" style="margin-bottom:20px;">
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;">
+      {[
+        ['1', '📤', 'Upload Images', 'Drag & drop product photos'],
+        ['2', '⚙️', 'Set Options', 'Choose category, price, badge'],
+        ['3', '✨', 'Generate', 'Claude AI writes the content'],
+        ['4', '💾', 'Save to CMS', 'One click to add to your store'],
+      ].map(([num, icon, title, sub]) => (
+        <div style="display:flex;align-items:flex-start;gap:10px;">
+          <div style="width:26px;height:26px;background:var(--gold);color:var(--walnut);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700;flex-shrink:0;">{num}</div>
+          <div>
+            <div style="font-weight:600;font-size:.85rem;color:var(--walnut);">{icon} {title}</div>
+            <div style="font-size:.78rem;color:var(--muted);">{sub}</div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <!-- Upload Zone -->
+  <div class="a-card" style="margin-bottom:20px;">
+    <h3 style="font-size:.9rem;color:var(--walnut);margin-bottom:14px;">Upload Product Images</h3>
+    <div class="ai-upload-zone" id="aiDrop">
+      <div style="font-size:2rem;">📷</div>
+      <p style="margin-top:8px;"><strong>Drop images here</strong> or click to browse</p>
+      <p style="font-size:.75rem;opacity:.6;margin-top:4px;">JPG · PNG · WebP — up to 5 images</p>
+      <input type="file" id="aiFileInput" accept="image/*" multiple style="display:none;" />
+    </div>
+    <div class="ai-prev-grid" id="aiPreviews"></div>
+
+    <!-- Options -->
+    <div id="aiOptions" style="display:none;margin-top:20px;">
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;">
+        <div class="form-group">
+          <label class="form-label">Category (optional override)</label>
+          <select class="form-select" id="aiCat">
+            <option value="auto">🤖 Auto-detect from image</option>
+            {categories.map(cat => (
+              <option value={cat.slug}>{cat.nameAr} / {cat.nameEn}</option>
+            ))}
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Price (optional)</label>
+          <input class="form-input" id="aiPrice" placeholder="١٥,٠٠٠" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Badge</label>
+          <select class="form-select" id="aiBadge">
+            <option value="">No badge</option>
+            <option value="new-">New</option>
+            <option value="sale">Sale</option>
+            <option value="top">Best Seller</option>
+          </select>
+        </div>
+      </div>
+
+      <button class="btn-primary" id="aiGenerateBtn" style="margin-top:16px;">
+        <span id="aiSpinner" style="display:none;width:14px;height:14px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;"></span>
+        ✨ Generate with AI
+      </button>
+    </div>
+  </div>
+
+  <!-- Results -->
+  <div id="aiResults" style="display:none;">
+    <h3 style="font-size:1rem;color:var(--walnut);margin-bottom:16px;" id="aiResultTitle">Generated Products</h3>
+    <div id="aiResultsContainer"></div>
+  </div>
+
+  <div id="aiError" style="display:none;background:#fdf0f0;border:1px solid #f5c6c6;border-radius:6px;padding:12px 16px;color:#a33;font-size:.85rem;margin-top:12px;"></div>
+</AdminLayout>
+
+<script define:vars={{ categories, settings }}>
+  const catMap = Object.fromEntries(categories.map(c => [c.slug, { ar: c.nameAr, en: c.nameEn }]));
+  let images = [];
+  let results = [];
+
+  const drop = document.getElementById('aiDrop');
+  const input = document.getElementById('aiFileInput');
+  const previews = document.getElementById('aiPreviews');
+  const options = document.getElementById('aiOptions');
+  const genBtn = document.getElementById('aiGenerateBtn');
+  const spinner = document.getElementById('aiSpinner');
+  const resultsDiv = document.getElementById('aiResults');
+  const resultsContainer = document.getElementById('aiResultsContainer');
+  const errorDiv = document.getElementById('aiError');
+  const resultTitle = document.getElementById('aiResultTitle');
+
+  function renderPreviews() {
+    if (!previews) return;
+    previews.innerHTML = images.map((img, i) => `
+      <div class="img-prev">
+        <img src="${img.url}" alt="" />
+        <button type="button" class="rm-img" onclick="removeImg(${i})">×</button>
+      </div>`).join('');
+    if (options) options.style.display = images.length ? 'block' : 'none';
+  }
+
+  window.removeImg = (i) => { URL.revokeObjectURL(images[i].url); images.splice(i,1); renderPreviews(); };
+
+  function addFiles(files) {
+    const arr = Array.from(files).filter(f => f.type.startsWith('image/')).slice(0, 5 - images.length);
+    arr.forEach(f => images.push({ file: f, url: URL.createObjectURL(f), name: f.name }));
+    renderPreviews();
+  }
+
+  drop?.addEventListener('click', () => input?.click());
+  drop?.addEventListener('dragover', e => { e.preventDefault(); drop.classList.add('over'); });
+  drop?.addEventListener('dragleave', () => drop.classList.remove('over'));
+  drop?.addEventListener('drop', e => { e.preventDefault(); drop.classList.remove('over'); addFiles(e.dataTransfer?.files ?? []); });
+  input?.addEventListener('change', () => { addFiles((input).files ?? []); (input).value = ''; });
+
+  function toBase64(file) {
+    return new Promise((res, rej) => {
+      const r = new FileReader();
+      r.onload = () => res(r.result.split(',')[1]);
+      r.onerror = rej;
+      r.readAsDataURL(file);
+    });
+  }
+
+  genBtn?.addEventListener('click', async () => {
+    if (!images.length) return;
+    errorDiv.style.display = 'none';
+    genBtn.disabled = true;
+    spinner.style.display = 'inline-block';
+    results = [];
+    resultsDiv.style.display = 'none';
+
+    const catVal = document.getElementById('aiCat').value;
+    const price = document.getElementById('aiPrice').value.trim();
+    const badge = document.getElementById('aiBadge').value;
+
+    try {
+      for (let i = 0; i < images.length; i++) {
+        const b64 = await toBase64(images[i].file);
+        const res = await fetch('/api/admin/ai-generate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ image: { data: b64, mimeType: images[i].file.type }, category: catVal, price, badge }),
+        });
+        if (!res.ok) {
+          const err = await res.json().catch(() => ({ error: 'Unknown error' }));
+          throw new Error(err.error ?? `HTTP ${res.status}`);
+        }
+        const info = await res.json();
+        results.push({ info, imageFile: images[i].file, imageUrl: images[i].url, price, badge });
+      }
+      renderResults();
+    } catch (e) {
+      errorDiv.textContent = 'Error: ' + e.message;
+      errorDiv.style.display = 'block';
+    } finally {
+      genBtn.disabled = false;
+      spinner.style.display = 'none';
+    }
+  });
+
+  function renderResults() {
+    resultsDiv.style.display = 'block';
+    resultTitle.textContent = `✅ Generated ${results.length} product${results.length > 1 ? 's' : ''}`;
+    resultsContainer.innerHTML = results.map((r, i) => `
+      <div class="ai-result" id="result-${i}">
+        <div class="ai-result-top">
+          <div class="ai-result-img"><img src="${r.imageUrl}" alt="" /></div>
+          <div class="ai-result-info">
+            <div style="font-size:.7rem;color:var(--gold);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:4px;">${r.info.category_ar ?? r.info.category_code}</div>
+            <div style="font-family:'Amiri',serif;font-size:1.1rem;color:var(--walnut);margin-bottom:6px;" dir="rtl">${r.info.nameAr}</div>
+            <div style="font-size:.85rem;color:var(--warm);margin-bottom:6px;">${r.info.nameEn}</div>
+            <div style="font-size:.82rem;color:var(--muted);" dir="rtl">${r.info.descAr}</div>
+            ${r.price ? `<div style="font-weight:700;margin-top:8px;color:var(--walnut);">${r.price}</div>` : ''}
+            <div class="ai-result-actions">
+              <button class="btn-primary" onclick="saveResult(${i})" id="save-btn-${i}">💾 Save to CMS</button>
+              <button class="btn-sm" onclick="editResult(${i})">✏️ Edit First</button>
+            </div>
+            <div id="save-status-${i}" style="font-size:.78rem;margin-top:6px;"></div>
+          </div>
+        </div>
+      </div>`).join('');
+  }
+
+  window.saveResult = async (i) => {
+    const r = results[i];
+    const btn = document.getElementById(`save-btn-${i}`);
+    const status = document.getElementById(`save-status-${i}`);
+    btn.disabled = true; btn.textContent = 'Uploading...';
+
+    try {
+      // Upload image to Storyblok
+      const fd = new FormData();
+      fd.append('file', r.imageFile);
+      const upRes = await fetch('/api/admin/upload', { method: 'POST', body: fd });
+      if (!upRes.ok) throw new Error('Image upload failed');
+      const { url: imageUrl } = await upRes.json();
+
+      // Create product story in Storyblok
+      btn.textContent = 'Saving to Storyblok...';
+      const catCode = r.info.category_code ?? 'liv';
+      const slug = r.info.nameEn.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') + '-' + Date.now().toString().slice(-4);
+      const product = {
+        nameAr: r.info.nameAr,
+        nameEn: r.info.nameEn,
+        descAr: r.info.descAr,
+        descEn: r.info.descEn,
+        category: catCode,
+        price: r.price ?? '',
+        badge: r.badge ?? '',
+        waTextAr: r.info.waTextAr,
+        waTextEn: r.info.waTextEn,
+        imageUrl,
+        slug,
+      };
+
+      const pRes = await fetch('/api/admin/storyblok/products', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(product),
+      });
+      if (!pRes.ok) {
+        const err = await pRes.json().catch(() => ({ error: `HTTP ${pRes.status}` }));
+        throw new Error(err.error ?? 'Failed to save product');
+      }
+      const saved = await pRes.json();
+
+      btn.textContent = '✅ Saved!';
+      status.innerHTML = `<a href="/products/${saved.slug}" target="_blank" style="color:var(--gold);">View on site →</a> | <a href="https://app.storyblok.com" target="_blank" style="color:var(--gold);">Edit in Storyblok →</a>`;
+      window.showToast('Product saved to Storyblok!');
+    } catch (e) {
+      btn.disabled = false; btn.textContent = '💾 Save to CMS';
+      status.textContent = 'Error: ' + e.message;
+      window.showToast('Save failed', 'error');
+    }
+  };
+
+  window.editResult = async (i) => {
+    // Save first, then open Storyblok
+    await window.saveResult(i);
+    window.open('https://app.storyblok.com', '_blank');
+  };
+</script>
+
+<style>
+  @keyframes spin { to { transform: rotate(360deg); } }
+</style>

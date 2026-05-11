@@ -1,0 +1,35 @@
+---
+export const prerender = true;
+
+import { getCollection, render } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import ArticleLayout from '../../layouts/ArticleLayout.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map(p => ({
+    params: { slug: p.data.slug },
+    props: { post: p },
+  }));
+}
+
+interface Props {
+  post: CollectionEntry<'blog'>;
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+// Resolve related posts: same category, different slug, up to 3
+const allPosts = await getCollection('blog');
+const relatedPosts = allPosts
+  .filter(
+    p => p.data.category === post.data.category && p.data.slug !== post.data.slug
+  )
+  .sort((a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime())
+  .slice(0, 3);
+---
+
+<ArticleLayout post={post} relatedPosts={relatedPosts} lang="en">
+  <Content />
+</ArticleLayout>

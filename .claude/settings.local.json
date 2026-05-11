@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm create *)",
+      "Bash(npm install *)",
+      "Bash(npm audit *)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:astro.build)"
+    ]
+  }
+}

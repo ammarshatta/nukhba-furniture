@@ -1,0 +1,269 @@
+---
+export const prerender = true;
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const waNumber = import.meta.env.PUBLIC_WA_NUMBER || '201234567890';
+const waUrl = `https://wa.me/${waNumber}?text=${encodeURIComponent('Hello, I would like to learn more about Nukhba furniture.')}`;
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'About', url: '/about' },
+];
+
+const values = [
+  {
+    heading: 'Excellence',
+    description: 'Every piece that leaves our workshop is held to the highest standard. We source only premium materials — solid walnut, European oak, Italian velvet — and finish each item by hand.',
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`,
+  },
+  {
+    heading: 'Craftsmanship',
+    description: 'Our master artisans bring decades of woodworking heritage to every joint, curve, and finish. We blend traditional Egyptian joinery with contemporary European design.',
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>`,
+  },
+  {
+    heading: 'Innovation',
+    description: 'We continuously refine our design vocabulary, drawing on global furniture trends while grounding each collection in timeless form. Innovation for us means furniture that looks fresh for decades.',
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>`,
+  },
+  {
+    heading: 'Heritage',
+    description: 'Rooted in Egypt\'s rich artisanal history, Nukhba honours the legacy of Egyptian woodcraft while making it accessible to modern homes across the country and the region.',
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>`,
+  },
+];
+
+const artisans = [
+  {
+    name: 'Khaled Hassan',
+    role: 'Head of Wood Joinery',
+    image: '/images/artisans/khaled.jpg',
+  },
+  {
+    name: 'Amira Farouk',
+    role: 'Senior Upholstery Specialist',
+    image: '/images/artisans/amira.jpg',
+  },
+  {
+    name: 'Tarek Mansour',
+    role: 'Master Finisher & Lacquerwork',
+    image: '/images/artisans/tarek.jpg',
+  },
+];
+---
+
+<BaseLayout
+  title="About Nukhba | Egypt's Premier Luxury Furniture Brand"
+  description="Learn about Nukhba — Egypt's premier luxury furniture brand. Our story, values, master artisans, and commitment to exceptional craftsmanship since our founding."
+  currentPath="/about"
+  lang="en"
+  breadcrumbs={breadcrumbs}
+>
+
+  <!-- ── Hero ─────────────────────────────────────────────── -->
+  <section class="relative bg-walnut overflow-hidden" style="padding: 120px 8% 100px;">
+    <div
+      aria-hidden="true"
+      class="absolute inset-0 opacity-10"
+      style="background: radial-gradient(ellipse 80% 60% at 50% 0%, var(--color-gold), transparent);"
+    ></div>
+    <div class="relative max-w-4xl mx-auto text-center">
+      <span class="section-eyebrow" style="color:var(--color-gold);">Our Brand</span>
+      <h1 class="section-title" style="color:#fff; font-size:clamp(2.5rem,5vw,4rem);">About Nukhba</h1>
+      <p class="section-subtitle mt-4 mx-auto" style="color:rgba(255,255,255,0.7); max-width:560px;">
+        Egypt's Premier Luxury Furniture Brand
+      </p>
+    </div>
+  </section>
+
+  <!-- ── Breadcrumb ─────────────────────────────────────── -->
+  <nav aria-label="Breadcrumb" class="bg-beige border-b border-beige-dark">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8 py-3">
+      <ol class="flex items-center gap-2 text-sm" style="color:var(--color-warm-gray);">
+        <li><a href="/" class="hover:text-gold transition-colors">Home</a></li>
+        <li aria-hidden="true" class="opacity-40">/</li>
+        <li style="color:var(--color-walnut); font-weight:500;">About</li>
+      </ol>
+    </div>
+  </nav>
+
+  <!-- ── Brand Story ────────────────────────────────────── -->
+  <section class="bg-beige" style="padding: 96px 8%;">
+    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+      <!-- Image -->
+      <div data-reveal class="relative rounded-2xl overflow-hidden" style="aspect-ratio:4/3; box-shadow:var(--shadow-hero);">
+        <img
+          src="/images/about-story.jpg"
+          alt="Nukhba workshop and artisans at work"
+          class="w-full h-full object-cover"
+          width="720"
+          height="540"
+          loading="eager"
+        />
+        <div
+          aria-hidden="true"
+          class="absolute bottom-0 left-0 right-0 h-1/3"
+          style="background:linear-gradient(to top, rgba(61,43,31,.5), transparent);"
+        ></div>
+      </div>
+
+      <!-- Text -->
+      <div data-reveal>
+        <span class="section-eyebrow">Our Story</span>
+        <h2 class="section-title">Handcrafted for Egyptian Homes</h2>
+        <div class="mt-6 space-y-5" style="color:var(--color-warm-gray); line-height:1.8;">
+          <p>
+            Nukhba was founded with a singular purpose: to create luxury furniture worthy of Egypt's most discerning homes. We saw a gap between imported European pieces at prohibitive prices and the mass-produced alternatives that flooded the local market — and we chose to fill it with something genuinely different.
+          </p>
+          <p>
+            Every collection we design begins in our Cairo workshops, where master craftsmen with decades of experience translate sketches into tangible pieces. We use solid walnut and European oak, upholster with Italian velvet and premium linen, and finish every surface by hand with lacquers and oils chosen for longevity as well as beauty.
+          </p>
+          <p>
+            Our vision is to become the definitive luxury furniture brand across the Arab world — one that carries Egypt's artisanal heritage forward into modern interiors. Each piece we make is a commitment to that vision, built to outlast trends and serve families for generations.
+          </p>
+        </div>
+        <div class="mt-8 flex flex-wrap gap-4">
+          <a href="/products" class="btn-primary">Explore Our Collection</a>
+          <a href="/contact" class="btn-outline" style="color:var(--color-walnut);">Visit a Showroom</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Values Grid ────────────────────────────────────── -->
+  <section class="bg-cream" style="padding: 96px 8%;">
+    <div class="max-w-7xl mx-auto">
+      <div class="text-center mb-16" data-reveal>
+        <span class="section-eyebrow">What We Stand For</span>
+        <h2 class="section-title">Our Core Values</h2>
+        <p class="section-subtitle mx-auto mt-4">
+          Four principles guide every decision we make — from material sourcing to showroom experience.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        {values.map((v, i) => (
+          <div
+            class="card p-8 text-center"
+            data-reveal
+            style={`transition-delay:${i * 0.1}s;`}
+          >
+            <div
+              class="mx-auto mb-5 flex items-center justify-center rounded-full"
+              style="width:64px; height:64px; background:rgba(196,164,74,.12); color:var(--color-gold);"
+            >
+              <Fragment set:html={v.icon} />
+            </div>
+            <h3
+              class="font-semibold mb-3"
+              style="font-family:var(--font-serif); font-size:1.2rem; color:var(--color-walnut);"
+            >
+              {v.heading}
+            </h3>
+            <p style="font-size:0.9rem; color:var(--color-warm-gray); line-height:1.7;">{v.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Stats Bar ──────────────────────────────────────── -->
+  <section class="bg-walnut" style="padding: 60px 8%;">
+    <div class="max-w-7xl mx-auto">
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center">
+        {[
+          { stat: '500+', label: 'Designs' },
+          { stat: '15+', label: 'Years of Craft' },
+          { stat: '10,000+', label: 'Happy Homes' },
+          { stat: '5', label: 'Showrooms' },
+        ].map((item, i) => (
+          <div data-reveal style={`transition-delay:${i * 0.1}s;`}>
+            <div
+              style="font-family:var(--font-serif); font-size:clamp(2rem,4vw,3rem); color:var(--color-gold); font-weight:700; line-height:1;"
+            >
+              {item.stat}
+            </div>
+            <div class="mt-2" style="font-size:0.85rem; letter-spacing:0.12em; text-transform:uppercase; color:rgba(255,255,255,0.6);">
+              {item.label}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Artisans ───────────────────────────────────────── -->
+  <section class="bg-beige" style="padding: 96px 8%;">
+    <div class="max-w-7xl mx-auto">
+      <div class="text-center mb-16" data-reveal>
+        <span class="section-eyebrow">The People Behind the Pieces</span>
+        <h2 class="section-title">Our Master Artisans</h2>
+        <p class="section-subtitle mx-auto mt-4">
+          Nukhba's workshops are home to some of Egypt's most skilled craftspeople, each with decades of expertise.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-10">
+        {artisans.map((a, i) => (
+          <div
+            class="card overflow-hidden text-center"
+            data-reveal
+            style={`transition-delay:${i * 0.1}s;`}
+          >
+            <div class="overflow-hidden" style="aspect-ratio:3/4; background:var(--color-beige-dark);">
+              <img
+                src={a.image}
+                alt={`${a.name} — ${a.role} at Nukhba`}
+                class="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
+                width="360"
+                height="480"
+                loading="lazy"
+                onerror="this.style.display='none'"
+              />
+            </div>
+            <div class="p-6">
+              <h3 style="font-family:var(--font-serif); font-size:1.15rem; color:var(--color-walnut); font-weight:600;">
+                {a.name}
+              </h3>
+              <p class="mt-1" style="font-size:0.85rem; color:var(--color-gold); letter-spacing:0.08em; text-transform:uppercase; font-weight:500;">
+                {a.role}
+              </p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CTA ────────────────────────────────────────────── -->
+  <section class="bg-green" style="padding: 96px 8%;">
+    <div class="max-w-3xl mx-auto text-center" data-reveal>
+      <span class="section-eyebrow" style="color:var(--color-gold);">Begin Your Journey</span>
+      <h2 style="font-family:var(--font-serif); font-size:clamp(2rem,4vw,3rem); color:#fff; margin-bottom:1rem;">
+        Ready to Experience Nukhba?
+      </h2>
+      <p style="color:rgba(255,255,255,0.7); font-size:1.05rem; line-height:1.7; margin-bottom:2.5rem;">
+        Visit one of our showrooms or chat with our design consultants on WhatsApp to start crafting your ideal space.
+      </p>
+      <div class="flex flex-wrap gap-4 justify-center">
+        <a
+          href={waUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-3 rounded-lg font-semibold transition-all"
+          style="background:#25D366; color:#fff; padding:0.875rem 2rem; font-size:0.95rem; box-shadow:0 4px 20px rgba(37,211,102,.35);"
+        >
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+            <path d="M12 0C5.373 0 0 5.373 0 12c0 2.117.549 4.104 1.51 5.829L0 24l6.335-1.485A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 0 1-5.007-1.374l-.36-.214-3.722.873.936-3.612-.235-.373A9.818 9.818 0 1 1 12 21.818z"/>
+          </svg>
+          Chat on WhatsApp
+        </a>
+        <a href="/locations" class="btn-outline" style="color:#fff; border-color:rgba(255,255,255,0.4);">
+          Find a Showroom
+        </a>
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>

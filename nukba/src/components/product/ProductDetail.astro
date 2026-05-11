@@ -1,0 +1,337 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import ProductCard from './ProductCard.astro';
+
+interface Props {
+  product: CollectionEntry<'products'>;
+  related: CollectionEntry<'products'>[];
+  lang?: 'en' | 'ar';
+}
+
+const { product, related, lang = 'en' } = Astro.props;
+const isAr = lang === 'ar';
+const d = product.data;
+
+const displayTitle = isAr ? d.titleAr : d.title;
+const displayExcerpt = isAr ? d.excerptAr : d.excerpt;
+const waMessage = isAr ? d.waTextAr : d.waText;
+const waNumber = import.meta.env.PUBLIC_WA_NUMBER || '201234567890';
+const waUrl = `https://wa.me/${waNumber}?text=${encodeURIComponent(waMessage)}`;
+
+const categoryDisplay = d.category.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+
+const badgeLabels: Record<string, { en: string; ar: string }> = {
+  new: { en: 'NEW', ar: 'جديد' },
+  sale: { en: 'SALE', ar: 'تخفيض' },
+  bestseller: { en: 'BESTSELLER', ar: 'الأكثر مبيعاً' },
+};
+const badgeStyles: Record<string, string> = {
+  new: 'background:var(--color-gold); color:var(--color-walnut-dark);',
+  sale: 'background:#DC2626; color:#fff;',
+  bestseller: 'background:var(--color-green); color:#fff;',
+};
+
+const activeBadge = d.badge && d.badge !== '' ? d.badge : null;
+const badgeLabel = activeBadge
+  ? (isAr ? badgeLabels[activeBadge]?.ar : badgeLabels[activeBadge]?.en) ?? activeBadge.toUpperCase()
+  : '';
+const badgeStyle = activeBadge ? badgeStyles[activeBadge] ?? '' : '';
+
+const dimUnit = d.dimensions.unit || 'cm';
+const hasFaqs = d.faqs && d.faqs.length > 0;
+const hasMultipleImages = d.images.length > 1;
+
+const waCtaLabel = isAr ? 'استفسر عبر واتساب' : 'Inquire on WhatsApp';
+const materialsLabel = isAr ? 'المواد' : 'Materials';
+const dimensionsLabel = isAr ? 'الأبعاد' : 'Dimensions';
+const widthLabel = isAr ? 'العرض' : 'Width';
+const depthLabel = isAr ? 'العمق' : 'Depth';
+const heightLabel = isAr ? 'الارتفاع' : 'Height';
+const faqsLabel = isAr ? 'الأسئلة الشائعة' : 'Frequently Asked Questions';
+const relatedLabel = isAr ? 'قد يعجبك أيضاً' : 'You May Also Like';
+---
+
+<div dir={isAr ? 'rtl' : 'ltr'}>
+  <!-- Main two-column layout -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
+
+    <!-- ─── Left: Image Gallery ─── -->
+    <div class="lg:sticky top-24" id="pd-gallery">
+      <!-- Main image -->
+      <div
+        class="overflow-hidden rounded-2xl"
+        style="aspect-ratio:4/3; background:var(--color-beige-dark);"
+      >
+        {d.images[0] ? (
+          <img
+            id="pd-main-img"
+            src={d.images[0]}
+            alt={displayTitle}
+            class="w-full h-full object-cover transition-all duration-500"
+            loading="eager"
+          />
+        ) : (
+          <div class="w-full h-full flex items-center justify-center">
+            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" style="color:var(--color-warm-gray);" aria-hidden="true">
+              <rect x="3" y="3" width="18" height="18" rx="2"/>
+              <circle cx="8.5" cy="8.5" r="1.5"/>
+              <polyline points="21 15 16 10 5 21"/>
+            </svg>
+          </div>
+        )}
+      </div>
+
+      <!-- Thumbnails -->
+      {hasMultipleImages && (
+        <div class="flex gap-3 mt-4 overflow-x-auto pb-1" id="pd-thumbs" role="list">
+          {d.images.map((img, i) => (
+            <button
+              class="pd-thumb flex-shrink-0 overflow-hidden rounded-xl border-2 transition-all duration-200"
+              data-src={img}
+              data-idx={String(i)}
+              style={`width:72px; height:72px; ${i === 0 ? 'border-color:var(--color-walnut);' : 'border-color:transparent;'}`}
+              aria-label={`${isAr ? 'صورة' : 'Image'} ${i + 1}`}
+              role="listitem"
+            >
+              <img
+                src={img}
+                alt={`${displayTitle} ${i + 1}`}
+                loading="lazy"
+                class="w-full h-full object-cover"
+              />
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+
+    <!-- ─── Right: Product Details ─── -->
+    <div class="flex flex-col gap-6">
+      <!-- Category breadcrumb chip -->
+      <div>
+        <span
+          class="inline-block px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-widest"
+          style="background:var(--color-beige); color:var(--color-warm-gray); letter-spacing:0.12em;"
+        >
+          {categoryDisplay}
+        </span>
+      </div>
+
+      <!-- Title -->
+      <div>
+        <h1
+          class="font-serif"
+          style="font-size:clamp(1.75rem,3.5vw,2.5rem); font-weight:600; color:var(--color-walnut); line-height:1.15; letter-spacing:-0.02em;"
+        >
+          {displayTitle}
+        </h1>
+      </div>
+
+      <!-- Price + Badge row -->
+      <div class="flex items-center gap-4 flex-wrap">
+        <span
+          class="font-bold"
+          style="font-size:1.5rem; color:var(--color-gold);"
+        >
+          {d.price}
+        </span>
+        {activeBadge && (
+          <span
+            class="inline-block px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest"
+            style={badgeStyle}
+          >
+            {badgeLabel}
+          </span>
+        )}
+      </div>
+
+      <!-- Excerpt -->
+      <p style="color:var(--color-warm-gray); font-size:1.0625rem; line-height:1.75;">
+        {displayExcerpt}
+      </p>
+
+      <!-- Materials -->
+      {d.materials && d.materials.length > 0 && (
+        <div>
+          <p
+            class="text-xs font-semibold uppercase tracking-widest mb-3"
+            style="color:var(--color-walnut);"
+          >
+            {materialsLabel}
+          </p>
+          <div class="flex flex-wrap gap-2">
+            {d.materials.map(mat => (
+              <span
+                class="px-3 py-1.5 rounded-lg text-sm font-medium"
+                style="background:var(--color-beige); color:var(--color-walnut);"
+              >
+                {mat}
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
+
+      <!-- Dimensions table -->
+      <div>
+        <p
+          class="text-xs font-semibold uppercase tracking-widest mb-3"
+          style="color:var(--color-walnut);"
+        >
+          {dimensionsLabel}
+        </p>
+        <div
+          class="grid grid-cols-3 gap-px overflow-hidden rounded-xl"
+          style="border:1px solid var(--color-beige-dark);"
+        >
+          {[
+            { label: widthLabel, value: d.dimensions.width },
+            { label: depthLabel, value: d.dimensions.depth },
+            { label: heightLabel, value: d.dimensions.height },
+          ].map(dim => (
+            <div
+              class="flex flex-col items-center py-4 px-3"
+              style="background:var(--color-beige-light);"
+            >
+              <span
+                class="font-bold"
+                style="font-size:1.25rem; color:var(--color-walnut);"
+              >
+                {dim.value}
+              </span>
+              <span
+                class="text-xs font-medium uppercase tracking-wide"
+                style="color:var(--color-warm-gray);"
+              >
+                {dimUnit}
+              </span>
+              <span
+                class="text-xs mt-1"
+                style="color:var(--color-warm-gray);"
+              >
+                {dim.label}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- WhatsApp CTA -->
+      <a
+        href={waUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="flex items-center justify-center gap-3 w-full rounded-xl font-semibold text-base transition-all duration-300 hover:opacity-90 hover:-translate-y-0.5"
+        style="padding:1rem 1.5rem; background:var(--color-green); color:#fff; letter-spacing:0.04em;"
+      >
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+        </svg>
+        {waCtaLabel}
+      </a>
+
+      <!-- FAQs accordion -->
+      {hasFaqs && (
+        <div>
+          <hr style="border-color:var(--color-beige-dark); margin-bottom:1.5rem;" />
+          <p
+            class="text-xs font-semibold uppercase tracking-widest mb-4"
+            style="color:var(--color-walnut);"
+          >
+            {faqsLabel}
+          </p>
+          <div class="flex flex-col gap-2">
+            {d.faqs.map(faq => (
+              <details
+                class="group rounded-xl overflow-hidden"
+                style="border:1px solid var(--color-beige-dark);"
+              >
+                <summary
+                  class="flex items-center justify-between gap-4 px-5 py-4 cursor-pointer list-none select-none"
+                  style="color:var(--color-walnut); font-weight:500; font-size:0.9375rem;"
+                >
+                  <span>{faq.question}</span>
+                  <svg
+                    class="flex-shrink-0 transition-transform duration-300 group-open:rotate-180"
+                    width="16" height="16" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    aria-hidden="true"
+                  >
+                    <polyline points="6 9 12 15 18 9"/>
+                  </svg>
+                </summary>
+                <div
+                  class="px-5 pb-5"
+                  style="color:var(--color-warm-gray); font-size:0.9375rem; line-height:1.7; border-top:1px solid var(--color-beige-dark); padding-top:1rem; margin-top:-1px;"
+                >
+                  {faq.answer}
+                </div>
+              </details>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  </div>
+
+  <!-- ─── Related Products ─── -->
+  {related.length > 0 && (
+    <div class="mt-24 pt-12 border-t" style="border-color:var(--color-beige-dark);">
+      <div class="mb-10">
+        <span class="section-eyebrow">{isAr ? 'اقتراحات' : 'Suggestions'}</span>
+        <h2 class="section-title" style="font-size:clamp(1.5rem,3vw,2rem);">
+          {relatedLabel}
+        </h2>
+      </div>
+
+      <!-- Horizontal scroll on mobile, row on desktop -->
+      <div
+        class="flex gap-6 overflow-x-auto pb-4 lg:overflow-visible lg:grid lg:grid-cols-3"
+        style="scrollbar-width:thin; scrollbar-color:var(--color-gold) var(--color-beige-dark);"
+      >
+        {related.slice(0, 3).map(p => (
+          <div class="flex-shrink-0 w-72 lg:w-auto">
+            <ProductCard
+              slug={p.data.slug}
+              title={p.data.title}
+              titleAr={p.data.titleAr}
+              price={p.data.price}
+              priceValue={p.data.priceValue}
+              images={p.data.images}
+              badge={p.data.badge}
+              category={p.data.category}
+              excerpt={p.data.excerpt}
+              excerptAr={p.data.excerptAr}
+              waText={p.data.waText}
+              waTextAr={p.data.waTextAr}
+              lang={lang}
+            />
+          </div>
+        ))}
+      </div>
+    </div>
+  )}
+</div>
+
+<script>
+  const thumbs = document.querySelectorAll<HTMLElement>('.pd-thumb');
+  const mainImg = document.getElementById('pd-main-img') as HTMLImageElement | null;
+
+  thumbs.forEach(thumb => {
+    thumb.addEventListener('click', () => {
+      const src = thumb.dataset.src;
+      if (mainImg && src) {
+        mainImg.src = src;
+        mainImg.style.opacity = '0';
+        requestAnimationFrame(() => {
+          mainImg.style.transition = 'opacity 0.35s ease';
+          mainImg.style.opacity = '1';
+        });
+      }
+      thumbs.forEach(t => {
+        (t as HTMLElement).style.borderColor = 'transparent';
+      });
+      thumb.style.borderColor = 'var(--color-walnut)';
+    });
+  });
+</script>

@@ -1,0 +1,164 @@
+---
+export const prerender = true;
+
+import { getCollection, render } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProductDetail from '../../components/product/ProductDetail.astro';
+
+export async function getStaticPaths() {
+  const products = await getCollection('products', p => p.data.active);
+  return products.map(p => ({
+    params: { slug: p.data.slug },
+    props: { product: p },
+  }));
+}
+
+interface Props {
+  product: CollectionEntry<'products'>;
+}
+
+const { product } = Astro.props;
+const { Content } = await render(product);
+const d = product.data;
+
+// Resolve related products (up to 3, active only)
+const allProducts = await getCollection('products', p => p.data.active);
+const relatedProducts = d.relatedProducts.length > 0
+  ? allProducts
+      .filter(p => d.relatedProducts.includes(p.data.slug) && p.data.slug !== d.slug)
+      .slice(0, 3)
+  : allProducts
+      .filter(p => p.data.category === d.category && p.data.slug !== d.slug)
+      .slice(0, 3);
+
+const siteUrl = import.meta.env.PUBLIC_SITE_URL || 'https://nukhba.com';
+
+const breadcrumbs = [
+  { name: 'Home', url: `${siteUrl}/` },
+  { name: 'Products', url: `${siteUrl}/products` },
+  { name: d.title, url: `${siteUrl}/products/${d.slug}` },
+];
+---
+
+<BaseLayout
+  title={`${d.title} — Luxury Furniture | Nukhba`}
+  description={d.excerpt}
+  currentPath={`/products/${d.slug}`}
+  lang="en"
+  ogType="product"
+  ogImage={d.images[0]}
+  product={product}
+  breadcrumbs={breadcrumbs}
+  faqs={d.faqs}
+>
+  <!-- Product detail section -->
+  <section class="py-12 lg:py-20">
+    <div class="max-w-7xl mx-auto px-6 lg:px-12">
+      <!-- Breadcrumb nav -->
+      <nav class="mb-10" aria-label="Breadcrumb">
+        <ol class="flex items-center gap-2 flex-wrap" style="color:var(--color-warm-gray); font-size:0.8125rem;">
+          <li>
+            <a
+              href="/"
+              class="transition-colors hover:text-gold"
+              style="color:inherit;"
+            >
+              Home
+            </a>
+          </li>
+          <li aria-hidden="true" style="color:var(--color-beige-dark);">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+              <polyline points="9 18 15 12 9 6"/>
+            </svg>
+          </li>
+          <li>
+            <a
+              href="/products"
+              class="transition-colors hover:text-gold"
+              style="color:inherit;"
+            >
+              Products
+            </a>
+          </li>
+          <li aria-hidden="true" style="color:var(--color-beige-dark);">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+              <polyline points="9 18 15 12 9 6"/>
+            </svg>
+          </li>
+          <li aria-current="page" style="color:var(--color-walnut); font-weight:500;">
+            {d.title}
+          </li>
+        </ol>
+      </nav>
+
+      <!-- Core detail component -->
+      <ProductDetail product={product} related={relatedProducts} lang="en" />
+    </div>
+  </section>
+
+  <!-- Rendered markdown body -->
+  {product.body && product.body.trim().length > 0 && (
+    <section class="py-12 lg:py-16 border-t" style="border-color:var(--color-beige-dark);">
+      <div class="max-w-3xl mx-auto px-6 lg:px-12">
+        <article class="prose-nukhba">
+          <Content />
+        </article>
+      </div>
+    </section>
+  )}
+</BaseLayout>
+
+<style>
+  /* Markdown prose styling scoped to this page */
+  .prose-nukhba :global(h2) {
+    font-family: var(--font-serif);
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--color-walnut);
+    margin-top: 2.5rem;
+    margin-bottom: 0.75rem;
+    letter-spacing: -0.02em;
+  }
+  .prose-nukhba :global(h3) {
+    font-family: var(--font-serif);
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--color-walnut);
+    margin-top: 2rem;
+    margin-bottom: 0.5rem;
+  }
+  .prose-nukhba :global(p) {
+    color: var(--color-warm-gray);
+    font-size: 1.0625rem;
+    line-height: 1.8;
+    margin-bottom: 1.25rem;
+  }
+  .prose-nukhba :global(strong) {
+    color: var(--color-walnut);
+    font-weight: 600;
+  }
+  .prose-nukhba :global(ul),
+  .prose-nukhba :global(ol) {
+    padding-inline-start: 1.5rem;
+    margin-bottom: 1.25rem;
+  }
+  .prose-nukhba :global(li) {
+    color: var(--color-warm-gray);
+    font-size: 1.0625rem;
+    line-height: 1.7;
+    margin-bottom: 0.4rem;
+  }
+  .prose-nukhba :global(a) {
+    color: var(--color-gold);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .prose-nukhba :global(a:hover) {
+    color: var(--color-gold-dark);
+  }
+  .prose-nukhba :global(hr) {
+    border-color: var(--color-beige-dark);
+    margin: 2rem 0;
+  }
+</style>

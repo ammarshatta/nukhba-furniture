@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>أداة توليد منتجات نُخبة بالذكاء الاصطناعي</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Amiri:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --walnut:#2F1F0E;--sand:#EDE4D6;--cream:#F8F3EC;--gold:#B8922A;
+  --gold-lt:#D4AD52;--warm:#7A6245;--muted:#A08060;--white:#FEFCF8;
+  --green:#1FAF5C;--r:6px;--ease:cubic-bezier(.22,1,.36,1);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'IBM Plex Sans Arabic',sans-serif;background:#F0EBE1;color:var(--walnut);min-height:100vh;}
+header{background:var(--walnut);padding:18px 5%;display:flex;align-items:center;gap:12px;}
+header svg{flex-shrink:0;}
+.h-title{font-family:'Amiri',serif;font-size:1.4rem;color:var(--sand);}
+.h-sub{font-size:.75rem;color:rgba(237,228,214,.45);letter-spacing:2px;text-transform:uppercase;margin-top:1px;}
+.main{max-width:1100px;margin:0 auto;padding:36px 5%;}
+
+/* UPLOAD ZONE */
+.upload-zone{background:var(--white);border-radius:12px;padding:32px;margin-bottom:28px;border:1px solid rgba(47,31,14,.08);}
+.uz-title{font-family:'Amiri',serif;font-size:1.3rem;color:var(--walnut);margin-bottom:6px;}
+.uz-sub{font-size:.88rem;color:var(--muted);margin-bottom:20px;line-height:1.6;}
+.drop-area{border:2px dashed rgba(184,146,42,.35);border-radius:var(--r);padding:36px 20px;text-align:center;cursor:pointer;transition:all .25s;background:rgba(184,146,42,.03);}
+.drop-area:hover,.drop-area.over{border-color:var(--gold);background:rgba(184,146,42,.06);}
+.drop-icon{font-size:2.5rem;margin-bottom:10px;}
+.drop-area p{font-size:.9rem;color:var(--warm);line-height:1.7;}
+.drop-area strong{color:var(--walnut);}
+.drop-area input{display:none;}
+.preview-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:12px;margin-top:20px;}
+.prev-item{position:relative;border-radius:var(--r);overflow:hidden;aspect-ratio:1;border:2px solid transparent;transition:border-color .2s;}
+.prev-item.selected{border-color:var(--gold);}
+.prev-item img{width:100%;height:100%;object-fit:cover;display:block;}
+.prev-item .rm{position:absolute;top:5px;left:5px;width:22px;height:22px;background:rgba(0,0,0,.6);color:#fff;border:none;border-radius:50%;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;}
+.prev-item .rm:hover{background:#c0392b;}
+.prev-item .fname{position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,.55);color:#fff;font-size:.65rem;padding:3px 5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+
+/* OPTIONS */
+.options-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-top:20px;}
+.opt-group label{display:block;font-size:.78rem;color:var(--muted);margin-bottom:5px;letter-spacing:.5px;}
+.opt-group select,.opt-group input{width:100%;padding:9px 12px;border:1px solid rgba(47,31,14,.15);border-radius:var(--r);font-family:'IBM Plex Sans Arabic',sans-serif;font-size:.88rem;color:var(--walnut);background:var(--white);outline:none;transition:border-color .2s;}
+.opt-group select:focus,.opt-group input:focus{border-color:var(--gold);}
+
+/* GENERATE BTN */
+.gen-btn{margin-top:20px;background:var(--walnut);color:var(--sand);padding:14px 32px;border:none;border-radius:var(--r);font-family:'IBM Plex Sans Arabic',sans-serif;font-size:1rem;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:8px;transition:all .25s;}
+.gen-btn:hover:not(:disabled){background:var(--gold);color:var(--walnut);}
+.gen-btn:disabled{opacity:.5;cursor:wait;}
+.gen-btn .spinner{width:16px;height:16px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;display:none;}
+.gen-btn.loading .spinner{display:block;}
+.gen-btn.loading .btn-txt{opacity:.7;}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+/* RESULTS */
+.results{margin-top:32px;}
+.res-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;}
+.res-title{font-family:'Amiri',serif;font-size:1.3rem;color:var(--walnut);}
+.copy-all{background:transparent;border:1px solid rgba(47,31,14,.2);color:var(--warm);padding:8px 16px;border-radius:50px;font-family:'IBM Plex Sans Arabic',sans-serif;font-size:.82rem;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:6px;}
+.copy-all:hover{border-color:var(--gold);color:var(--walnut);}
+
+.product-result{background:var(--white);border-radius:10px;border:1px solid rgba(47,31,14,.07);overflow:hidden;margin-bottom:20px;}
+.pr-preview{display:grid;grid-template-columns:220px 1fr;gap:0;}
+.pr-img{aspect-ratio:4/3;overflow:hidden;max-height:165px;}
+.pr-img img{width:100%;height:100%;object-fit:cover;display:block;}
+.pr-details{padding:18px 20px;display:flex;flex-direction:column;justify-content:space-between;}
+.pr-cat{font-size:.7rem;color:var(--gold);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:5px;}
+.pr-name{font-family:'Amiri',serif;font-size:1.15rem;color:var(--walnut);margin-bottom:8px;}
+.pr-desc{font-size:.85rem;color:var(--warm);line-height:1.7;flex:1;}
+.pr-meta{display:flex;gap:12px;align-items:center;margin-top:12px;flex-wrap:wrap;}
+.pr-price{font-weight:700;color:var(--walnut);font-size:.95rem;}
+.pr-badge{padding:3px 9px;border-radius:3px;font-size:.7rem;font-weight:700;}
+.pr-badge.sale{background:var(--gold);color:var(--walnut);}
+.pr-badge.new-{background:var(--walnut);color:var(--sand);}
+.pr-badge.top{background:#C0392B;color:#fff;}
+
+.pr-code-wrap{border-top:1px solid rgba(47,31,14,.07);background:var(--cream);}
+.pr-code-head{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;cursor:pointer;user-select:none;}
+.pr-code-head span{font-size:.78rem;color:var(--muted);}
+.pr-code-head button{background:var(--walnut);color:var(--sand);border:none;padding:5px 12px;border-radius:4px;font-size:.75rem;cursor:pointer;font-family:'IBM Plex Sans Arabic',sans-serif;transition:background .2s;}
+.pr-code-head button:hover{background:var(--gold);color:var(--walnut);}
+.pr-code{display:none;padding:0 16px 14px;}
+.pr-code pre{background:#1A1208;color:#EDE4D6;padding:14px;border-radius:var(--r);font-size:.75rem;line-height:1.6;overflow-x:auto;white-space:pre-wrap;word-break:break-all;font-family:monospace;}
+.pr-code.open{display:block;}
+
+.error-box{background:#fdf0f0;border:1px solid #f5c6c6;border-radius:var(--r);padding:14px 16px;color:#a33;font-size:.88rem;margin-top:16px;}
+.empty-msg{text-align:center;padding:40px;color:var(--muted);font-size:.9rem;}
+
+/* INSTRUCTIONS */
+.instructions{background:var(--white);border-radius:10px;padding:22px;border:1px solid rgba(47,31,14,.07);margin-bottom:28px;}
+.inst-title{font-family:'Amiri',serif;font-size:1.1rem;color:var(--walnut);margin-bottom:12px;}
+.inst-steps{display:flex;gap:14px;flex-wrap:wrap;}
+.inst-step{display:flex;align-items:flex-start;gap:10px;flex:1;min-width:160px;}
+.step-num{width:24px;height:24px;background:var(--gold);color:var(--walnut);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700;flex-shrink:0;margin-top:1px;}
+.step-txt{font-size:.83rem;color:var(--warm);line-height:1.6;}
+.step-txt strong{color:var(--walnut);}
+
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--walnut);color:var(--sand);padding:9px 20px;border-radius:50px;font-size:.85rem;opacity:0;pointer-events:none;transition:opacity .3s;z-index:999;white-space:nowrap;}
+.toast.show{opacity:1;}
+
+@media(max-width:700px){
+  .options-row{grid-template-columns:1fr 1fr;}
+  .pr-preview{grid-template-columns:1fr;}
+  .pr-img{max-height:200px;}
+}
+</style>
+</head>
+<body>
+<header>
+  <svg width="38" height="38" viewBox="0 0 44 44" fill="none">
+    <path d="M8 38 L8 20 Q8 8 22 8 Q36 8 36 20 L36 38" stroke="rgba(237,228,214,.7)" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <path d="M13 38 L13 21 Q13 13 22 13 Q31 13 31 21 L31 38" stroke="#B8922A" stroke-width="1.5" fill="none" stroke-linecap="round" opacity=".7"/>
+    <line x1="5" y1="38" x2="39" y2="38" stroke="rgba(237,228,214,.7)" stroke-width="2" stroke-linecap="round"/>
+    <circle cx="22" cy="9" r="2.5" fill="#B8922A"/>
+  </svg>
+  <div>
+    <div class="h-title">نُخبة — منشئ المنتجات الذكي</div>
+    <div class="h-sub">ارفع صورة منتجك ← AI يكتب الوصف ← HTML جاهز للموقع</div>
+  </div>
+</header>
+
+<div class="main">
+
+  <div class="instructions">
+    <div class="inst-title">كيف تعمل الأداة؟</div>
+    <div class="inst-steps">
+      <div class="inst-step"><div class="step-num">١</div><div class="step-txt"><strong>ارفع صور منتجاتك</strong> — أي عدد دفعة واحدة</div></div>
+      <div class="inst-step"><div class="step-num">٢</div><div class="step-txt"><strong>اختار التصنيف والسعر</strong> لكل مجموعة صور</div></div>
+      <div class="inst-step"><div class="step-num">٣</div><div class="step-txt"><strong>اضغط توليد</strong> — AI يحلل الصور ويكتب الوصف</div></div>
+      <div class="inst-step"><div class="step-num">٤</div><div class="step-txt"><strong>انسخ الكود</strong> وضعه في قسم المنتجات في موقعك</div></div>
+    </div>
+  </div>
+
+  <div class="upload-zone">
+    <div class="uz-title">📤 ارفع صور منتجاتك</div>
+    <div class="uz-sub">الذكاء الاصطناعي سيحلل الصور ويكتب اسم المنتج، وصفه بالعربي، ويحدد تصنيفه تلقائياً</div>
+
+    <div class="drop-area" id="dropArea" ondragover="dragEv(event,'over')" ondragleave="dragEv(event,'leave')" ondrop="handleDrop(event)" onclick="document.getElementById('fileInput').click()">
+      <div class="drop-icon">🪑</div>
+      <p><strong>اسحب صور منتجاتك هنا</strong><br/>أو اضغط لاختيار الملفات<br/><span style="font-size:.8rem;opacity:.6;margin-top:4px;display:block;">JPG · PNG · WebP — حتى ٥ صور في المرة الواحدة</span></p>
+      <input type="file" id="fileInput" accept="image/*" multiple onchange="handleFiles(this.files)"/>
+    </div>
+
+    <div class="preview-grid" id="previewGrid"></div>
+
+    <div class="options-row" id="optionsRow" style="display:none;">
+      <div class="opt-group">
+        <label>التصنيف (يمكن تركه للـ AI)</label>
+        <select id="catSelect">
+          <option value="auto">🤖 تحديد تلقائي بالذكاء الاصطناعي</option>
+          <option value="bed">غرف نوم</option>
+          <option value="liv">أنتريهات وصالونات</option>
+          <option value="din">غرف سفرة</option>
+          <option value="sof">ركنات</option>
+          <option value="kit">مطابخ</option>
+          <option value="dec">ديكور وإكسسوار</option>
+        </select>
+      </div>
+      <div class="opt-group">
+        <label>السعر (جنيه)</label>
+        <input type="text" id="priceInput" placeholder="مثال: ١٥,٠٠٠"/>
+      </div>
+      <div class="opt-group">
+        <label>الشارة</label>
+        <select id="badgeSelect">
+          <option value="">بدون شارة</option>
+          <option value="new-">جديد</option>
+          <option value="sale">خصم</option>
+          <option value="top">الأكثر مبيعاً</option>
+        </select>
+      </div>
+    </div>
+
+    <button class="gen-btn" id="genBtn" onclick="generateCards()" style="display:none;" disabled>
+      <div class="spinner"></div>
+      <span class="btn-txt">✨ توليد بطاقات المنتجات بالذكاء الاصطناعي</span>
+    </button>
+    <div id="errorBox" class="error-box" style="display:none;"></div>
+  </div>
+
+  <div class="results" id="results" style="display:none;">
+    <div class="res-header">
+      <div class="res-title" id="resTitle">نتائج التوليد</div>
+      <button class="copy-all" onclick="copyAll()">📋 نسخ كل الكود</button>
+    </div>
+    <div id="cardsContainer"></div>
+  </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const WA = '201234567890'; // ← غيّر لرقمك
+let images = [];
+let generatedCards = [];
+
+function dragEv(e, type) {
+  e.preventDefault(); e.stopPropagation();
+  document.getElementById('dropArea').classList.toggle('over', type === 'over');
+}
+
+function handleDrop(e) {
+  e.preventDefault();
+  document.getElementById('dropArea').classList.remove('over');
+  handleFiles(e.dataTransfer.files);
+}
+
+function handleFiles(files) {
+  const arr = Array.from(files).filter(f => f.type.startsWith('image/')).slice(0, 5 - images.length);
+  arr.forEach(f => {
+    const url = URL.createObjectURL(f);
+    images.push({ file: f, url, name: f.name });
+  });
+  renderPreviews();
+}
+
+function removeImage(i) {
+  URL.revokeObjectURL(images[i].url);
+  images.splice(i, 1);
+  renderPreviews();
+}
+
+function renderPreviews() {
+  const grid = document.getElementById('previewGrid');
+  const opts = document.getElementById('optionsRow');
+  const btn = document.getElementById('genBtn');
+
+  grid.innerHTML = images.map((img, i) => `
+    <div class="prev-item">
+      <img src="${img.url}" alt="${img.name}"/>
+      <button class="rm" onclick="removeImage(${i})">×</button>
+      <div class="fname">${img.name}</div>
+    </div>`).join('');
+
+  const has = images.length > 0;
+  opts.style.display = has ? 'grid' : 'none';
+  btn.style.display = has ? 'flex' : 'none';
+  btn.disabled = false;
+}
+
+function toBase64(file) {
+  return new Promise((res, rej) => {
+    const r = new FileReader();
+    r.onload = () => res(r.result.split(',')[1]);
+    r.onerror = rej;
+    r.readAsDataURL(file);
+  });
+}
+
+async function generateCards() {
+  if (!images.length) return;
+  const btn = document.getElementById('genBtn');
+  const errBox = document.getElementById('errorBox');
+  errBox.style.display = 'none';
+  btn.classList.add('loading');
+  btn.disabled = true;
+  generatedCards = [];
+
+  const catVal = document.getElementById('catSelect').value;
+  const price = document.getElementById('priceInput').value.trim();
+  const badge = document.getElementById('badgeSelect').value;
+
+  const catMap = {
+    auto: 'حدد التصنيف تلقائياً من الصورة',
+    bed: 'غرف نوم', liv: 'أنتريهات وصالونات',
+    din: 'غرف سفرة', sof: 'ركنات', kit: 'مطابخ', dec: 'ديكور'
+  };
+  const catDataMap = {
+    auto: null, bed: 'bed', liv: 'liv', din: 'din', sof: 'sof', kit: 'kit', dec: 'dec'
+  };
+
+  try {
+    for (let i = 0; i < images.length; i++) {
+      const b64 = await toBase64(images[i].file);
+      const mime = images[i].file.type;
+
+      const systemPrompt = `أنت خبير في الأثاث العربي الفاخر. مهمتك تحليل صورة منتج أثاث وإعطاء معلومات تسويقية دقيقة.
+أجب فقط بـ JSON صحيح بدون أي نص إضافي أو backticks:
+{
+  "name": "اسم المنتج بالعربي (15 كلمة كحد أقصى)",
+  "category_ar": "اسم التصنيف بالعربي",
+  "category_code": "أحد هذه القيم: bed أو liv أو din أو sof أو kit أو dec",
+  "description": "وصف تسويقي جذاب للمنتج بالعربي (جملتان فقط، 30 كلمة كحد أقصى)",
+  "wa_text": "نص رسالة واتساب قصيرة بالعربي للاستفسار عن هذا المنتج"
+}`;
+
+      const userContent = [
+        {
+          type: "image",
+          source: { type: "base64", media_type: mime, data: b64 }
+        },
+        {
+          type: "text",
+          text: catVal === 'auto'
+            ? `حلل هذه الصورة وأعطني معلومات المنتج بالتنسيق المطلوب.`
+            : `هذا المنتج من تصنيف: ${catMap[catVal]}. أعطني معلومات المنتج بالتنسيق المطلوب، استخدم "${catVal}" كـ category_code.`
+        }
+      ];
+
+      const resp = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-20250514',
+          max_tokens: 600,
+          system: systemPrompt,
+          messages: [{ role: 'user', content: userContent }]
+        })
+      });
+
+      if (!resp.ok) throw new Error(`خطأ في الاتصال: ${resp.status}`);
+      const data = await resp.json();
+      const text = data.content.map(c => c.text || '').join('');
+      const clean = text.replace(/```json|```/g, '').trim();
+      const info = JSON.parse(clean);
+
+      const finalCat = catVal === 'auto' ? (info.category_code || 'liv') : catDataMap[catVal];
+      const finalPrice = price || '—';
+      const waText = encodeURIComponent(info.wa_text || `مرحباً، أريد الاستفسار عن ${info.name}`);
+      const badgeHtml = badge ? `<span class="pbadge ${badge}">${badge === 'new-' ? 'جديد' : badge === 'sale' ? 'خصم' : 'الأكثر مبيعاً'}</span>` : '';
+
+      const waPath = `https://wa.me/${WA}?text=${waText}`;
+      const html = `<div class="pcard" data-cat="${finalCat}" data-r>
+  <div class="pimg">
+    <img src="${images[i].url}" alt="${info.name}" loading="lazy"/>
+    ${badgeHtml}
+    <a href="${waPath}" target="_blank" class="pwa">
+      <svg class="wa-svg" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      اطلب الآن
+    </a>
+  </div>
+  <div class="pinfo">
+    <div class="pcat">${info.category_ar}</div>
+    <div class="pname">${info.name}</div>
+    <div class="pfoot">
+      <div><div class="pprice">${finalPrice}</div></div>
+      <div class="pstars"><i class="ph ph-star-fill"></i><i class="ph ph-star-fill"></i><i class="ph ph-star-fill"></i><i class="ph ph-star-fill"></i><i class="ph ph-star-fill"></i></div>
+    </div>
+  </div>
+</div>`;
+
+      generatedCards.push({ info, html, url: images[i].url, finalCat });
+    }
+
+    renderResults();
+  } catch (e) {
+    errBox.textContent = 'حدث خطأ: ' + e.message;
+    errBox.style.display = 'block';
+  } finally {
+    btn.classList.remove('loading');
+    btn.disabled = false;
+  }
+}
+
+function renderResults() {
+  const res = document.getElementById('results');
+  const container = document.getElementById('cardsContainer');
+  const title = document.getElementById('resTitle');
+  res.style.display = 'block';
+  title.textContent = `✅ تم توليد ${generatedCards.length} بطاقة منتج`;
+
+  container.innerHTML = generatedCards.map((card, i) => `
+    <div class="product-result">
+      <div class="pr-preview">
+        <div class="pr-img"><img src="${card.url}" alt="${card.info.name}"/></div>
+        <div class="pr-details">
+          <div>
+            <div class="pr-cat">${card.info.category_ar}</div>
+            <div class="pr-name">${card.info.name}</div>
+            <div class="pr-desc">${card.info.description}</div>
+          </div>
+          <div class="pr-meta">
+            <span class="pr-price">${document.getElementById('priceInput').value || '—'}</span>
+            <span style="font-size:.78rem;color:var(--muted);">data-cat="${card.finalCat}"</span>
+          </div>
+        </div>
+      </div>
+      <div class="pr-code-wrap">
+        <div class="pr-code-head" onclick="toggleCode(${i})">
+          <span>كود HTML الجاهز للنسخ</span>
+          <button onclick="event.stopPropagation();copyCard(${i})">📋 نسخ</button>
+        </div>
+        <div class="pr-code" id="code-${i}">
+          <pre id="pre-${i}">${escHtml(card.html)}</pre>
+        </div>
+      </div>
+    </div>`).join('');
+
+  res.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function toggleCode(i) {
+  document.getElementById('code-' + i).classList.toggle('open');
+}
+
+function escHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function copyCard(i) {
+  navigator.clipboard.writeText(generatedCards[i].html)
+    .then(() => showToast('✓ تم نسخ الكود'))
+    .catch(() => { fallbackCopy(generatedCards[i].html); showToast('✓ تم النسخ'); });
+}
+
+function copyAll() {
+  const all = generatedCards.map(c => c.html).join('\n\n');
+  navigator.clipboard.writeText(all)
+    .then(() => showToast(`✓ تم نسخ ${generatedCards.length} بطاقة`))
+    .catch(() => { fallbackCopy(all); showToast('✓ تم نسخ الكل'); });
+}
+
+function fallbackCopy(text) {
+  const t = document.createElement('textarea');
+  t.value = text; document.body.appendChild(t); t.select();
+  document.execCommand('copy'); document.body.removeChild(t);
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2200);
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,75 @@
+---
+import { buildProductJsonLd, buildOrganizationJsonLd, buildBreadcrumbJsonLd } from '../../lib/seo';
+import type { Product, Settings } from '../../types';
+import type { Lang } from '../../lib/i18n';
+
+interface Props {
+  title: string;
+  description: string;
+  canonical: string;
+  lang: Lang;
+  alternateUrl: string;
+  ogImage?: string;
+  ogType?: 'website' | 'product';
+  product?: Product;
+  settings?: Settings;
+  breadcrumbs?: { name: string; url: string }[];
+}
+
+const {
+  title,
+  description,
+  canonical,
+  lang,
+  alternateUrl,
+  ogImage = '/og-default.jpg',
+  ogType = 'website',
+  product,
+  settings,
+  breadcrumbs,
+} = Astro.props;
+
+const siteTitle = lang === 'ar' ? 'نُخبة للأثاث الفاخر' : 'Nukba Luxury Furniture';
+const fullTitle = `${title} — ${siteTitle}`;
+const baseUrl = import.meta.env.PUBLIC_SITE_URL ?? 'https://nukba.com';
+const arUrl = lang === 'ar' ? canonical : alternateUrl;
+const enUrl = lang === 'en' ? canonical : alternateUrl;
+const ogImageFull = ogImage.startsWith('http') ? ogImage : `${baseUrl}${ogImage}`;
+
+const productJsonLd = product ? buildProductJsonLd(product, lang, baseUrl) : null;
+const orgJsonLd = ogType === 'website' && settings ? buildOrganizationJsonLd(settings, baseUrl) : null;
+const breadcrumbJsonLd = breadcrumbs?.length ? buildBreadcrumbJsonLd(breadcrumbs) : null;
+---
+
+<title>{fullTitle}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+<link rel="alternate" hreflang="ar" href={arUrl} />
+<link rel="alternate" hreflang="en" href={enUrl} />
+<link rel="alternate" hreflang="x-default" href={arUrl} />
+
+<!-- Open Graph -->
+<meta property="og:title" content={fullTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={ogImageFull} />
+<meta property="og:url" content={canonical} />
+<meta property="og:type" content={ogType} />
+<meta property="og:locale" content={lang === 'ar' ? 'ar_SA' : 'en_US'} />
+<meta property="og:site_name" content={siteTitle} />
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={fullTitle} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImageFull} />
+
+<!-- JSON-LD -->
+{productJsonLd && (
+  <script type="application/ld+json" set:html={JSON.stringify(productJsonLd)} />
+)}
+{orgJsonLd && (
+  <script type="application/ld+json" set:html={JSON.stringify(orgJsonLd)} />
+)}
+{breadcrumbJsonLd && (
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} />
+)}

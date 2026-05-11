@@ -1,0 +1,56 @@
+---
+interface Props {
+  currentPath: string;
+}
+const { currentPath } = Astro.props;
+
+function active(path: string) {
+  return currentPath.startsWith(path) ? 'active' : '';
+}
+---
+
+<aside class="admin-sidebar">
+  <div class="admin-logo">
+    <div class="logo-ar">نُخبة</div>
+    <small>ADMIN PANEL</small>
+  </div>
+
+  <ul class="admin-nav">
+    <li>
+      <a href="/admin" class={currentPath === '/admin' ? 'active' : ''}>
+        <span class="icon">📊</span> Dashboard
+      </a>
+    </li>
+    <li>
+      <a href="/admin/ai-generator" class={active('/admin/ai-generator')}>
+        <span class="icon">✨</span> AI Generator
+      </a>
+    </li>
+    <li>
+      <a href="/admin/tokens" class={active('/admin/tokens')}>
+        <span class="icon">🔗</span> Tracking Links
+      </a>
+    </li>
+    <li>
+      <a href="/admin/settings" class={active('/admin/settings')}>
+        <span class="icon">⚙️</span> Settings
+      </a>
+    </li>
+
+    <div class="admin-nav-divider"></div>
+
+    <li>
+      <a href="https://app.storyblok.com" target="_blank" rel="noopener">
+        <span class="icon">📝</span> Storyblok CMS ↗
+      </a>
+    </li>
+    <li>
+      <form method="POST" action="/api/admin/logout" style="margin:0;">
+        <button type="submit" style="width:100%;background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:10px;padding:10px 20px;color:rgba(237,228,214,.6);font-size:.85rem;font-family:inherit;transition:all .2s;"
+          onmouseover="this.style.color='#EDE4D6'" onmouseout="this.style.color='rgba(237,228,214,.6)'">
+          <span class="icon">🚪</span> Sign Out
+        </button>
+      </form>
+    </li>
+  </ul>
+</aside>

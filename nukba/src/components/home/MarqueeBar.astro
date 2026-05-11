@@ -1,0 +1,90 @@
+---
+interface Props {
+  lang?: 'en' | 'ar';
+}
+
+const { lang = 'en' } = Astro.props;
+const isAr = lang === 'ar';
+
+const keywordsEn = [
+  'Bedroom Furniture',
+  'Luxury Sofas',
+  'Dining Tables',
+  'Custom Made',
+  'Cairo',
+  'Modern Design',
+  'Premium Wood',
+  'Executive Offices',
+  'Made in Egypt',
+  'Interior Excellence',
+];
+
+const keywordsAr = [
+  'أثاث غرف النوم',
+  'كنب فاخر',
+  'طاولات طعام',
+  'تصنيع حسب الطلب',
+  'القاهرة',
+  'تصميم مودرن',
+  'خشب فاخر',
+  'مكاتب تنفيذية',
+  'صنع في مصر',
+  'تميز في الديكور',
+];
+
+const items = isAr ? keywordsAr : keywordsEn;
+// Duplicate for seamless loop
+const allItems = [...items, ...items];
+---
+
+<div
+  class="relative w-full overflow-hidden py-4"
+  style="background-color: var(--color-walnut);"
+  aria-hidden="true"
+  role="presentation"
+>
+  <!-- Left fade -->
+  <div
+    class="absolute left-0 top-0 bottom-0 z-10 pointer-events-none w-16"
+    style="background: linear-gradient(to right, var(--color-walnut), transparent);"
+  ></div>
+  <!-- Right fade -->
+  <div
+    class="absolute right-0 top-0 bottom-0 z-10 pointer-events-none w-16"
+    style="background: linear-gradient(to left, var(--color-walnut), transparent);"
+  ></div>
+
+  <div
+    class="marquee-track flex items-center gap-0 whitespace-nowrap"
+    dir={isAr ? 'rtl' : 'ltr'}
+  >
+    {allItems.map((item) => (
+      <span
+        class="inline-flex items-center gap-4 px-2"
+        style="font-size: 0.75rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--color-gold);"
+      >
+        {item}
+        <span style="color: var(--color-gold-dark); font-size: 0.5rem;">◆</span>
+      </span>
+    ))}
+  </div>
+</div>
+
+<style>
+  .marquee-track {
+    display: inline-flex;
+    animation: marquee-scroll 30s linear infinite;
+    will-change: transform;
+  }
+
+  @keyframes marquee-scroll {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .marquee-track {
+      animation: none;
+    }
+  }
+</style>

@@ -1,0 +1,106 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import {
+  buildOrganizationSchema,
+  buildWebSiteSchema,
+  buildFurnitureStoreSchema,
+  buildProductSchema,
+  buildArticleSchema,
+  buildFAQSchema,
+  buildBreadcrumbSchema,
+} from '../../lib/seo';
+
+interface Props {
+  title: string;
+  description: string;
+  canonical: string;
+  lang?: 'en' | 'ar';
+  alternateUrl?: string;
+  ogImage?: string;
+  ogType?: 'website' | 'product' | 'article';
+  product?: CollectionEntry<'products'>;
+  article?: CollectionEntry<'blog'>;
+  breadcrumbs?: Array<{ name: string; url: string }>;
+  faqs?: Array<{ question: string; answer: string }>;
+  noindex?: boolean;
+}
+
+const {
+  title,
+  description,
+  canonical,
+  lang = 'en',
+  alternateUrl,
+  ogImage,
+  ogType = 'website',
+  product,
+  article,
+  breadcrumbs,
+  faqs,
+  noindex = false,
+} = Astro.props;
+
+const siteUrl = import.meta.env.PUBLIC_SITE_URL || 'https://nukhba.com';
+const siteName = 'Nukhba — Luxury Furniture Egypt';
+const fullTitle = title.includes('Nukhba') ? title : `${title} | Nukhba`;
+const resolvedOgImage = ogImage
+  ? (ogImage.startsWith('http') ? ogImage : `${siteUrl}${ogImage}`)
+  : `${siteUrl}/og-default.jpg`;
+const locale = lang === 'ar' ? 'ar_EG' : 'en_US';
+const altLocale = lang === 'ar' ? 'en_US' : 'ar_EG';
+
+// Build JSON-LD array
+const schemas: object[] = [buildOrganizationSchema()];
+if (canonical === siteUrl || canonical === `${siteUrl}/`) {
+  schemas.push(buildWebSiteSchema(), buildFurnitureStoreSchema());
+}
+if (product) schemas.push(buildProductSchema(product));
+if (article) schemas.push(buildArticleSchema(article));
+if (breadcrumbs?.length) schemas.push(buildBreadcrumbSchema(breadcrumbs));
+if (faqs?.length) schemas.push(buildFAQSchema(faqs));
+---
+
+<!-- Primary meta -->
+<title>{fullTitle}</title>
+<meta name="description" content={description} />
+{noindex ? <meta name="robots" content="noindex,nofollow" /> : <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />}
+<link rel="canonical" href={canonical} />
+
+<!-- Language alternates -->
+{alternateUrl && (
+  <>
+    <link rel="alternate" hreflang={lang} href={canonical} />
+    <link rel="alternate" hreflang={lang === 'ar' ? 'en' : 'ar'} href={alternateUrl} />
+    <link rel="alternate" hreflang="x-default" href={lang === 'ar' ? alternateUrl : canonical} />
+  </>
+)}
+
+<!-- Open Graph -->
+<meta property="og:type" content={ogType} />
+<meta property="og:title" content={fullTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:image" content={resolvedOgImage} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content={title} />
+<meta property="og:site_name" content={siteName} />
+<meta property="og:locale" content={locale} />
+<meta property="og:locale:alternate" content={altLocale} />
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={fullTitle} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={resolvedOgImage} />
+
+<!-- Extra SEO signals for AI discoverability -->
+<meta name="keywords" content="luxury furniture Egypt, modern furniture Cairo, premium furniture, أثاث فاخر, أثاث مودرن, Nukhba, نُخبة" />
+<meta name="author" content="Nukhba" />
+<meta name="geo.region" content="EG" />
+<meta name="geo.placename" content="Cairo, Egypt" />
+
+<!-- JSON-LD Structured Data -->
+{schemas.map(schema => (
+  <script type="application/ld+json" set:html={JSON.stringify(schema, null, 2)} />
+))}

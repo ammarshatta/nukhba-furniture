@@ -1,0 +1,50 @@
+---
+import PublicLayout from '../../layouts/PublicLayout.astro';
+import ProductDetail from '../../components/product/ProductDetail.astro';
+import { getProductBySlug, getProducts, getCategories } from '../../lib/storyblok';
+import { getSettings } from '../../lib/data';
+
+const { slug } = Astro.params;
+if (!slug) return Astro.redirect('/');
+
+const [product, products, categories, settings] = await Promise.all([
+  getProductBySlug(slug),
+  getProducts(),
+  getCategories(),
+  getSettings(),
+]);
+
+if (!product) return Astro.redirect('/');
+
+const lang = 'ar' as const;
+const baseUrl = import.meta.env.PUBLIC_SITE_URL ?? 'https://nukba.com';
+const refToken = Astro.url.searchParams.get('ref') ?? Astro.cookies.get('nukba_ref')?.value ?? undefined;
+const relatedProducts = products.filter(p => p.active && p.id !== product.id && p.category === product.category);
+const cat = categories.find(c => c.slug === product.category);
+---
+
+<PublicLayout
+  lang={lang}
+  title={product.nameAr}
+  description={product.descAr.slice(0, 160)}
+  canonical={`${baseUrl}/products/${slug}`}
+  alternateUrl={`${baseUrl}/en/products/${slug}`}
+  ogImage={product.images[0]}
+  ogType="product"
+  product={product}
+  settings={settings}
+  categories={categories}
+  breadcrumbs={[
+    { name: 'الرئيسية', url: `${baseUrl}/` },
+    ...(cat ? [{ name: cat.nameAr, url: `${baseUrl}/category/${cat.slug}` }] : []),
+    { name: product.nameAr, url: `${baseUrl}/products/${slug}` },
+  ]}
+>
+  <ProductDetail
+    product={product}
+    lang={lang}
+    globalWaNumber={settings.waNumber}
+    relatedProducts={relatedProducts}
+    refToken={refToken}
+  />
+</PublicLayout>
