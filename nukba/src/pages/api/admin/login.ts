@@ -1,14 +1,28 @@
 import type { APIRoute } from 'astro';
 import { createSessionToken, setSessionCookie } from '../../../lib/auth';
 
-export const POST: APIRoute = async ({ request, cookies, redirect }) => {
+export const prerender = false;
+
+export const POST: APIRoute = async ({ request, cookies, locals }) => {
   const form = await request.formData();
   const password = form.get('password')?.toString() ?? '';
 
-  if (password !== import.meta.env.ADMIN_PASSWORD) {
+  const adminPassword =
+    import.meta.env.ADMIN_PASSWORD ||
+    locals.runtime?.env?.ADMIN_PASSWORD;
+
+  if (!adminPassword) {
+    return new Response('ADMIN_PASSWORD not configured', {
+      status: 500,
+    });
+  }
+
+  if (password !== adminPassword) {
     return new Response(null, {
       status: 302,
-      headers: { Location: '/admin/login?error=1' },
+      headers: {
+        Location: '/admin/login?error=1',
+      },
     });
   }
 
@@ -17,6 +31,8 @@ export const POST: APIRoute = async ({ request, cookies, redirect }) => {
 
   return new Response(null, {
     status: 302,
-    headers: { Location: '/admin' },
+    headers: {
+      Location: '/admin',
+    },
   });
 };
