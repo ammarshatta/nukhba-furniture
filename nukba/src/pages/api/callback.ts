@@ -2,59 +2,69 @@ import type { APIRoute } from 'astro';
 
 export const prerender = false;
 
-// ⚠️ TEMP TEST VALUE ONLY (replace later with env vars)
 const CLIENT_ID = 'Ov23liaz269sMqpDOK2c';
-const CLIENT_SECRET = 'YOUR_GITHUB_CLIENT_SECRET_HERE';
+const CLIENT_SECRET = '4853ae967f06b30bb690d1cc37698b6e1094ee47';
 
 export const GET: APIRoute = async ({ url, cookies }) => {
-  const code = url.searchParams.get('code');
-  const state = url.searchParams.get('state');
+  try {
+    const code = url.searchParams.get('code');
+    const state = url.searchParams.get('state');
 
-  const savedState = cookies.get('github_oauth_state')?.value;
+    const savedState = cookies.get('github_oauth_state')?.value;
 
-  // 🔐 CSRF check
-  if (!state || state !== savedState) {
-    return new Response('Invalid OAuth state', { status: 400 });
-  }
-
-  cookies.delete('github_oauth_state', { path: '/' });
-
-  if (!code) {
-    return new Response('Missing code', { status: 400 });
-  }
-
-  // 🔁 Exchange code for token
-  const tokenRes = await fetch(
-    'https://github.com/login/oauth/access_token',
-    {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        client_id: CLIENT_ID,
-        client_secret: CLIENT_SECRET,
-        code,
-      }),
+    if (!code) {
+      return new Response('Missing code', { status: 400 });
     }
-  );
 
-  const tokenData = await tokenRes.json();
+    if (!state || state !== savedState) {
+      return new Response('Invalid state', { status: 400 });
+    }
 
-  if (!tokenData.access_token) {
-    return new Response(
-      `Failed to get access token: ${JSON.stringify(tokenData)}`,
-      { status: 500 }
+    cookies.delete('github_oauth_state', { path: '/' });
+
+    const tokenRes = await fetch(
+      'https://github.com/login/oauth/access_token',
+      {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          client_id: CLIENT_ID,
+          client_secret: CLIENT_SECRET,
+          code,
+        }),
+      }
     );
+
+    const text = await tokenRes.text();
+
+    let tokenData;
+    try {
+      tokenData = JSON.parse(text);
+    } catch {
+      console.error('GitHub response not JSON:', text);
+      return new Response('Invalid GitHub response', { status: 500 });
+    }
+
+    if (!tokenData.access_token) {
+      return new Response(
+        'No access token: ' + text,
+        { status: 500 }
+      );
+    }
+
+    cookies.set('github_token', tokenData.access_token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'lax',
+      path: '/',
+    });
+
+    return new Response('Login successful ✅');
+  } catch (err) {
+    console.error('CALLBACK ERROR:', err);
+    return new Response('Callback crashed', { status: 500 });
   }
-
-  cookies.set('github_token', tokenData.access_token, {
-    httpOnly: true,
-    secure: true,
-    sameSite: 'lax',
-    path: '/',
-  });
-
-  return new Response('GitHub login successful ✅');
 };
