@@ -21,8 +21,8 @@ for (const p of allProducts) {
 }
 
 const breadcrumbs = [
-  { name: 'Home', url: `${siteUrl}/` },
-  { name: 'Collections', url: `${siteUrl}/collections` },
+  { name: 'الرئيسية', url: `${siteUrl}/` },
+  { name: 'المجموعات', url: `${siteUrl}/collections` },
 ];
 ---
 
@@ -52,19 +52,19 @@ const breadcrumbs = [
         class="section-eyebrow"
         style="color:var(--color-gold);"
       >
-        Our Craft
+        حرفتنا
       </span>
       <h1
         class="font-serif mt-2 mb-5"
         style="font-size:clamp(2.25rem,5vw,3.75rem); color:#fff; font-weight:600; line-height:1.15; letter-spacing:-0.02em;"
       >
-        Explore Our Collections
+        استكشف مجموعاتنا
       </h1>
       <p
         class="section-subtitle mx-auto"
         style="color:rgba(255,255,255,0.7); max-width:560px; text-align:center;"
       >
-        Each collection is a world of its own — shaped by intention, built from heritage materials, and refined for the modern Egyptian home.
+        كل مجموعة عالم مستقل — مُشكَّل بعناية، مبني من خامات أصيلة، ومُصمَّم للمنزل المصري العصري.
       </p>
     </div>
   </section>
@@ -86,9 +86,6 @@ const breadcrumbs = [
         >
           {categories.map((category, i) => {
             const count = productCounts[category.data.slug] ?? 0;
-            const descExcerpt = category.data.description.length > 110
-              ? category.data.description.slice(0, 110).trimEnd() + '…'
-              : category.data.description;
 
             return (
               <li
@@ -132,7 +129,7 @@ const breadcrumbs = [
                       class="inline-flex self-start items-center mb-3 px-2.5 py-1 rounded-full text-xs font-semibold uppercase tracking-widest"
                       style="background:rgba(196,164,74,0.22); color:var(--color-gold-light); border:1px solid rgba(196,164,74,0.35); backdrop-filter:blur(4px);"
                     >
-                      {count} {count === 1 ? 'Product' : 'Products'}
+                      {count} {count === 1 ? 'منتج' : 'منتجات'}
                     </span>
 
                     <!-- Category name -->
@@ -140,7 +137,7 @@ const breadcrumbs = [
                       class="font-serif mb-2 leading-tight"
                       style="font-size:clamp(1.4rem,2.5vw,1.8rem); color:#fff; font-weight:600; letter-spacing:-0.01em;"
                     >
-                      {category.data.name}
+                      {category.data.nameAr || category.data.name}
                     </h2>
 
                     <!-- Description excerpt -->
@@ -148,7 +145,9 @@ const breadcrumbs = [
                       class="mb-4 leading-relaxed"
                       style="font-size:0.875rem; color:rgba(255,255,255,0.72); line-height:1.6;"
                     >
-                      {descExcerpt}
+                      {(category.data.descriptionAr || category.data.description).length > 110
+                        ? (category.data.descriptionAr || category.data.description).slice(0, 110).trimEnd() + '…'
+                        : (category.data.descriptionAr || category.data.description)}
                     </p>
 
                     <!-- View Collection CTA -->
@@ -156,7 +155,7 @@ const breadcrumbs = [
                       class="inline-flex items-center gap-2 self-start transition-all duration-300 group-hover:gap-3"
                       style="font-size:0.8rem; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; color:var(--color-gold-light);"
                     >
-                      View Collection
+                      عرض المجموعة
                       <svg
                         width="14"
                         height="14"
@@ -167,10 +166,10 @@ const breadcrumbs = [
                         stroke-linecap="round"
                         stroke-linejoin="round"
                         aria-hidden="true"
-                        class="transition-transform duration-300 group-hover:translate-x-1"
+                        class="transition-transform duration-300 group-hover:-translate-x-1"
                       >
-                        <line x1="5" y1="12" x2="19" y2="12"/>
-                        <polyline points="12 5 19 12 12 19"/>
+                        <line x1="19" y1="12" x2="5" y2="12"/>
+                        <polyline points="12 5 5 12 12 19"/>
                       </svg>
                     </span>
                   </div>
@@ -189,16 +188,16 @@ const breadcrumbs = [
     style="background-color:var(--color-beige);"
   >
     <div class="max-w-3xl mx-auto px-6 text-center" data-reveal>
-      <span class="section-eyebrow">Crafted in Egypt</span>
+      <span class="section-eyebrow">صُنع في مصر</span>
       <h2 class="section-title mb-4">
-        Quality That Endures
+        جودة تدوم للأجيال
       </h2>
       <p class="section-subtitle mx-auto" style="text-align:center; margin-inline:auto;">
-        Every Nukhba piece is built to last generations — solid wood joinery, hand-finished surfaces, and proportions tailored to Egyptian living spaces.
+        كل قطعة من نُخبة مصنوعة لتدوم — وصلات خشب صلبة، وأسطح مشطوفة يدوياً، وأبعاد مُصمَّمة لتناسب المساحات المصرية.
       </p>
       <div class="mt-8 flex flex-wrap gap-4 justify-center">
-        <a href="/products" class="btn-primary">Browse All Products</a>
-        <a href="/contact" class="btn-outline" style="color:var(--color-walnut); border-color:var(--color-walnut);">Get in Touch</a>
+        <a href="/products" class="btn-primary">تصفح جميع المنتجات</a>
+        <a href="/contact" class="btn-outline" style="color:var(--color-walnut); border-color:var(--color-walnut);">تواصل معنا</a>
       </div>
     </div>
   </section>

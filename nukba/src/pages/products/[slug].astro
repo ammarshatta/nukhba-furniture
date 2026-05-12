@@ -35,9 +35,9 @@ const relatedProducts = d.relatedProducts.length > 0
 const siteUrl = import.meta.env.PUBLIC_SITE_URL || 'https://nukhba.com';
 
 const breadcrumbs = [
-  { name: 'Home', url: `${siteUrl}/` },
-  { name: 'Products', url: `${siteUrl}/products` },
-  { name: d.title, url: `${siteUrl}/products/${d.slug}` },
+  { name: 'الرئيسية', url: `${siteUrl}/` },
+  { name: 'المنتجات', url: `${siteUrl}/products` },
+  { name: d.titleAr || d.title, url: `${siteUrl}/products/${d.slug}` },
 ];
 ---
 
@@ -65,12 +65,12 @@ const breadcrumbs = [
               class="transition-colors hover:text-gold"
               style="color:inherit;"
             >
-              Home
+              الرئيسية
             </a>
           </li>
           <li aria-hidden="true" style="color:var(--color-beige-dark);">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
-              <polyline points="9 18 15 12 9 6"/>
+              <polyline points="15 18 9 12 15 6"/>
             </svg>
           </li>
           <li>
@@ -79,16 +79,16 @@ const breadcrumbs = [
               class="transition-colors hover:text-gold"
               style="color:inherit;"
             >
-              Products
+              المنتجات
             </a>
           </li>
           <li aria-hidden="true" style="color:var(--color-beige-dark);">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
-              <polyline points="9 18 15 12 9 6"/>
+              <polyline points="15 18 9 12 15 6"/>
             </svg>
           </li>
           <li aria-current="page" style="color:var(--color-walnut); font-weight:500;">
-            {d.title}
+            {d.titleAr || d.title}
           </li>
         </ol>
       </nav>

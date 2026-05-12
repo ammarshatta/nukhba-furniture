@@ -14,20 +14,20 @@ const faqsForSchema = sortedFaqs.map(f => ({
 // Group by category in a defined order
 const categoryConfig: Record<string, { label: string; description: string }> = {
   general: {
-    label: 'General Questions',
-    description: 'Everything you need to know about Nukhba as a brand.',
+    label: 'أسئلة عامة',
+    description: 'كل ما تحتاج معرفته عن نُخبة كعلامة تجارية.',
   },
   products: {
-    label: 'Products & Materials',
-    description: 'Details about our furniture collections, materials, and specifications.',
+    label: 'المنتجات والخامات',
+    description: 'تفاصيل مجموعات الأثاث والخامات والمواصفات.',
   },
   delivery: {
-    label: 'Delivery & Installation',
-    description: 'Shipping, delivery coverage, timelines, and installation services.',
+    label: 'التوصيل والتركيب',
+    description: 'الشحن ومناطق التغطية والمواعيد وخدمات التركيب.',
   },
   customization: {
-    label: 'Customization & Orders',
-    description: 'How to place custom orders, timelines, and available options.',
+    label: 'التخصيص والطلبات',
+    description: 'كيفية تقديم طلبات مخصصة والمواعيد والخيارات المتاحة.',
   },
 };
 
@@ -71,12 +71,12 @@ const breadcrumbs = [
       style="background: radial-gradient(ellipse 80% 60% at 50% 0%, var(--color-gold), transparent);"
     ></div>
     <div class="relative max-w-4xl mx-auto text-center">
-      <span class="section-eyebrow" style="color:var(--color-gold);">Need Answers?</span>
+      <span class="section-eyebrow" style="color:var(--color-gold);">هل لديك سؤال؟</span>
       <h1 class="section-title" style="color:#fff; font-size:clamp(2.5rem,5vw,4rem);">
-        Frequently Asked Questions
+        الأسئلة الشائعة
       </h1>
       <p class="section-subtitle mt-4 mx-auto" style="color:rgba(255,255,255,0.7); max-width:520px;">
-        Everything you need to know about Nukhba furniture, ordering, delivery, and customization.
+        كل ما تحتاج معرفته عن أثاث نُخبة والطلب والتوصيل والتخصيص.
       </p>
     </div>
   </section>
@@ -85,9 +85,9 @@ const breadcrumbs = [
   <nav aria-label="Breadcrumb" class="bg-beige border-b border-beige-dark">
     <div class="max-w-7xl mx-auto px-6 lg:px-8 py-3">
       <ol class="flex items-center gap-2 text-sm" style="color:var(--color-warm-gray);">
-        <li><a href="/" class="hover:text-gold transition-colors">Home</a></li>
+        <li><a href="/" class="hover:text-gold transition-colors">الرئيسية</a></li>
         <li aria-hidden="true" class="opacity-40">/</li>
-        <li style="color:var(--color-walnut); font-weight:500;">FAQ</li>
+        <li style="color:var(--color-walnut); font-weight:500;">الأسئلة الشائعة</li>
       </ol>
     </div>
   </nav>
@@ -161,16 +161,16 @@ const breadcrumbs = [
   <!-- ── Still Have Questions CTA ──────────────────────── -->
   <section class="bg-walnut" style="padding: 80px 8%;">
     <div class="max-w-3xl mx-auto text-center" data-reveal>
-      <span class="section-eyebrow" style="color:var(--color-gold);">We're Happy to Help</span>
+      <span class="section-eyebrow" style="color:var(--color-gold);">يسعدنا مساعدتك</span>
       <h2 style="font-family:var(--font-serif); font-size:clamp(1.8rem,3vw,2.5rem); color:#fff; margin-bottom:1rem;">
-        Still Have Questions?
+        لا تزال لديك أسئلة؟
       </h2>
       <p style="color:rgba(255,255,255,0.65); font-size:1rem; line-height:1.7; margin-bottom:2rem;">
-        Our design consultants are available 7 days a week via WhatsApp or by phone.
+        مستشارو التصميم لدينا متاحون ٧ أيام في الأسبوع عبر واتساب أو الهاتف.
       </p>
       <div class="flex flex-wrap gap-4 justify-center">
         <a
-          href={`https://wa.me/${import.meta.env.PUBLIC_WA_NUMBER || '201112007555'}?text=${encodeURIComponent('Hello, I have a question about Nukhba furniture.')}`}
+          href={`https://wa.me/${import.meta.env.PUBLIC_WA_NUMBER || '201112007555'}?text=${encodeURIComponent('مرحباً، لديّ سؤال عن أثاث نُخبة.')}`}
           target="_blank"
           rel="noopener noreferrer"
           class="inline-flex items-center gap-3 rounded-lg font-semibold transition-all"
@@ -180,10 +180,10 @@ const breadcrumbs = [
             <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
             <path d="M12 0C5.373 0 0 5.373 0 12c0 2.117.549 4.104 1.51 5.829L0 24l6.335-1.485A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 0 1-5.007-1.374l-.36-.214-3.722.873.936-3.612-.235-.373A9.818 9.818 0 1 1 12 21.818z"/>
           </svg>
-          Ask on WhatsApp
+          اسأل عبر واتساب
         </a>
         <a href="/contact" class="btn-outline" style="color:#fff; border-color:rgba(255,255,255,0.4);">
-          All Contact Options
+          جميع طرق التواصل
         </a>
       </div>
     </div>
