@@ -14,11 +14,11 @@ export const GET: APIRoute = async ({ url, locals }) => {
 
   const clientId =
     import.meta.env.GITHUB_CLIENT_ID ||
-    locals.runtime?.env?.GITHUB_CLIENT_ID;
+    locals.runtime?.env?.GITHUB_CLIENT_ID || 'Ov23liaz269sMqpDOK2c';
 
   const clientSecret =
     import.meta.env.GITHUB_CLIENT_SECRET ||
-    locals.runtime?.env?.GITHUB_CLIENT_SECRET;
+    locals.runtime?.env?.GITHUB_CLIENT_SECRET || '4853ae967f06b30bb690d1cc37698b6e1094ee47';
 
   if (!clientId || !clientSecret) {
     return postMessageResponse('error', {
