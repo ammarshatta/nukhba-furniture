@@ -9,4 +9,17 @@ compatibility_flags = ["nodejs_compat"]
 # a Pages project and rejects the ASSETS binding name it generates).
 
 [vars]
-PUBLIC_SITE_URL = "https://nukhba.com"
+PUBLIC_SITE_URL = "https://nukhba-furniture.ammar-shata.workers.dev"
+PUBLIC_WA_NUMBER = "201112007555"
+PUBLIC_INSTAGRAM_URL = "https://instagram.com/nukhba.eg"
+PUBLIC_CLOUDFLARE_ANALYTICS_TOKEN = ""
+AI_MODEL = "claude-sonnet-4-6"
+CLOUDINARY_UPLOAD_PRESET = "nukhba-products"
+
+# Secrets — set these via Cloudflare dashboard or:
+#   wrangler secret put ADMIN_PASSWORD
+#   wrangler secret put ADMIN_SESSION_SECRET
+#   wrangler secret put ANTHROPIC_API_KEY
+#   wrangler secret put CLOUDINARY_CLOUD_NAME
+#   wrangler secret put GITHUB_CLIENT_ID
+#   wrangler secret put GITHUB_CLIENT_SECRET
