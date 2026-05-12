@@ -12,6 +12,8 @@ interface ImportMetaEnv {
   readonly AI_MODEL: string;
   readonly CLOUDINARY_CLOUD_NAME: string;
   readonly CLOUDINARY_UPLOAD_PRESET: string;
+  readonly GITHUB_CLIENT_ID: string;
+  readonly GITHUB_CLIENT_SECRET: string;
 }
 
 interface ImportMeta {
