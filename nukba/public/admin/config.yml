@@ -2,7 +2,10 @@ backend:
   name: github
   repo: ammarshatta/nukhba-furniture
   branch: master
-  site_domain: shattafurn.netlify.app   # ← paste your Netlify site ID here, e.g. abc123de-f456.netlify.app
+  base_url: https://api.netlify.com
+  auth_endpoint: auth
+  auth_scope: repo
+  site_domain: nukhba-furniture.ammar-shata.workers.dev
 
 # Uncomment the line below to use the CMS locally without GitHub:
 # (run "npx decap-server" in a second terminal alongside "npm run dev")
