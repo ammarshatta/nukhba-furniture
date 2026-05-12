@@ -17,3 +17,10 @@ interface ImportMetaEnv {
 interface ImportMeta {
   readonly env: ImportMetaEnv;
 }
+declare namespace App {
+  interface Locals {
+    runtime: {
+      env: ImportMetaEnv;
+    };
+  }
+}
