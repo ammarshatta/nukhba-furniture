@@ -2,26 +2,33 @@ import type { APIRoute } from 'astro';
 
 export const prerender = false;
 
-export const GET: APIRoute = ({ url, locals }) => {
-  const clientId =
-    import.meta.env.GITHUB_CLIENT_ID ||
-    locals.runtime?.env?.GITHUB_CLIENT_ID || 'Ov23liaz269sMqpDOK2c';
+// ⚠️ TEMP TEST VALUES ONLY (replace later with env vars)
+const CLIENT_ID = 'Ov23liaz269sMqpDOK2c';
 
-  if (!clientId) {
-    return new Response('GITHUB_CLIENT_ID not configured', {
-      status: 500,
-    });
-  }
+function generateState() {
+  return crypto.randomUUID();
+}
 
-  const callbackUrl = `${url.origin}/api/callback`;
+export const GET: APIRoute = ({ url, cookies }) => {
+  const state = generateState();
 
-  const githubAuthUrl = new URL(
-    'https://github.com/login/oauth/authorize',
+  cookies.set('github_oauth_state', state, {
+    httpOnly: true,
+    secure: true,
+    sameSite: 'lax',
+    path: '/',
+  });
+
+  const callbackUrl = new URL('/api/callback', url.origin);
+
+  const githubUrl = new URL(
+    'https://github.com/login/oauth/authorize'
   );
 
-  githubAuthUrl.searchParams.set('client_id', clientId);
-  githubAuthUrl.searchParams.set('redirect_uri', callbackUrl);
-  githubAuthUrl.searchParams.set('scope', 'repo,user');
+  githubUrl.searchParams.set('client_id', CLIENT_ID);
+  githubUrl.searchParams.set('redirect_uri', callbackUrl.toString());
+  githubUrl.searchParams.set('scope', 'repo,user');
+  githubUrl.searchParams.set('state', state);
 
-  return Response.redirect(githubAuthUrl.toString(), 302);
+  return Response.redirect(githubUrl.toString(), 302);
 };

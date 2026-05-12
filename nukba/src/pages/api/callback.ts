@@ -2,98 +2,59 @@ import type { APIRoute } from 'astro';
 
 export const prerender = false;
 
-export const GET: APIRoute = async ({ url, locals }) => {
+// ⚠️ TEMP TEST VALUE ONLY (replace later with env vars)
+const CLIENT_ID = 'Ov23liaz269sMqpDOK2c';
+const CLIENT_SECRET = 'YOUR_GITHUB_CLIENT_SECRET_HERE';
+
+export const GET: APIRoute = async ({ url, cookies }) => {
   const code = url.searchParams.get('code');
-  const error = url.searchParams.get('error');
+  const state = url.searchParams.get('state');
 
-  if (error || !code) {
-    return postMessageResponse('error', {
-      error: error ?? 'access_denied',
-    });
+  const savedState = cookies.get('github_oauth_state')?.value;
+
+  // 🔐 CSRF check
+  if (!state || state !== savedState) {
+    return new Response('Invalid OAuth state', { status: 400 });
   }
 
-  const clientId =
-    import.meta.env.GITHUB_CLIENT_ID ||
-    locals.runtime?.env?.GITHUB_CLIENT_ID || 'Ov23liaz269sMqpDOK2c';
+  cookies.delete('github_oauth_state', { path: '/' });
 
-  const clientSecret =
-    import.meta.env.GITHUB_CLIENT_SECRET ||
-    locals.runtime?.env?.GITHUB_CLIENT_SECRET || '4853ae967f06b30bb690d1cc37698b6e1094ee47';
-
-  if (!clientId || !clientSecret) {
-    return postMessageResponse('error', {
-      error: 'OAuth not configured',
-    });
+  if (!code) {
+    return new Response('Missing code', { status: 400 });
   }
 
-  try {
-    const res = await fetch(
-      'https://github.com/login/oauth/access_token',
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-        },
-        body: JSON.stringify({
-          client_id: clientId,
-          client_secret: clientSecret,
-          code,
-          redirect_uri: `${url.origin}/api/callback`,
-        }),
-      },
-    );
-
-    const data = await res.json() as {
-      access_token?: string;
-      error?: string;
-    };
-
-    if (!data.access_token) {
-      return postMessageResponse('error', {
-        error: data.error ?? 'no_token',
-      });
-    }
-
-    return postMessageResponse('success', {
-      token: data.access_token,
-      provider: 'github',
-    });
-  } catch {
-    return postMessageResponse('error', {
-      error: 'token_exchange_failed',
-    });
-  }
-};
-
-function postMessageResponse(
-  status: 'success' | 'error',
-  data: Record<string, string>,
-) {
-  const content =
-    status === 'success'
-      ? JSON.stringify({
-          token: data.token,
-          provider: data.provider,
-        })
-      : JSON.stringify({
-          error: data.error,
-        });
-
-  const message = `authorization:github:${status}:${content}`;
-
-  return new Response(
-    `<!doctype html>
-<html>
-<body>
-<script>
-  window.opener?.postMessage(${JSON.stringify(message)}, '*');
-  window.close();
-</script>
-</body>
-</html>`,
+  // 🔁 Exchange code for token
+  const tokenRes = await fetch(
+    'https://github.com/login/oauth/access_token',
     {
-      headers: { 'Content-Type': 'text/html' },
-    },
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        client_id: CLIENT_ID,
+        client_secret: CLIENT_SECRET,
+        code,
+      }),
+    }
   );
-}
+
+  const tokenData = await tokenRes.json();
+
+  if (!tokenData.access_token) {
+    return new Response(
+      `Failed to get access token: ${JSON.stringify(tokenData)}`,
+      { status: 500 }
+    );
+  }
+
+  cookies.set('github_token', tokenData.access_token, {
+    httpOnly: true,
+    secure: true,
+    sameSite: 'lax',
+    path: '/',
+  });
+
+  return new Response('GitHub login successful ✅');
+};
