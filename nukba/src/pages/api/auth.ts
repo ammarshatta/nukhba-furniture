@@ -2,10 +2,16 @@ import type { APIRoute } from 'astro';
 
 export const prerender = false;
 
-const CLIENT_ID = 'Ov23liaz269sMqpDOK2c';
-
-export const GET: APIRoute = ({ url, cookies }) => {
+export const GET: APIRoute = ({ url, cookies, locals }) => {
   try {
+    const CLIENT_ID =
+      import.meta.env.GITHUB_CLIENT_ID ||
+      locals.runtime?.env?.GITHUB_CLIENT_ID;
+
+    if (!CLIENT_ID) {
+      return new Response('GITHUB_CLIENT_ID not configured', { status: 500 });
+    }
+
     const state = crypto.randomUUID();
 
     cookies.set('github_oauth_state', state, {
@@ -17,9 +23,7 @@ export const GET: APIRoute = ({ url, cookies }) => {
 
     const callbackUrl = new URL('/api/callback', url.origin);
 
-    const githubUrl = new URL(
-      'https://github.com/login/oauth/authorize'
-    );
+    const githubUrl = new URL('https://github.com/login/oauth/authorize');
 
     githubUrl.searchParams.set('client_id', CLIENT_ID);
     githubUrl.searchParams.set('redirect_uri', callbackUrl.toString());
