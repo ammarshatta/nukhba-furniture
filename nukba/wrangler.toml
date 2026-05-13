@@ -15,11 +15,12 @@ PUBLIC_INSTAGRAM_URL = "https://instagram.com/nukhba.eg"
 PUBLIC_CLOUDFLARE_ANALYTICS_TOKEN = ""
 AI_MODEL = "claude-sonnet-4-6"
 CLOUDINARY_UPLOAD_PRESET = "nukhba-products"
+# Public OAuth client ID — not sensitive, safe to commit
+GITHUB_CLIENT_ID = "Ov23liaz269sMqpDOK2c"
 
-# Secrets — set these via Cloudflare dashboard or:
-#   wrangler secret put ADMIN_PASSWORD
-#   wrangler secret put ADMIN_SESSION_SECRET
-#   wrangler secret put ANTHROPIC_API_KEY
-#   wrangler secret put CLOUDINARY_CLOUD_NAME
-#   wrangler secret put GITHUB_CLIENT_ID
-#   wrangler secret put GITHUB_CLIENT_SECRET
+# Secrets — set ONLY via Cloudflare dashboard (encrypted) or:
+#   wrangler pages secret put ADMIN_PASSWORD --project-name nukhba
+#   wrangler pages secret put ADMIN_SESSION_SECRET --project-name nukhba
+#   wrangler pages secret put ANTHROPIC_API_KEY --project-name nukhba
+#   wrangler pages secret put CLOUDINARY_CLOUD_NAME --project-name nukhba
+#   wrangler pages secret put GITHUB_CLIENT_SECRET --project-name nukhba
