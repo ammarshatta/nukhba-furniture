@@ -44,13 +44,13 @@ export function setSessionCookie(cookies: AstroCookies, token: string): void {
     httpOnly: true,
     secure: true,
     sameSite: 'strict',
-    path: '/admin',
+    path: '/',
     maxAge: MAX_AGE,
   });
 }
 
 export function clearSessionCookie(cookies: AstroCookies): void {
-  cookies.delete(COOKIE_NAME, { path: '/admin' });
+  cookies.delete(COOKIE_NAME, { path: '/' });
 }
 
 export const COOKIE_NAME_EXPORT = COOKIE_NAME;
