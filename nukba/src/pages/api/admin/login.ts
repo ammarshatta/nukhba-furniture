@@ -1,15 +1,14 @@
 import type { APIRoute } from 'astro';
 import { createSessionToken, setSessionCookie } from '../../../lib/auth';
+import { env } from 'cloudflare:workers';
 
 export const prerender = false;
 
-export const POST: APIRoute = async ({ request, cookies, locals }) => {
+export const POST: APIRoute = async ({ request, cookies }) => {
   const form = await request.formData();
   const password = form.get('password')?.toString() ?? '';
 
-  const adminPassword =
-    import.meta.env.ADMIN_PASSWORD ||
-    locals.runtime?.env?.ADMIN_PASSWORD;
+  const adminPassword = env.ADMIN_PASSWORD;
 
   if (!adminPassword) {
     return new Response('ADMIN_PASSWORD not configured', {

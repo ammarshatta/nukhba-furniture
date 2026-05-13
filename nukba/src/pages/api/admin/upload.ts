@@ -1,9 +1,10 @@
 import type { APIRoute } from 'astro';
 import { isValidSession } from '../../../lib/auth';
+import { env } from 'cloudflare:workers';
 
 export const prerender = false;
 
-export const POST: APIRoute = async ({ request, cookies, locals }) => {
+export const POST: APIRoute = async ({ request, cookies }) => {
   const token = cookies.get('nukba_session')?.value;
 
   if (!token || !(await isValidSession(token))) {
@@ -47,13 +48,8 @@ export const POST: APIRoute = async ({ request, cookies, locals }) => {
     });
   }
 
-  const cloudName =
-    import.meta.env.CLOUDINARY_CLOUD_NAME ||
-    locals.runtime?.env?.CLOUDINARY_CLOUD_NAME;
-
-  const uploadPreset =
-    import.meta.env.CLOUDINARY_UPLOAD_PRESET ||
-    locals.runtime?.env?.CLOUDINARY_UPLOAD_PRESET;
+  const cloudName = env.CLOUDINARY_CLOUD_NAME;
+  const uploadPreset = env.CLOUDINARY_UPLOAD_PRESET;
 
   if (!cloudName || !uploadPreset) {
     return new Response(

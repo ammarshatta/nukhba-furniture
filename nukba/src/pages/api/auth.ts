@@ -1,16 +1,14 @@
 import type { APIRoute } from 'astro';
+import { env } from 'cloudflare:workers';
 
 export const prerender = false;
 
 // CLIENT_ID is a public value — fine to keep as fallback
 const FALLBACK_CLIENT_ID = 'Ov23liaz269sMqpDOK2c';
 
-export const GET: APIRoute = ({ url, cookies, locals }) => {
+export const GET: APIRoute = ({ url, cookies }) => {
   try {
-    const CLIENT_ID =
-      locals.runtime?.env?.GITHUB_CLIENT_ID ||
-      import.meta.env.GITHUB_CLIENT_ID ||
-      FALLBACK_CLIENT_ID;
+    const CLIENT_ID = env.GITHUB_CLIENT_ID || FALLBACK_CLIENT_ID;
 
     const state = crypto.randomUUID();
 

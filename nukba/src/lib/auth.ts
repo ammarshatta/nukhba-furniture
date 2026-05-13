@@ -1,10 +1,11 @@
 import type { AstroCookies } from 'astro';
+import { env } from 'cloudflare:workers';
 
 const COOKIE_NAME = 'nukba_session';
 const MAX_AGE = 60 * 60 * 24 * 7; // 7 days
 
 function getSecret(): string {
-  return import.meta.env.ADMIN_SESSION_SECRET ?? 'dev-secret-change-me';
+  return env.ADMIN_SESSION_SECRET ?? 'dev-secret-change-me';
 }
 
 async function hmac(secret: string, data: string): Promise<string> {

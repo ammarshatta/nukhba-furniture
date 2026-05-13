@@ -1,6 +1,7 @@
 import type { APIRoute } from 'astro';
 import Anthropic from '@anthropic-ai/sdk';
 import { requireAuth } from '../../../lib/auth';
+import { env } from 'cloudflare:workers';
 
 interface GenerateRequest {
   image: { data: string; mimeType: string };
@@ -15,8 +16,8 @@ export const POST: APIRoute = async ({ request, cookies }) => {
   const body: GenerateRequest = await request.json();
   const { image, category, price } = body;
 
-  const client = new Anthropic({ apiKey: import.meta.env.ANTHROPIC_API_KEY });
-  const model = import.meta.env.AI_MODEL ?? 'claude-sonnet-4-6';
+  const client = new Anthropic({ apiKey: env.ANTHROPIC_API_KEY });
+  const model = env.AI_MODEL ?? 'claude-sonnet-4-6';
 
   const catInstruction = category && category !== 'auto'
     ? `This product belongs to category: "${category}". Use this as the category_code.`

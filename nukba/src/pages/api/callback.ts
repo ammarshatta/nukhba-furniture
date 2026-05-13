@@ -1,16 +1,12 @@
 import type { APIRoute } from 'astro';
+import { env } from 'cloudflare:workers';
 
 export const prerender = false;
 
-export const GET: APIRoute = async ({ url, cookies, locals }) => {
+export const GET: APIRoute = async ({ url, cookies }) => {
   try {
-    const CLIENT_ID =
-      import.meta.env.GITHUB_CLIENT_ID ||
-      locals.runtime?.env?.GITHUB_CLIENT_ID;
-
-    const CLIENT_SECRET =
-      import.meta.env.GITHUB_CLIENT_SECRET ||
-      locals.runtime?.env?.GITHUB_CLIENT_SECRET;
+    const CLIENT_ID = env.GITHUB_CLIENT_ID;
+    const CLIENT_SECRET = env.GITHUB_CLIENT_SECRET;
 
     if (!CLIENT_ID || !CLIENT_SECRET) {
       return new Response('GitHub OAuth not configured', { status: 500 });
