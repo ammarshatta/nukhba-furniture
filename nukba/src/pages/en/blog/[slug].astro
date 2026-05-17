@@ -31,7 +31,7 @@ const relatedPosts = allPosts
   post={post}
   relatedPosts={relatedPosts}
   lang="en"
-  alternateUrl={`/blog/${post.data.slug}`}
+  alternateUrl={post.data.bodyAr ? `/blog/${post.data.slug}` : '/blog'}
 >
   <Content />
 </ArticleLayout>

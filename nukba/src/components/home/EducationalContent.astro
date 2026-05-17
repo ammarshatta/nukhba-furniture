@@ -17,7 +17,7 @@ const subtitle = isAr
   : 'Expert guides to help you choose the finest furniture for your home.';
 const readMore = isAr ? 'اقرأ المزيد ←' : 'Read More →';
 const viewAll = isAr ? 'عرض كل المقالات' : 'View All Articles';
-const viewAllHref = isAr ? '/ar/blog' : '/blog';
+const viewAllHref = isAr ? '/blog' : '/en/blog';
 
 const categoryLabels: Record<string, { en: string; ar: string }> = {
   guide: { en: 'Guide', ar: 'دليل' },
@@ -59,9 +59,10 @@ const featured = posts.filter(p => p.data.featured).slice(0, 3).length > 0
     <div class="flex flex-col gap-6">
       {featured.map((post, i) => {
         const title = isAr && post.data.titleAr ? post.data.titleAr : post.data.title;
+        const excerpt = isAr && post.data.excerptAr ? post.data.excerptAr : post.data.excerpt;
         const categoryKey = post.data.category;
         const catLabel = isAr ? categoryLabels[categoryKey]?.ar : categoryLabels[categoryKey]?.en;
-        const href = `/blog/${post.data.slug}`;
+        const href = isAr ? `/blog/${post.data.slug}` : `/en/blog/${post.data.slug}`;
 
         return (
           <article
@@ -72,7 +73,7 @@ const featured = posts.filter(p => p.data.featured).slice(0, 3).length > 0
             <!-- Cover image -->
             <a
               href={href}
-              class="block flex-shrink-0 overflow-hidden"
+              class="block sm:hidden flex-shrink-0 overflow-hidden"
               style="width: 100%; max-height: 220px;"
               tabindex="-1"
               aria-hidden="true"
@@ -120,7 +121,7 @@ const featured = posts.filter(p => p.data.featured).slice(0, 3).length > 0
                 class="text-sm mb-5 line-clamp-2"
                 style="color: var(--color-warm-gray); line-height: 1.65;"
               >
-                {post.data.excerpt}
+                {excerpt}
               </p>
               <a
                 href={href}

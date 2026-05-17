@@ -8,17 +8,49 @@ export interface Props {
   lang?: 'en' | 'ar';
   relatedPosts?: CollectionEntry<'blog'>[];
   alternateUrl?: string;
+  bodyAr?: string;
 }
 
-const { post, lang = 'en', relatedPosts = [], alternateUrl } = Astro.props;
+const { post, lang = 'en', relatedPosts = [], alternateUrl, bodyAr } = Astro.props;
+
+function inlineRender(text: string): string {
+  return text
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*([^*]+?)\*/g, '<em>$1</em>')
+    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>');
+}
+
+function renderMarkdown(text: string): string {
+  const lines = text.split('\n');
+  const out: string[] = [];
+  let inUl = false;
+  let pending: string[] = [];
+  function flushP() {
+    if (pending.length) { out.push(`<p>${inlineRender(pending.join(' '))}</p>`); pending = []; }
+  }
+  function closeUl() { if (inUl) { out.push('</ul>'); inUl = false; } }
+  for (const raw of lines) {
+    const t = raw.trim();
+    if (!t) { flushP(); closeUl(); continue; }
+    if (t === '---') { flushP(); closeUl(); out.push('<hr>'); continue; }
+    if (t.startsWith('### ')) { flushP(); closeUl(); out.push(`<h3>${inlineRender(t.slice(4))}</h3>`); continue; }
+    if (t.startsWith('## ')) { flushP(); closeUl(); out.push(`<h2>${inlineRender(t.slice(3))}</h2>`); continue; }
+    if (t.startsWith('# ')) { flushP(); closeUl(); out.push(`<h1>${inlineRender(t.slice(2))}</h1>`); continue; }
+    if (t.startsWith('- ')) { flushP(); if (!inUl) { out.push('<ul>'); inUl = true; } out.push(`<li>${inlineRender(t.slice(2))}</li>`); continue; }
+    closeUl(); pending.push(t);
+  }
+  flushP(); closeUl();
+  return out.join('\n');
+}
 const isAr = lang === 'ar';
 const d = post.data;
 
 const siteUrl = import.meta.env.PUBLIC_SITE_URL || 'https://nukhba.com';
 
 const breadcrumbs = [
-  { name: isAr ? 'الرئيسية' : 'Home',    url: `${siteUrl}${isAr ? '/ar' : '/'}` },
-  { name: isAr ? 'المدونة'  : 'Blog',    url: `${siteUrl}/blog` },
+  { name: isAr ? 'الرئيسية' : 'Home',    url: `${siteUrl}${isAr ? '/' : '/en'}` },
+  { name: isAr ? 'المدونة'  : 'Blog',    url: `${siteUrl}${isAr ? '/blog' : '/en/blog'}` },
   { name: d.title,                        url: `${siteUrl}/blog/${d.slug}` },
 ];
 
@@ -58,7 +90,7 @@ const updatedLabel   = isAr ? 'تحديث:'                : 'Updated:';
 <BaseLayout
   title={`${isAr ? (d.titleAr || d.title) : d.title} | نُخبة`}
   description={d.excerpt}
-  currentPath={`/blog/${d.slug}`}
+  currentPath={isAr ? `/blog/${d.slug}` : `/en/blog/${d.slug}`}
   alternateUrl={alternateUrl}
   lang={lang}
   ogType="article"
@@ -147,7 +179,7 @@ const updatedLabel   = isAr ? 'تحديث:'                : 'Updated:';
 
   {/* ── Article body ── */}
   <article class="prose-nukhba max-w-3xl mx-auto px-4 py-12" dir={isAr ? 'rtl' : 'ltr'}>
-    <slot />
+    {isAr && bodyAr ? <Fragment set:html={renderMarkdown(bodyAr)} /> : <slot />}
   </article>
 
   {/* ── Back to Blog ── */}
@@ -156,7 +188,7 @@ const updatedLabel   = isAr ? 'تحديث:'                : 'Updated:';
     dir={isAr ? 'rtl' : 'ltr'}
   >
     <a
-      href="/blog"
+      href={isAr ? '/blog' : '/en/blog'}
       class="btn-outline inline-flex items-center gap-2"
       style="color:var(--color-walnut); border-color:var(--color-walnut);"
     >

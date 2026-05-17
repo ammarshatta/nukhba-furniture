@@ -21,7 +21,17 @@ for (const p of products) {
 
 const allLabel = isAr ? 'الكل' : 'All';
 
-function formatCategory(cat: string) {
+const categoryLabelsAr: Record<string, string> = {
+  'bedroom': 'غرفة نوم',
+  'living-room': 'غرفة جلوس',
+  'dining': 'غرفة طعام',
+  'office': 'مكتب',
+  'kids': 'أطفال',
+  'outdoor': 'خارجي',
+};
+
+function formatCategory(cat: string, ar: boolean) {
+  if (ar && categoryLabelsAr[cat]) return categoryLabelsAr[cat];
   return cat.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
 }
 ---
@@ -51,7 +61,7 @@ function formatCategory(cat: string) {
           aria-selected="false"
           aria-controls="product-grid"
         >
-          {formatCategory(cat)}
+          {formatCategory(cat, isAr)}
         </button>
       ))}
     </div>

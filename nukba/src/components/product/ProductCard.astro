@@ -38,7 +38,7 @@ const displayExcerpt = isAr ? excerptAr : excerpt;
 const waMessage = isAr ? waTextAr : waText;
 const waNumber = import.meta.env.PUBLIC_WA_NUMBER || '201112007555';
 const waUrl = `https://wa.me/${waNumber}?text=${encodeURIComponent(waMessage)}`;
-const productUrl = `/products/${slug}`;
+const productUrl = isAr ? `/products/${slug}` : `/en/products/${slug}`;
 
 const badgeStyles: Record<string, string> = {
   new: 'background:var(--color-gold); color:var(--color-walnut-dark);',
@@ -60,7 +60,18 @@ const badgeLabel = activeBadge
 
 const viewLabel = isAr ? 'عرض التفاصيل' : 'View Details';
 const waLabel = isAr ? 'واتساب' : 'WhatsApp';
-const categoryDisplay = category.replace(/-/g, ' ').toUpperCase();
+
+const categoryLabelsAr: Record<string, string> = {
+  'bedroom': 'غرفة نوم',
+  'living-room': 'غرفة جلوس',
+  'dining': 'غرفة طعام',
+  'office': 'مكتب',
+  'kids': 'أطفال',
+  'outdoor': 'خارجي',
+};
+const categoryDisplay = isAr
+  ? (categoryLabelsAr[category] ?? category.replace(/-/g, ' '))
+  : category.replace(/-/g, ' ').toUpperCase();
 ---
 
 <div

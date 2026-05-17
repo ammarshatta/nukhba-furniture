@@ -49,7 +49,7 @@ const featured = products.filter(p => p.data.active).slice(0, 8);
     >
       {featured.map((product, i) => {
         const name = isAr ? product.data.titleAr : product.data.title;
-        const href = `/products/${product.data.slug}`;
+        const href = isAr ? `/products/${product.data.slug}` : `/en/products/${product.data.slug}`;
         const image = product.data.images?.[0];
         const badge = product.data.badge && product.data.badge !== '' ? product.data.badge : null;
         const badgeText = badge ? (isAr ? badgeLabels[badge]?.ar : badgeLabels[badge]?.en) ?? badge.toUpperCase() : null;

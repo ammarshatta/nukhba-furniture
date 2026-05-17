@@ -98,13 +98,13 @@ const breadcrumbs = [
     </div>
   </section>
 
-  <!-- Rendered markdown body -->
-  {product.body && product.body.trim().length > 0 && (
+  <!-- Arabic body -->
+  {d.bodyAr && (
     <section class="py-12 lg:py-16 border-t" style="border-color:var(--color-beige-dark);">
       <div class="max-w-3xl mx-auto px-6 lg:px-12">
-        <article class="prose-nukhba">
-          <Content />
-        </article>
+        <div class="prose-nukhba" dir="rtl">
+          {d.bodyAr.split('\n\n').map((para: string) => para.trim() && <p>{para.trim()}</p>)}
+        </div>
       </div>
     </section>
   )}

@@ -60,6 +60,11 @@ collections:
           - { label: Height, name: height, widget: number }
           - { label: Unit, name: unit, widget: string, default: cm }
       - { label: Description (body), name: body, widget: markdown }
+      - label: Description (AR body)
+        name: bodyAr
+        widget: text
+        required: false
+        hint: "Arabic product description (prose paragraphs)"
       - { label: WhatsApp Message (EN), name: waText, widget: string }
       - { label: WhatsApp Message (AR), name: waTextAr, widget: string }
       - label: Related Products
@@ -91,6 +96,12 @@ collections:
       - { label: Description (AR), name: descriptionAr, widget: text }
       - { label: Hero Image, name: image, widget: string }
       - { label: Display Order, name: order, widget: number }
+      - label: Featured Products
+        name: featuredProducts
+        widget: list
+        required: false
+        field: { label: Product Slug, name: slug, widget: string }
+        hint: "Slugs of products to feature in this collection"
 
   - name: blog
     label: Blog
@@ -117,6 +128,12 @@ collections:
         field: { label: Tag, name: tag, widget: string }
       - { label: Featured, name: featured, widget: boolean, default: false }
       - { label: Reading Time (min), name: readingTime, widget: number, required: false }
+      - { label: Has Arabic Version, name: hasAr, widget: boolean, default: false }
+      - label: Body (Arabic)
+        name: bodyAr
+        widget: text
+        required: false
+        hint: "Full Arabic article content (supports markdown headings and formatting)"
       - { label: Body, name: body, widget: markdown }
 
   - name: faqs

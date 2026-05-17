@@ -28,6 +28,7 @@ const products = defineCollection({
       question: z.string(),
       answer: z.string(),
     })).default([]),
+    bodyAr: z.string().optional(),
     waText: z.string(),
     waTextAr: z.string(),
     relatedProducts: z.array(z.string()).default([]),
@@ -66,6 +67,9 @@ const blog = defineCollection({
     featured: z.boolean().default(false),
     relatedProducts: z.array(z.string()).default([]),
     relatedCollections: z.array(z.string()).default([]),
+    bodyAr: z.string().optional(),
+    hasAr: z.boolean().default(false),
+    readingTime: z.number().optional(),
   }),
 });
 
