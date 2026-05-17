@@ -1,4 +1,4 @@
-name = "nukhba"
+name = "nukhba-furniture"
 compatibility_date = "2024-09-23"
 compatibility_flags = ["nodejs_compat"]
 
@@ -19,8 +19,8 @@ CLOUDINARY_UPLOAD_PRESET = "nukhba-products"
 GITHUB_CLIENT_ID = "Ov23liaz269sMqpDOK2c"
 
 # Secrets — set ONLY via Cloudflare dashboard (encrypted) or:
-#   wrangler pages secret put ADMIN_PASSWORD --project-name nukhba
-#   wrangler pages secret put ADMIN_SESSION_SECRET --project-name nukhba
-#   wrangler pages secret put ANTHROPIC_API_KEY --project-name nukhba
-#   wrangler pages secret put CLOUDINARY_CLOUD_NAME --project-name nukhba
-#   wrangler pages secret put GITHUB_CLIENT_SECRET --project-name nukhba
+#   wrangler secret put GITHUB_CLIENT_SECRET --name nukhba-furniture
+#   wrangler secret put ADMIN_PASSWORD --name nukhba-furniture
+#   wrangler secret put ADMIN_SESSION_SECRET --name nukhba-furniture
+#   wrangler secret put ANTHROPIC_API_KEY --name nukhba-furniture
+#   wrangler secret put CLOUDINARY_CLOUD_NAME --name nukhba-furniture

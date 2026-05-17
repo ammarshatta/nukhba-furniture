@@ -7,10 +7,19 @@ backend:
 
 # Uncomment the line below to use the CMS locally without GitHub:
 # (run "npx decap-server" in a second terminal alongside "npm run dev")
-# local_backend: true
+#local_backend: true
 
 media_folder: public/images/uploads
 public_folder: /images/uploads
+
+# media_library: Decap CMS browser-side Cloudinary picker (independent from /api/admin/upload)
+# cloud_name = same value as CLOUDINARY_CLOUD_NAME secret (not sensitive, safe to hardcode)
+# api_key    = Cloudinary API Key from dashboard (Settings → API Keys) — NOT the API Secret
+# media_library:
+#   name: cloudinary
+#   config:
+#     cloud_name: YOUR_CLOUD_NAME
+#     api_key: YOUR_API_KEY
 
 collections:
   - name: products
