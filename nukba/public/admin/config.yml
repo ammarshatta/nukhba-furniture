@@ -62,7 +62,8 @@ collections:
         field: { label: Material, name: material, widget: string }
       - label: Dimensions
         name: dimensions
-        widget: object
+        widget: list
+        required: false
         fields:
           - { label: Width, name: width, widget: number }
           - { label: Depth, name: depth, widget: number }
