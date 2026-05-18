@@ -9,7 +9,7 @@ backend:
 # (run "npx decap-server" in a second terminal alongside "npm run dev")
 #local_backend: true
 
-media_folder: public/images/uploads
+media_folder: nukba/public/images/uploads
 public_folder: /images/uploads
 
 # media_library: Decap CMS browser-side Cloudinary picker (independent from /api/admin/upload)
@@ -24,7 +24,7 @@ public_folder: /images/uploads
 collections:
   - name: products
     label: Products
-    folder: src/content/products
+    folder: nukba/src/content/products
     create: true
     slug: "{{fields.slug}}"
     identifier_field: title
@@ -93,7 +93,7 @@ collections:
 
   - name: categories
     label: Collections
-    folder: src/content/categories
+    folder: nukba/src/content/categories
     create: true
     slug: "{{fields.slug}}"
     identifier_field: name
@@ -114,7 +114,7 @@ collections:
 
   - name: blog
     label: Blog
-    folder: src/content/blog
+    folder: nukba/src/content/blog
     create: true
     slug: "{{fields.slug}}"
     identifier_field: title
@@ -147,7 +147,7 @@ collections:
 
   - name: faqs
     label: FAQs
-    folder: src/content/faqs
+    folder: nukba/src/content/faqs
     create: true
     identifier_field: question
     fields:
@@ -163,7 +163,7 @@ collections:
 
   - name: locations
     label: Locations
-    folder: src/content/locations
+    folder: nukba/src/content/locations
     create: true
     slug: "{{fields.slug}}"
     identifier_field: name
