@@ -17,6 +17,7 @@ AI_MODEL = "claude-sonnet-4-6"
 CLOUDINARY_UPLOAD_PRESET = "nukhba-products"
 # Public OAuth client ID — not sensitive, safe to commit
 GITHUB_CLIENT_ID = "Ov23liaz269sMqpDOK2c"
+GITHUB_CLIENT_SECRET =''
 
 # Secrets — set ONLY via Cloudflare dashboard (encrypted) or:
 #   wrangler secret put GITHUB_CLIENT_SECRET --name nukhba-furniture
