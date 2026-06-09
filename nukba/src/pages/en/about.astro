@@ -3,7 +3,7 @@ export const prerender = true;
 import BaseLayout from '../../layouts/BaseLayout.astro';
 
 const waNumber = import.meta.env.PUBLIC_WA_NUMBER || '201112007555';
-const waUrl = `https://wa.me/${waNumber}?text=${encodeURIComponent('Hello, I would like to learn more about Nukhba furniture.')}`;
+const waUrl = `https://wa.me/${waNumber}?text=${encodeURIComponent('Hello, I would like to learn more about Shatta furniture.')}`;
 
 const breadcrumbs = [
   { name: 'Home', url: '/en' },
@@ -28,7 +28,7 @@ const values = [
   },
   {
     heading: 'Heritage',
-    description: "Rooted in Egypt's rich artisanal history, Nukhba honours the legacy of Egyptian woodcraft while making it accessible to modern homes across the country and the region.",
+    description: "Rooted in Egypt's rich artisanal history, Shatta honours the legacy of Egyptian woodcraft while making it accessible to modern homes across the country and the region.",
     icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>`,
   },
 ];
@@ -41,8 +41,8 @@ const artisans = [
 ---
 
 <BaseLayout
-  title="About Nukhba — Luxury Furniture Egypt"
-  description="Learn about Nukhba — Egypt's premier luxury furniture brand. Our story, values, artisans, and commitment to exceptional craftsmanship."
+  title="About Shatta — Luxury Furniture Egypt"
+  description="Learn about Shatta — Egypt's premier luxury furniture brand. Our story, values, artisans, and commitment to exceptional craftsmanship."
   currentPath="/en/about"
   alternateUrl="/about"
   lang="en"
@@ -53,7 +53,7 @@ const artisans = [
     <div aria-hidden="true" class="absolute inset-0 opacity-10" style="background: radial-gradient(ellipse 80% 60% at 50% 0%, var(--color-gold), transparent);"></div>
     <div class="relative max-w-4xl mx-auto text-center">
       <span class="section-eyebrow" style="color:var(--color-gold);">Our Brand</span>
-      <h1 class="section-title" style="color:#fff; font-size:clamp(2.5rem,5vw,4rem);">About Nukhba</h1>
+      <h1 class="section-title" style="color:#fff; font-size:clamp(2.5rem,5vw,4rem);">About Shatta</h1>
       <p class="section-subtitle mt-4 mx-auto" style="color:rgba(255,255,255,0.7); max-width:560px;">
         Egypt's Premier Luxury Furniture Brand
       </p>
@@ -75,7 +75,7 @@ const artisans = [
       <div data-reveal class="relative rounded-2xl overflow-hidden" style="aspect-ratio:4/3; box-shadow:var(--shadow-hero);">
         <img
           src="/images/about-story.jpg"
-          alt="Nukhba workshop and artisans at work"
+          alt="Shatta workshop and artisans at work"
           class="w-full h-full object-cover"
           width="720"
           height="540"
@@ -88,10 +88,10 @@ const artisans = [
         <h2 class="section-title">Handcrafted for Egyptian Homes</h2>
         <div class="mt-6 space-y-5" style="color:var(--color-warm-gray); line-height:1.8;">
           <p>
-            Nukhba was founded with a singular purpose: to create luxury furniture worthy of Egypt's most discerning homes. We saw a gap between imported European pieces at prohibitive prices and the mass-produced alternatives that flooded the local market — and we chose to fill it with something genuinely different.
+            Shatta was founded with a singular purpose: to create luxury furniture worthy of Egypt's most discerning homes. We saw a gap between imported European pieces at prohibitive prices and the mass-produced alternatives that flooded the local market — and we chose to fill it with something genuinely different.
           </p>
           <p>
-            Every collection we design begins in our Cairo workshops, where master craftsmen with decades of experience translate sketches into tangible pieces. We use solid walnut and European oak, upholster with Italian velvet and premium linen, and finish every surface by hand with lacquers and oils chosen for longevity as well as beauty.
+            Every collection we design begins in our Damietta workshops, where master craftsmen with decades of experience translate sketches into tangible pieces. We use solid walnut and European oak, upholster with Italian velvet and premium linen, and finish every surface by hand with lacquers and oils chosen for longevity as well as beauty.
           </p>
           <p>
             Our vision is to become the definitive luxury furniture brand across the Arab world — one that carries Egypt's artisanal heritage forward into modern interiors. Each piece we make is a commitment to that vision, built to outlast trends and serve families for generations.
@@ -152,7 +152,7 @@ const artisans = [
         <span class="section-eyebrow">The People Behind the Pieces</span>
         <h2 class="section-title">Our Master Artisans</h2>
         <p class="section-subtitle mx-auto mt-4">
-          Nukhba's workshops are home to some of Egypt's most skilled craftspeople, each with decades of expertise.
+          Shatta's workshops are home to some of Egypt's most skilled craftspeople, each with decades of expertise.
         </p>
       </div>
       <div class="grid grid-cols-1 sm:grid-cols-3 gap-10">
@@ -161,7 +161,7 @@ const artisans = [
             <div class="overflow-hidden" style="aspect-ratio:3/4; background:var(--color-beige-dark);">
               <img
                 src={a.image}
-                alt={`${a.name} — ${a.role} at Nukhba`}
+                alt={`${a.name} — ${a.role} at Shatta`}
                 class="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
                 width="360"
                 height="480"
@@ -183,7 +183,7 @@ const artisans = [
     <div class="max-w-3xl mx-auto text-center" data-reveal>
       <span class="section-eyebrow" style="color:var(--color-gold);">Begin Your Journey</span>
       <h2 style="font-family:var(--font-serif); font-size:clamp(2rem,4vw,3rem); color:#fff; margin-bottom:1rem;">
-        Ready to Experience Nukhba?
+        Ready to Experience Shatta?
       </h2>
       <p style="color:rgba(255,255,255,0.7); font-size:1.05rem; line-height:1.7; margin-bottom:2.5rem;">
         Visit one of our showrooms or chat with our design consultants on WhatsApp to start crafting your ideal space.

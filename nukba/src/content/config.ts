@@ -58,7 +58,7 @@ const blog = defineCollection({
     slug: z.string(),
     publishDate: z.date(),
     updatedDate: z.date().optional(),
-    author: z.string().default('Nukhba Editorial'),
+    author: z.string().default('Shatta Editorial'),
     category: z.enum(['guide', 'trends', 'tips', 'materials', 'spaces']),
     excerpt: z.string().max(200),
     coverImage: z.string(),

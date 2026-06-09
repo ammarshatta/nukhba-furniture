@@ -40,4 +40,4 @@ export default defineConfig({
     plugins: [tailwindcss()],
   },
 
-site: import.meta.env.PUBLIC_SITE_URL || 'https://nukhba-furniture.ammar-shata.workers.dev/',});
+site: import.meta.env.PUBLIC_SITE_URL || 'https://shattafurniture.com',});

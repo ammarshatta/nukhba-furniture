@@ -4,7 +4,7 @@ export const prerender = true;
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 
-const siteUrl = import.meta.env.PUBLIC_SITE_URL || 'https://nukhba.com';
+const siteUrl = import.meta.env.PUBLIC_SITE_URL || 'https://shattafurniture.com';
 
 const allCategories = await getCollection('categories');
 const categories = allCategories.sort((a, b) => a.data.order - b.data.order);
@@ -23,8 +23,8 @@ const breadcrumbs = [
 ---
 
 <BaseLayout
-  title="Our Collections — Luxury Furniture | Nukhba"
-  description="Explore Nukhba's curated furniture collections — bedroom, living room, dining room, and office pieces crafted from premium materials for Egyptian homes."
+  title="Our Collections — Luxury Furniture | Shatta"
+  description="Explore Shatta's curated furniture collections — bedroom, living room, dining room, and office pieces crafted from premium materials for Egyptian homes."
   currentPath="/en/collections"
   alternateUrl="/collections"
   lang="en"
@@ -137,7 +137,7 @@ const breadcrumbs = [
       <span class="section-eyebrow">Crafted in Egypt</span>
       <h2 class="section-title mb-4">Quality That Endures</h2>
       <p class="section-subtitle mx-auto" style="text-align:center; margin-inline:auto;">
-        Every Nukhba piece is built to last generations — solid wood joinery, hand-finished surfaces, and proportions tailored to Egyptian living spaces.
+        Every Shatta piece is built to last generations — solid wood joinery, hand-finished surfaces, and proportions tailored to Egyptian living spaces.
       </p>
       <div class="mt-8 flex flex-wrap gap-4 justify-center">
         <a href="/en/products" class="btn-primary">Browse All Products</a>

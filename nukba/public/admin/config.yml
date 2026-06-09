@@ -2,7 +2,7 @@ backend:
   name: github
   repo: ammarshatta/nukhba-furniture
   branch: master
-  base_url: https://nukhba-furniture.ammar-shata.workers.dev
+  base_url: https://shattafurniture.com
   auth_endpoint: api/auth
 
 # Uncomment the line below to use the CMS locally without GitHub:
@@ -89,6 +89,19 @@ collections:
         fields:
           - { label: Question, name: question, widget: string }
           - { label: Answer, name: answer, widget: text }
+      # Reviews — REAL customer reviews only (fake reviews violate Google policy).
+      # Powers star ratings in Google search results.
+      - { label: Average Rating (1-5), name: rating, widget: number, required: false, value_type: float, min: 1, max: 5 }
+      - { label: Review Count, name: reviewCount, widget: number, required: false, value_type: int, min: 1 }
+      - label: Reviews
+        name: reviews
+        widget: list
+        required: false
+        fields:
+          - { label: Reviewer Name, name: name, widget: string }
+          - { label: Stars (1-5), name: stars, widget: number, value_type: int, min: 1, max: 5 }
+          - { label: Review Text, name: text, widget: text }
+          - { label: Date, name: date, widget: string, required: false, hint: "e.g. 2026-05-01" }
       - { label: Active, name: active, widget: boolean, default: true }
       - { label: Publish Date, name: publishDate, widget: datetime }
 
@@ -125,7 +138,7 @@ collections:
       - { label: Slug, name: slug, widget: string }
       - { label: Publish Date, name: publishDate, widget: datetime }
       - { label: Updated Date, name: updatedDate, widget: datetime, required: false }
-      - { label: Author, name: author, widget: string, default: Nukhba Editorial }
+      - { label: Author, name: author, widget: string, default: Shatta Editorial }
       - label: Category
         name: category
         widget: select

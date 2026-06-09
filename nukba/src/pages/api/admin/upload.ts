@@ -64,7 +64,7 @@ export const POST: APIRoute = async ({ request, cookies }) => {
   const cloudFormData = new FormData();
   cloudFormData.append('file', file);
   cloudFormData.append('upload_preset', uploadPreset);
-  cloudFormData.append('folder', 'nukhba/products');
+  cloudFormData.append('folder', 'shatta/products');
 
   const cloudRes = await fetch(
     `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,

@@ -1,0 +1,8 @@
+---
+// Arabic lives at the site root (e.g. /collections/bedroom), not under /ar/.
+// Any /ar/<path> request is permanently redirected to /<path> so old links,
+// typed URLs, and legacy /ar/* references resolve to the canonical Arabic URL.
+const { slug } = Astro.params;
+const dest = '/' + (slug ?? '') + Astro.url.search;
+return Astro.redirect(dest, 301);
+---

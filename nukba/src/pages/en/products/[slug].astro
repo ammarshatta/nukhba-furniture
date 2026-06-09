@@ -31,7 +31,7 @@ const relatedProducts = d.relatedProducts.length > 0
       .filter(p => p.data.category === d.category && p.data.slug !== d.slug)
       .slice(0, 3);
 
-const siteUrl = import.meta.env.PUBLIC_SITE_URL || 'https://nukhba.com';
+const siteUrl = import.meta.env.PUBLIC_SITE_URL || 'https://shattafurniture.com';
 
 const breadcrumbs = [
   { name: 'Home', url: `${siteUrl}/en` },
@@ -41,7 +41,7 @@ const breadcrumbs = [
 ---
 
 <BaseLayout
-  title={`${d.title} — Luxury Furniture | Nukhba`}
+  title={`${d.title} — Luxury Furniture | Shatta`}
   description={d.excerpt}
   currentPath={`/en/products/${d.slug}`}
   alternateUrl={`/products/${d.slug}`}

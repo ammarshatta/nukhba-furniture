@@ -3,7 +3,7 @@ title: "Custom Furniture in Cairo: What to Know Before You Order"
 titleAr: "الأثاث المخصص في القاهرة: كل ما تحتاج معرفته قبل الطلب"
 slug: custom-furniture-cairo
 publishDate: 2025-04-15
-author: Nukhba Editorial
+author: Shatta Editorial
 category: guide
 excerpt: "Custom furniture in Cairo ranges from exceptional to disappointing. This guide helps you understand the process, ask the right questions, and avoid the common pitfalls."
 excerptAr: "الأثاث المخصص في القاهرة بين الرائع والمُخيب — دليلك لفهم العملية وطرح الأسئلة الصحيحة وتجنب الأخطاء"
@@ -24,7 +24,7 @@ bodyAr: |
 
   الأثاث المخصص يُتيح أيضاً خيارات قماش ومعالجة تتناسق مع ديكورك القائم — مطابقة ألوان الأرضية الحالية، أو إكمال الأثاث الموجود، أو تحقيق لوحة ألوان محددة لا تُوفرها منتجات الكتالوج.
 
-  ## عملية الأثاث المخصص في نُخبة
+  ## عملية الأثاث المخصص في شطا
 
   عمليتنا المخصصة لها أربع مراحل:
 
@@ -71,9 +71,9 @@ bodyAr: |
 
   **ضغط للقرار فوراً**: مشتريات الأثاث عالية الجودة لا تستلزم ضغط مبيعات. الصانع المرموق لديه قوائم انتظار وسيحتفظ بمواصفتك دون اشتراط التزام فوري.
 
-  ## ميزة التخصيص في نُخبة
+  ## ميزة التخصيص في شطا
 
-  خدمة التخصيص في نُخبة تجمع جودة منتجاتنا القياسية — هياكل خشب صلب مُجفَّف حرارياً، إسفنج عالي الكثافة، إنجاد فاخر — مع مرونة أبعادية وجمالية كاملة. مستشارو التصميم لدينا عملوا مع مئات المنازل المصرية ويمكنهم تقديم المشورة في النسب والألوان والتكوينات استناداً لتجربة مباشرة.
+  خدمة التخصيص في شطا تجمع جودة منتجاتنا القياسية — هياكل خشب صلب مُجفَّف حرارياً، إسفنج عالي الكثافة، إنجاد فاخر — مع مرونة أبعادية وجمالية كاملة. مستشارو التصميم لدينا عملوا مع مئات المنازل المصرية ويمكنهم تقديم المشورة في النسب والألوان والتكوينات استناداً لتجربة مباشرة.
 
   الطلبات المخصصة تحمل نفس ضمان الهيكل لمدة ٣ سنوات كقطع كتالوجنا.
 
@@ -90,7 +90,7 @@ Egyptian apartments have specific proportions — ceiling heights, room widths, 
 
 Custom furniture also allows for fabric and finish choices that align with your existing interior — matching existing floor colors, complementing existing furniture, or achieving a specific color palette that catalog products don't offer.
 
-## The Custom Furniture Process at Nukhba
+## The Custom Furniture Process at Shatta
 
 Our custom process has four stages:
 
@@ -128,9 +128,9 @@ Before placing a custom order anywhere in Cairo, ask these questions:
 
 **Pressure to decide immediately**: Quality furniture purchases should not involve sales pressure. A reputable manufacturer has a backlog and will hold your specification without requiring an immediate commitment.
 
-## The Nukhba Custom Advantage
+## The Shatta Custom Advantage
 
-Nukhba's custom service combines our standard product quality — kiln-dried hardwood frames, high-density foam, premium upholstery — with complete dimensional and aesthetic flexibility. Our design consultants have worked with hundreds of Egyptian homes and can advise on proportions, colors, and configurations based on direct experience.
+Shatta's custom service combines our standard product quality — kiln-dried hardwood frames, high-density foam, premium upholstery — with complete dimensional and aesthetic flexibility. Our design consultants have worked with hundreds of Egyptian homes and can advise on proportions, colors, and configurations based on direct experience.
 
 Custom orders carry the same 3-year structural warranty as our catalog pieces.
 

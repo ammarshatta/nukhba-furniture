@@ -31,7 +31,7 @@ relatedProducts: [venezia-bookcase, milano-dining-table]
 active: true
 publishDate: 2025-01-15
 bodyAr: |
-  طقم أريكة باللاتزو من نُخبة ليس مجرد قطعة أثاث — بل هو بيان فلسفي عن ذوق راقٍ يرفض المساومة. استوحى المصممون تفاصيل هذا الطقم من صالونات الطراز الإيطالي المعاصر، ليُولد قطعةً تنتمي بروحها إلى أرقى المنازل المصرية وتعكس هوية أصحابها.
+  طقم أريكة باللاتزو من شطا ليس مجرد قطعة أثاث — بل هو بيان فلسفي عن ذوق راقٍ يرفض المساومة. استوحى المصممون تفاصيل هذا الطقم من صالونات الطراز الإيطالي المعاصر، ليُولد قطعةً تنتمي بروحها إلى أرقى المنازل المصرية وتعكس هوية أصحابها.
 
   تكسو الأريكة طبقة من المخمل الإيطالي الأصيل المختار بعناية لنعومته الاستثنائية ومقاومته للبهتان والتآكل اليومي، في حين تخفي تحت هذا الرداء هيكلاً من خشب الزان المعالج بالتجفيف الحراري لضمان ثباته في مناخ القاهرة المتقلب. أرجل الجوز الصلبة المصقولة بزيت مطفي تُضفي دفئاً طبيعياً يُوازن بين الفخامة والأناقة الهادئة.
 
@@ -42,7 +42,7 @@ bodyAr: |
 
 ## The Palazzo Velvet Sofa Set
 
-The **Palazzo** is Nukhba's signature living room statement. Inspired by contemporary Italian design studios, this 3+2 sofa set combines the tactile luxury of hand-selected Italian velvet with the warmth of solid walnut joinery.
+The **Palazzo** is Shatta's signature living room statement. Inspired by contemporary Italian design studios, this 3+2 sofa set combines the tactile luxury of hand-selected Italian velvet with the warmth of solid walnut joinery.
 
 ### Why Egyptian Homeowners Choose the Palazzo
 

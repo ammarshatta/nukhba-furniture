@@ -15,7 +15,7 @@ const translations = {
     hero: {
       badge: 'تصاميم حصرية · جودة لا تُضاهى',
       h1: ['أثاث', 'يصنع', 'الفارق'],
-      subtitle: 'نُخبة من أرقى تصاميم الأثاث العربي الفاخر — حرفية لا تُضاهى، وأناقة تدوم.',
+      subtitle: 'شطا من أرقى تصاميم الأثاث العربي الفاخر — حرفية لا تُضاهى، وأناقة تدوم.',
       btnBrowse: 'تصفح المنتجات',
       btnWA: 'تحدث مع مستشارنا',
       stats: [
@@ -47,7 +47,7 @@ const translations = {
       ctaBtn: 'ابدأ الآن عبر واتساب',
     },
     footer: {
-      desc: 'نُخبة — وجهتك الأولى للأثاث الفاخر. نُقدّم تصاميم استثنائية تجمع بين الأصالة والمعاصرة.',
+      desc: 'شطا — وجهتك الأولى للأثاث الفاخر. نُقدّم تصاميم استثنائية تجمع بين الأصالة والمعاصرة.',
       colProducts: 'المنتجات',
       colCompany: 'الشركة',
       colSupport: 'الدعم',
@@ -57,7 +57,7 @@ const translations = {
         whatsapp: 'واتساب',
         privacy: 'الخصوصية',
       },
-      copyright: '© ٢٠٢٤ نُخبة للأثاث الفاخر — جميع الحقوق محفوظة',
+      copyright: '© ٢٠٢٤ شطا للأثاث الفاخر — جميع الحقوق محفوظة',
     },
     product: {
       orderNow: 'اطلب الآن',
@@ -101,7 +101,7 @@ const translations = {
     hero: {
       badge: 'Exclusive Designs · Unmatched Quality',
       h1: ['Furniture', 'That Makes', 'a Difference'],
-      subtitle: 'Nukba — premium Arabic furniture crafted to perfection. Elegance that lasts.',
+      subtitle: 'Shatta — premium Arabic furniture crafted to perfection. Elegance that lasts.',
       btnBrowse: 'Browse Products',
       btnWA: 'Chat with Advisor',
       stats: [
@@ -133,7 +133,7 @@ const translations = {
       ctaBtn: 'Start on WhatsApp',
     },
     footer: {
-      desc: 'Nukba — your premier destination for luxury furniture. Exceptional designs blending tradition and modernity.',
+      desc: 'Shatta — your premier destination for luxury furniture. Exceptional designs blending tradition and modernity.',
       colProducts: 'Products',
       colCompany: 'Company',
       colSupport: 'Support',
@@ -143,7 +143,7 @@ const translations = {
         whatsapp: 'WhatsApp',
         privacy: 'Privacy Policy',
       },
-      copyright: '© 2024 Nukba Luxury Furniture — All rights reserved',
+      copyright: '© 2024 Shatta Luxury Furniture — All rights reserved',
     },
     product: {
       orderNow: 'Order Now',

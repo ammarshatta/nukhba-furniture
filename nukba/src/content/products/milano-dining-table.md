@@ -31,7 +31,7 @@ relatedProducts: [palazzo-sofa-set, venezia-bookcase]
 active: true
 publishDate: 2025-02-01
 bodyAr: |
-  طاولة طعام ميلانو من نُخبة تُعيد تعريف مائدة العشاء في البيت المصري. فُلسفتها تقوم على يقين راسخ: أن الطعام أجمل حين يُقدَّم على سطح يستحق أن يُحكى عنه. لهذا لم نُساوم لحظة واحدة في اختيار البلوط الأوروبي الصلب لبنائها.
+  طاولة طعام ميلانو من شطا تُعيد تعريف مائدة العشاء في البيت المصري. فُلسفتها تقوم على يقين راسخ: أن الطعام أجمل حين يُقدَّم على سطح يستحق أن يُحكى عنه. لهذا لم نُساوم لحظة واحدة في اختيار البلوط الأوروبي الصلب لبنائها.
 
   يُشكَّل سطح الطاولة من ألواح بلوط أحادية مختارة لتوحد خطوطها وجمال عروقها الطبيعية، ثم تُعالَج يدوياً بزيت صلب طبيعي يُعمق لون الخشب دون أن يُخفي شخصيته. الأرجل المخروطية المنحوتة المُوّجة بقبعات نحاسية هي توقيع فني يُميز الطاولة بين مئات الطرازات.
 
@@ -46,7 +46,7 @@ The **Milano** dining table is a testament to what solid wood can achieve when s
 
 ### The Case for Solid Wood Dining Tables
 
-In Egypt, the dining table is more than furniture — it is the center of family life. A dining table purchased from Nukhba is built to last generations. Unlike veneered or MDF alternatives, the Milano can be refinished multiple times, restoring it to its original appearance even after years of use.
+In Egypt, the dining table is more than furniture — it is the center of family life. A dining table purchased from Shatta is built to last generations. Unlike veneered or MDF alternatives, the Milano can be refinished multiple times, restoring it to its original appearance even after years of use.
 
 ### Available Configurations
 

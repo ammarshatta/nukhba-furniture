@@ -11,7 +11,7 @@ const products = allProducts.sort(
   (a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime()
 );
 
-const siteUrl = import.meta.env.PUBLIC_SITE_URL || 'https://nukhba.com';
+const siteUrl = import.meta.env.PUBLIC_SITE_URL || 'https://shattafurniture.com';
 
 const breadcrumbs = [
   { name: 'Home', url: `${siteUrl}/` },
@@ -20,8 +20,8 @@ const breadcrumbs = [
 ---
 
 <BaseLayout
-  title="منتجاتنا — أثاث فاخر | نُخبة"
-  description="استكشف مجموعة نُخبة الكاملة من الأثاث الفاخر. قطع غرف النوم وغرف الجلوس وغرف الطعام والمكاتب المصنوعة يدوياً للمنازل المصرية."
+  title="منتجاتنا — أثاث فاخر | شطا"
+  description="استكشف مجموعة شطا الكاملة من الأثاث الفاخر. قطع غرف النوم وغرف الجلوس وغرف الطعام والمكاتب المصنوعة يدوياً للمنازل المصرية."
   currentPath="/products"
   alternateUrl="/en/products"
   lang="ar"

@@ -40,21 +40,30 @@ const {
   noindex = false,
 } = Astro.props;
 
-const siteUrl = import.meta.env.PUBLIC_SITE_URL || 'https://nukhba.com';
-const siteName = 'Nukhba — Luxury Furniture Egypt';
-const fullTitle = title.includes('Nukhba') ? title : `${title} | Nukhba`;
+const siteUrl = import.meta.env.PUBLIC_SITE_URL || 'https://shattafurniture.com';
+const siteName = 'Shatta Furniture — Luxury Furniture Egypt';
+const fullTitle = (title.includes('Shatta') || title.includes('شطا')) ? title : `${title} | Shatta Furniture`;
 const resolvedOgImage = ogImage
   ? (ogImage.startsWith('http') ? ogImage : `${siteUrl}${ogImage}`)
   : `${siteUrl}/og-default.jpg`;
 const locale = lang === 'ar' ? 'ar_EG' : 'en_US';
 const altLocale = lang === 'ar' ? 'en_US' : 'ar_EG';
 
+// hreflang requires ABSOLUTE URLs. Pages may pass alternateUrl as a relative
+// path (e.g. "/en/products/x") — resolve it against siteUrl here.
+const resolvedAlternate = alternateUrl
+  ? (alternateUrl.startsWith('http') ? alternateUrl : `${siteUrl}${alternateUrl}`)
+  : undefined;
+// Arabic is the root/default; English lives under /en.
+const arUrl = lang === 'ar' ? canonical : resolvedAlternate;
+const enUrl = lang === 'ar' ? resolvedAlternate : canonical;
+
 // Build JSON-LD array
 const schemas: object[] = [buildOrganizationSchema()];
 if (canonical === siteUrl || canonical === `${siteUrl}/`) {
   schemas.push(buildWebSiteSchema(), buildFurnitureStoreSchema());
 }
-if (product) schemas.push(buildProductSchema(product));
+if (product) schemas.push(buildProductSchema(product, lang));
 if (article) schemas.push(buildArticleSchema(article));
 if (breadcrumbs?.length) schemas.push(buildBreadcrumbSchema(breadcrumbs));
 if (faqs?.length) schemas.push(buildFAQSchema(faqs));
@@ -66,12 +75,12 @@ if (faqs?.length) schemas.push(buildFAQSchema(faqs));
 {noindex ? <meta name="robots" content="noindex,nofollow" /> : <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />}
 <link rel="canonical" href={canonical} />
 
-<!-- Language alternates -->
-{alternateUrl && (
+<!-- Language alternates (absolute URLs; x-default → Arabic root) -->
+{resolvedAlternate && (
   <>
-    <link rel="alternate" hreflang={lang} href={canonical} />
-    <link rel="alternate" hreflang={lang === 'ar' ? 'en' : 'ar'} href={alternateUrl} />
-    <link rel="alternate" hreflang="x-default" href={lang === 'ar' ? alternateUrl : canonical} />
+    <link rel="alternate" hreflang="ar" href={arUrl} />
+    <link rel="alternate" hreflang="en" href={enUrl} />
+    <link rel="alternate" hreflang="x-default" href={arUrl} />
   </>
 )}
 
@@ -95,8 +104,8 @@ if (faqs?.length) schemas.push(buildFAQSchema(faqs));
 <meta name="twitter:image" content={resolvedOgImage} />
 
 <!-- Extra SEO signals for AI discoverability -->
-<meta name="keywords" content="luxury furniture Egypt, modern furniture Cairo, premium furniture, أثاث فاخر, أثاث مودرن, Nukhba, نُخبة" />
-<meta name="author" content="Nukhba" />
+<meta name="keywords" content="luxury furniture Egypt, modern furniture Cairo, premium furniture, أثاث فاخر, أثاث مودرن, Shatta, شطا" />
+<meta name="author" content="Shatta" />
 <meta name="geo.region" content="EG" />
 <meta name="geo.placename" content="Cairo, Egypt" />
 

@@ -3,7 +3,7 @@ title: "How to Choose a Luxury Sofa: The Complete Buyer's Guide for Egypt"
 titleAr: "كيف تختار أريكة فاخرة: الدليل الكامل للمشتري المصري"
 slug: how-to-choose-luxury-sofa
 publishDate: 2025-03-15
-author: Nukhba Editorial
+author: Shatta Editorial
 category: guide
 excerpt: "A luxury sofa is a 10-year investment. This guide covers everything Egyptian buyers need to know: frame construction, fabric choices, sizing, and what to ask at the showroom."
 excerptAr: "الأريكة استثمار لعشر سنوات — كل ما تحتاج معرفته عن الهيكل والوسائد والقماش والمقاسات قبل الشراء"
@@ -54,7 +54,7 @@ bodyAr: |
 
   للمنازل المصرية تحديداً، اختيار القماش يستلزم تفكيراً أكثر من الأسواق الأوروبية. درجات الحرارة الأعلى، والتنظيف الأكثر تكراراً، والاستخدام الأشد كثافة تضع متطلبات مختلفة على الإنجاد.
 
-  **المخمل عالي الأداء** (قائم على البوليستر) هو الأقمشة الفاخرة الأكثر عملية لمصر. يبدو كالمخمل الطبيعي ويُحسَّه لكنه يقاوم البقع والبهتان والتقصف بشكل أفضل بكثير. يمكن تنظيفه بقطعة قماش رطبة. أريكة باللاتزو من نُخبة تستخدم المخمل الإيطالي عالي الأداء لهذا السبب تحديداً.
+  **المخمل عالي الأداء** (قائم على البوليستر) هو الأقمشة الفاخرة الأكثر عملية لمصر. يبدو كالمخمل الطبيعي ويُحسَّه لكنه يقاوم البقع والبهتان والتقصف بشكل أفضل بكثير. يمكن تنظيفه بقطعة قماش رطبة. أريكة باللاتزو من شطا تستخدم المخمل الإيطالي عالي الأداء لهذا السبب تحديداً.
 
   **الكتان الطبيعي** جميل لكن متطلب — يتجعد بسهولة وأقل مقاومة للبقع من البدائل الاصطناعية. الأفضل للمنازل التي يقطنها البالغون فقط مع استخدام طعام محدود قرب الأريكة.
 
@@ -83,7 +83,7 @@ bodyAr: |
 
   ---
 
-  *تعرف على [طقم أريكة باللاتزو](/products/palazzo-sofa-set) من نُخبة — مُصمَّم بهياكل خشب صلب مُجفَّف حرارياً، وسائد إسفنج عالي الكثافة، ومخمل إيطالي عالي الأداء.*
+  *تعرف على [طقم أريكة باللاتزو](/products/palazzo-sofa-set) من شطا — مُصمَّم بهياكل خشب صلب مُجفَّف حرارياً، وسائد إسفنج عالي الكثافة، ومخمل إيطالي عالي الأداء.*
 ---
 
 # How to Choose a Luxury Sofa: Complete Guide for Egyptian Buyers
@@ -126,7 +126,7 @@ Sofa cushions determine comfort, and cushion quality determines how long the sof
 
 For Egyptian homes specifically, fabric choice requires more consideration than in European markets. Higher temperatures, more frequent cleaning, and heavier use put different demands on upholstery.
 
-**Performance velvet** (polyester-based) is the most practical luxury fabric for Egypt. It looks and feels like natural velvet but resists stains, fading, and pilling significantly better. It can be cleaned with a damp cloth. Nukhba's Palazzo uses Italian performance velvet for this reason.
+**Performance velvet** (polyester-based) is the most practical luxury fabric for Egypt. It looks and feels like natural velvet but resists stains, fading, and pilling significantly better. It can be cleaned with a damp cloth. Shatta's Palazzo uses Italian performance velvet for this reason.
 
 **Natural linen** is beautiful but demanding — it creases easily and is less resistant to staining than synthetic alternatives. Best for homes with adults only and minimal food service near the sofa.
 
@@ -159,4 +159,4 @@ Egyptian living rooms vary enormously in proportion. Sizing errors are the most 
 
 ---
 
-*See the Nukhba [Palazzo Sofa Set](/products/palazzo-sofa-set) — designed with kiln-dried hardwood frames, high-density foam cushioning, and Italian performance velvet.*
+*See the Shatta [Palazzo Sofa Set](/products/palazzo-sofa-set) — designed with kiln-dried hardwood frames, high-density foam cushioning, and Italian performance velvet.*

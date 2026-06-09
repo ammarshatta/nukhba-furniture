@@ -15,7 +15,7 @@ const faqsForSchema = sortedFaqs.map(f => ({
 const categoryConfig: Record<string, { label: string; description: string }> = {
   general: {
     label: 'أسئلة عامة',
-    description: 'كل ما تحتاج معرفته عن نُخبة كعلامة تجارية.',
+    description: 'كل ما تحتاج معرفته عن شطا كعلامة تجارية.',
   },
   products: {
     label: 'المنتجات والخامات',
@@ -54,8 +54,8 @@ const breadcrumbs = [
 ---
 
 <BaseLayout
-  title="الأسئلة الشائعة | نُخبة"
-  description="اعثر على إجابات للأسئلة الشائعة حول أثاث نُخبة — المواد والتوصيل والتخصيص والمعارض وأكثر."
+  title="الأسئلة الشائعة | شطا"
+  description="اعثر على إجابات للأسئلة الشائعة حول أثاث شطا — المواد والتوصيل والتخصيص والمعارض وأكثر."
   currentPath="/faq"
   alternateUrl="/en/faq"
   lang="ar"
@@ -76,7 +76,7 @@ const breadcrumbs = [
         الأسئلة الشائعة
       </h1>
       <p class="section-subtitle mt-4 mx-auto" style="color:rgba(255,255,255,0.7); max-width:520px;">
-        كل ما تحتاج معرفته عن أثاث نُخبة والطلب والتوصيل والتخصيص.
+        كل ما تحتاج معرفته عن أثاث شطا والطلب والتوصيل والتخصيص.
       </p>
     </div>
   </section>
@@ -170,7 +170,7 @@ const breadcrumbs = [
       </p>
       <div class="flex flex-wrap gap-4 justify-center">
         <a
-          href={`https://wa.me/${import.meta.env.PUBLIC_WA_NUMBER || '201112007555'}?text=${encodeURIComponent('مرحباً، لديّ سؤال عن أثاث نُخبة.')}`}
+          href={`https://wa.me/${import.meta.env.PUBLIC_WA_NUMBER || '201112007555'}?text=${encodeURIComponent('مرحباً، لديّ سؤال عن أثاث شطا.')}`}
           target="_blank"
           rel="noopener noreferrer"
           class="inline-flex items-center gap-3 rounded-lg font-semibold transition-all"

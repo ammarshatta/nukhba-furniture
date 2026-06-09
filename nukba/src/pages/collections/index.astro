@@ -5,7 +5,7 @@ import { getCollection } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 
-const siteUrl = import.meta.env.PUBLIC_SITE_URL || 'https://nukhba.com';
+const siteUrl = import.meta.env.PUBLIC_SITE_URL || 'https://shattafurniture.com';
 
 // Fetch all categories sorted by order, and all active products
 const allCategories = await getCollection('categories');
@@ -27,8 +27,8 @@ const breadcrumbs = [
 ---
 
 <BaseLayout
-  title="مجموعاتنا — أثاث فاخر | نُخبة"
-  description="استكشف مجموعات نُخبة المنتقاة من الأثاث — غرف النوم والجلوس والطعام والمكاتب المصنوعة من أجود الخامات للمنازل المصرية."
+  title="مجموعاتنا — أثاث فاخر | شطا"
+  description="استكشف مجموعات شطا المنتقاة من الأثاث — غرف النوم والجلوس والطعام والمكاتب المصنوعة من أجود الخامات للمنازل المصرية."
   currentPath="/collections"
   alternateUrl="/en/collections"
   lang="ar"
@@ -193,7 +193,7 @@ const breadcrumbs = [
         جودة تدوم للأجيال
       </h2>
       <p class="section-subtitle mx-auto" style="text-align:center; margin-inline:auto;">
-        كل قطعة من نُخبة مصنوعة لتدوم — وصلات خشب صلبة، وأسطح مشطوفة يدوياً، وأبعاد مُصمَّمة لتناسب المساحات المصرية.
+        كل قطعة من شطا مصنوعة لتدوم — وصلات خشب صلبة، وأسطح مشطوفة يدوياً، وأبعاد مُصمَّمة لتناسب المساحات المصرية.
       </p>
       <div class="mt-8 flex flex-wrap gap-4 justify-center">
         <a href="/products" class="btn-primary">تصفح جميع المنتجات</a>

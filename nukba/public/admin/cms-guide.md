@@ -1,14 +1,14 @@
-# Nukhba CMS Guide
+# Shatta CMS Guide
 
-Complete guide for managing content on the Nukhba website via the CMS at `/admin/`.
+Complete guide for managing content on the Shatta website via the CMS at `/admin/`.
 
 ---
 
 ## Logging In
 
-1. Go to `https://nukhba-furniture.ammar-shata.workers.dev/admin/`
+1. Go to `https://shattafurniture.com/admin/`
 2. Click **Login with GitHub**
-3. Authorize the Nukhba app on GitHub
+3. Authorize the Shatta app on GitHub
 4. You are redirected back to the CMS dashboard
 
 > If the popup closes without logging in, try disabling your popup blocker for the site.

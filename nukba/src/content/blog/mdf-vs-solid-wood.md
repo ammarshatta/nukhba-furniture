@@ -3,7 +3,7 @@ title: "MDF vs Solid Wood: What Really Matters for Premium Furniture"
 titleAr: "MDF مقابل الخشب الصلب: الدليل الصادق للمشتري المصري"
 slug: mdf-vs-solid-wood
 publishDate: 2025-02-15
-author: Nukhba Editorial
+author: Shatta Editorial
 category: materials
 excerpt: "The MDF vs solid wood debate is more nuanced than most furniture brands will tell you. Here is the honest breakdown for Egyptian buyers."
 excerptAr: "الحقيقة الكاملة عن MDF والخشب الصلب — ما يجب أن يعرفه كل مشترٍ مصري قبل اتخاذ قراره"
@@ -18,7 +18,7 @@ bodyAr: |
 
   يتكرر هذا السؤال في كل محادثة عن الأثاث تقريباً في مصر: "هل ده خشب حقيقي ولا MDF؟" لكن الإجابة الصادقة هي أن هذا السؤال الخطأ. السؤال الصحيح هو: **أين بالضبط تُستخدم كل مادة، ولماذا؟**
 
-  هذا الدليل يقطع عبر لغة التسويق ليمنحك إطاراً لتقييم الأثاث بشكل صادق — وهو ما تفعله نُخبة بكل شفافية مع عملائها.
+  هذا الدليل يقطع عبر لغة التسويق ليمنحك إطاراً لتقييم الأثاث بشكل صادق — وهو ما تفعله شطا بكل شفافية مع عملائها.
 
   ## ما هو MDF؟
 
@@ -66,11 +66,11 @@ bodyAr: |
 
   يُنظِّف المصريون الأثاث بشكل أكثر شمولاً وتكراراً مما تفترضه اختبارات المنتجات الأوروبية. أسطح MDF أكثر عرضة للتنظيف الرطب المتكرر — قد يرتفع الورنيش اللاصق فوق MDF إن تعرضت الأسطح باستمرار للرطوبة.
 
-  ## موقف نُخبة
+  ## موقف شطا
 
   نُحدد MDF فقط في التطبيقات التي يتفوق فيها حقاً على الخشب الصلب — الألواح المستوية المطلية وقواعد الأدراج. الأطر الهيكلية والأرجل وجميع أسطح الخشب المرئية تستخدم البلوط الأوروبي الصلب أو الجوز.
 
-  هذا يكلف أكثر. منتجاتنا مُسعَّرة لتعكس جودة المواد الحقيقية. لكنه يعني أن طقم غرفة نوم نُخبة الذي تشتريه اليوم سيكون سليماً هيكلياً ومتميزاً بصرياً بعد عشرين عاماً.
+  هذا يكلف أكثر. منتجاتنا مُسعَّرة لتعكس جودة المواد الحقيقية. لكنه يعني أن طقم غرفة نوم شطا الذي تشتريه اليوم سيكون سليماً هيكلياً ومتميزاً بصرياً بعد عشرين عاماً.
 
   ---
 
@@ -125,11 +125,11 @@ Egypt presents specific challenges for furniture materials:
 
 **Cleaning**: Egyptian households clean furniture more thoroughly and more frequently than is assumed in European product testing. MDF surfaces are more susceptible to repeated wet cleaning — sealed lacquer over MDF can eventually lift if surfaces are frequently exposed to moisture.
 
-## The Nukhba Position
+## The Shatta Position
 
 We specify MDF only in applications where it genuinely outperforms solid wood — painted flat panels and drawer bases. Structural frames, legs, and all visible wood surfaces use solid European oak or walnut.
 
-This costs more. Our products are priced to reflect genuine material quality. But it means a Nukhba bedroom suite purchased today will still be structurally sound and visually excellent in twenty years.
+This costs more. Our products are priced to reflect genuine material quality. But it means a Shatta bedroom suite purchased today will still be structurally sound and visually excellent in twenty years.
 
 ---
 

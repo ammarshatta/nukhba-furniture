@@ -3,7 +3,7 @@ title: "Modern Furniture Trends in Egypt 2025: What's Defining Egyptian Interior
 titleAr: "أحدث صيحات الأثاث في مصر 2025: ما يُعيد تشكيل الديكور المصري الراقي"
 slug: modern-furniture-trends-egypt-2025
 publishDate: 2025-03-01
-author: Nukhba Editorial
+author: Shatta Editorial
 category: trends
 excerpt: "From warm minimalism to bespoke craftsmanship, these are the design trends reshaping luxury Egyptian interiors in 2025."
 excerptAr: "المينيمالية الدافئة والخشب الطبيعي والتخصيص الكامل — الترندات التي تُعيد تشكيل ديكور المنزل المصري في 2025"
@@ -18,7 +18,7 @@ bodyAr: |
 
   يشهد الديكور الداخلي المصري تحولاً ملحوظاً. بعد سنوات من الجماليات المكثفة والكثيفة بالذهب، يتجه قطاع متنامٍ من السوق المصرية الراقية نحو المينيمالية الدافئة — مساحات تبدو مُنتقاة لا مُزخرفة، حيث تُختار كل قطعة لشكلها ووظيفتها معاً.
 
-  في نُخبة، نرصد هذه التحولات عن قرب لأننا نعيش في قلب هذا التحول ونُغذيه بتصاميمنا.
+  في شطا، نرصد هذه التحولات عن قرب لأننا نعيش في قلب هذا التحول ونُغذيه بتصاميمنا.
 
   ## ١. المينيمالية الدافئة تحل محل البرود الحديث
 
@@ -34,7 +34,7 @@ bodyAr: |
 
   خصائص أريكة 2025 المحورية: وسائد عميقة (٩٠ سم+ عمقاً)، مفروشات من المخمل عالي الأداء أو الكتان المُنسّج، هياكل خشب صلب أو معدن مطلي بالبودرة، وخط سفلي منخفض لا التصاميم الظهر العالي من العقد الماضي.
 
-  طقم باللاتزو من نُخبة تجسيد مثالي لهذا التوجه: مخمل إيطالي، هيكل خشب صلب، وعمق وسائد ٩٥ سم.
+  طقم باللاتزو من شطا تجسيد مثالي لهذا التوجه: مخمل إيطالي، هيكل خشب صلب، وعمق وسائد ٩٥ سم.
 
   ## ٣. عودة الخشب الصلب
 
@@ -46,7 +46,7 @@ bodyAr: |
 
   أصبح مكتب المنزل ثابتاً دائماً في البيوت المصرية بعد عام ٢٠٢٠. في 2025، يتمثل تحدي التصميم في دمج مساحات العمل المنتجة في مناطق المعيشة وغرف النوم دون إرباك بصري.
 
-  نهج نُخبة هو أثاث يعمل كتخزين مكتبي خلال ساعات العمل وكأثاث عرض أو تخزين في الأوقات الأخرى — مكاتب تنفيذية تُغلق، أنظمة رفوف تُخفي الشاشات، وكراسي تعمل على المكاتب وطاولات الطعام على حد سواء.
+  نهج شطا هو أثاث يعمل كتخزين مكتبي خلال ساعات العمل وكأثاث عرض أو تخزين في الأوقات الأخرى — مكاتب تنفيذية تُغلق، أنظمة رفوف تُخفي الشاشات، وكراسي تعمل على المكاتب وطاولات الطعام على حد سواء.
 
   ## ٥. الاستثمار في المعيشة الخارجية
 
@@ -56,11 +56,11 @@ bodyAr: |
 
   في السوق المصرية الراقية، أصبح التخصيص إشارة مكانة. امتلاك أثاث مُصمَّم خصيصاً لمساحتك — بقياساتك وقماشك ومعالجتك — يُرسل رسالة عن الاستثمار والذوق لا تستطيع منتجات الكتالوج توصيلها.
 
-  خدمة الاستشارة التصميمية في نُخبة تستجيب لهذا التوجه مباشرة، مُتيحةً التخصيص الكامل لمعظم قطع مجموعتنا.
+  خدمة الاستشارة التصميمية في شطا تستجيب لهذا التوجه مباشرة، مُتيحةً التخصيص الكامل لمعظم قطع مجموعتنا.
 
   ---
 
-  *استكشف [أحدث مجموعاتنا](/collections) لترى كيف تُغذي هذه الصيحات فلسفة التصميم في نُخبة.*
+  *استكشف [أحدث مجموعاتنا](/collections) لترى كيف تُغذي هذه الصيحات فلسفة التصميم في شطا.*
 ---
 
 # Modern Furniture Trends in Egypt 2025
@@ -97,7 +97,7 @@ This is particularly evident in dining tables and bedroom suites, where buyers a
 
 The home office has become a permanent fixture in Egyptian homes post-2020. In 2025, the design challenge is integrating productive workspaces into living and bedroom areas without visual disruption.
 
-Nukhba's approach is furniture that functions as office storage during work hours and as display or storage furniture otherwise — executive desks that close, shelving systems that hide screens, and chairs that work at both desks and dining tables.
+Shatta's approach is furniture that functions as office storage during work hours and as display or storage furniture otherwise — executive desks that close, shelving systems that hide screens, and chairs that work at both desks and dining tables.
 
 ## 5. Outdoor Living Investment
 
@@ -109,8 +109,8 @@ Premium outdoor furniture in teak, powder-coated aluminum, and marine-grade fabr
 
 Among Egypt's premium market, customization has become a status signal. Having furniture designed specifically for your space — with your dimensions, your fabric choice, your finish — signals investment and taste in a way that catalog furniture cannot.
 
-Nukhba's design consultation service responds to this trend directly, offering complete customization for most pieces in our collection.
+Shatta's design consultation service responds to this trend directly, offering complete customization for most pieces in our collection.
 
 ---
 
-*Explore our [latest collections](/collections) to see how these trends inform Nukhba's design philosophy.*
+*Explore our [latest collections](/collections) to see how these trends inform Shatta's design philosophy.*

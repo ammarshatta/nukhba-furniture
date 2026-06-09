@@ -3,7 +3,7 @@ export const prerender = true;
 import BaseLayout from '../layouts/BaseLayout.astro';
 
 const waNumber = import.meta.env.PUBLIC_WA_NUMBER || '201112007555';
-const waUrl = `https://wa.me/${waNumber}?text=${encodeURIComponent('مرحباً، أودّ معرفة المزيد عن أثاث نُخبة.')}`;
+const waUrl = `https://wa.me/${waNumber}?text=${encodeURIComponent('مرحباً، أودّ معرفة المزيد عن أثاث شطا.')}`;
 
 const breadcrumbs = [
   { name: 'الرئيسية', url: '/' },
@@ -28,33 +28,16 @@ const values = [
   },
   {
     heading: 'الموروث',
-    description: 'متجذّرون في التاريخ الحرفي الثري لمصر، تُكرّم نُخبة إرث النجارة المصرية وتجعله في متناول المنازل العصرية في أرجاء البلاد والمنطقة.',
+    description: 'متجذّرون في التاريخ الحرفي الثري لمصر، تُكرّم شطا إرث النجارة المصرية وتجعله في متناول المنازل العصرية في أرجاء البلاد والمنطقة.',
     icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>`,
   },
 ];
 
-const artisans = [
-  {
-    name: 'خالد حسن',
-    role: 'رئيس قسم النجارة',
-    image: '/images/artisans/khaled.jpg',
-  },
-  {
-    name: 'أميرة فاروق',
-    role: 'متخصصة تنجيد أولى',
-    image: '/images/artisans/amira.jpg',
-  },
-  {
-    name: 'طارق منصور',
-    role: 'خبير التشطيب والورنيش',
-    image: '/images/artisans/tarek.jpg',
-  },
-];
 ---
 
 <BaseLayout
-  title="عن نُخبة — أثاث فاخر مصر"
-  description="تعرّف على نُخبة — العلامة التجارية الرائدة للأثاث الفاخر في مصر. قصتنا وقيمنا وحرفيونا وتميزنا في الحرفية الاستثنائية."
+  title="عن شطا — أثاث فاخر مصر"
+  description="تعرّف على شطا — العلامة التجارية الرائدة للأثاث الفاخر في مصر. قصتنا وقيمنا وحرفيونا وتميزنا في الحرفية الاستثنائية."
   currentPath="/about"
   alternateUrl="/en/about"
   lang="ar"
@@ -70,7 +53,7 @@ const artisans = [
     ></div>
     <div class="relative max-w-4xl mx-auto text-center">
       <span class="section-eyebrow" style="color:var(--color-gold);">علامتنا التجارية</span>
-      <h1 class="section-title" style="color:#fff; font-size:clamp(2.5rem,5vw,4rem);">عن نُخبة</h1>
+      <h1 class="section-title" style="color:#fff; font-size:clamp(2.5rem,5vw,4rem);">عن شطا</h1>
       <p class="section-subtitle mt-4 mx-auto" style="color:rgba(255,255,255,0.7); max-width:560px;">
         العلامة التجارية الرائدة للأثاث الفاخر في مصر
       </p>
@@ -95,7 +78,7 @@ const artisans = [
       <div data-reveal class="relative rounded-2xl overflow-hidden" style="aspect-ratio:4/3; box-shadow:var(--shadow-hero);">
         <img
           src="/images/about-story.jpg"
-          alt="ورشة نُخبة وحرفيوها أثناء العمل"
+          alt="ورشة شطا وحرفيوها أثناء العمل"
           class="w-full h-full object-cover"
           width="720"
           height="540"
@@ -114,10 +97,10 @@ const artisans = [
         <h2 class="section-title">مصنوع للمنازل المصرية</h2>
         <div class="mt-6 space-y-5" style="color:var(--color-warm-gray); line-height:1.8;">
           <p>
-            تأسّست نُخبة بهدف واحد: صنع أثاث فاخر يليق بأرقى المنازل المصرية. رأينا فجوة بين القطع الأوروبية المستوردة بأسعارها الباهظة والبدائل المُصنَّعة بالجملة التي تملأ السوق المحلية — فاخترنا أن نملأها بشيء مختلف حقاً.
+            تأسّست شطا بهدف واحد: صنع أثاث فاخر يليق بأرقى المنازل المصرية. رأينا فجوة بين القطع الأوروبية المستوردة بأسعارها الباهظة والبدائل المُصنَّعة بالجملة التي تملأ السوق المحلية — فاخترنا أن نملأها بشيء مختلف حقاً.
           </p>
           <p>
-            كل مجموعة نُصمّمها تبدأ في ورشنا بالقاهرة، حيث يُحوّل حرفيون مهرة بخبرات تمتد لعقود الرسوماتِ إلى قطع ملموسة. نستخدم خشب الجوز الصلب والبلوط الأوروبي، ونُنجّد بالمخمل الإيطالي والكتان الفاخر، ونُشطّب كل سطح يدوياً بورنيشات وزيوت مختارة للمتانة والجمال معاً.
+            كل مجموعة نُصمّمها تبدأ في ورشنا بدمياط، حيث يُحوّل حرفيون مهرة بخبرات تمتد لعقود الرسوماتِ إلى قطع ملموسة. نستخدم خشب الجوز الصلب والبلوط الأوروبي، ونُنجّد بالمخمل الإيطالي والكتان الفاخر، ونُشطّب كل سطح يدوياً بورنيشات وزيوت مختارة للمتانة والجمال معاً.
           </p>
           <p>
             رؤيتنا أن نصبح العلامة التجارية المرجعية للأثاث الفاخر في العالم العربي — حاملةً الموروث الحرفي المصري إلى الديكورات العصرية. كل قطعة نصنعها هي التزام بهذه الرؤية، مبنية لتتجاوز الموضة وتخدم الأسر لأجيال.
@@ -193,55 +176,12 @@ const artisans = [
     </div>
   </section>
 
-  <!-- ── Artisans ───────────────────────────────────────── -->
-  <section class="bg-beige" style="padding: 96px 8%;">
-    <div class="max-w-7xl mx-auto">
-      <div class="text-center mb-16" data-reveal>
-        <span class="section-eyebrow">الأيدي التي تصنع الفارق</span>
-        <h2 class="section-title">حرفيونا المهرة</h2>
-        <p class="section-subtitle mx-auto mt-4">
-          تضمّ ورش نُخبة بعضاً من أمهر الحرفيين في مصر، يحمل كل منهم عقوداً من الخبرة.
-        </p>
-      </div>
-
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-10">
-        {artisans.map((a, i) => (
-          <div
-            class="card overflow-hidden text-center"
-            data-reveal
-            style={`transition-delay:${i * 0.1}s;`}
-          >
-            <div class="overflow-hidden" style="aspect-ratio:3/4; background:var(--color-beige-dark);">
-              <img
-                src={a.image}
-                alt={`${a.name} — ${a.role} في نُخبة`}
-                class="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
-                width="360"
-                height="480"
-                loading="lazy"
-                onerror="this.style.display='none'"
-              />
-            </div>
-            <div class="p-6">
-              <h3 style="font-family:var(--font-serif); font-size:1.15rem; color:var(--color-walnut); font-weight:600;">
-                {a.name}
-              </h3>
-              <p class="mt-1" style="font-size:0.85rem; color:var(--color-gold); letter-spacing:0.08em; text-transform:uppercase; font-weight:500;">
-                {a.role}
-              </p>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
-
   <!-- ── CTA ────────────────────────────────────────────── -->
   <section class="bg-green" style="padding: 96px 8%;">
     <div class="max-w-3xl mx-auto text-center" data-reveal>
       <span class="section-eyebrow" style="color:var(--color-gold);">ابدأ رحلتك</span>
       <h2 style="font-family:var(--font-serif); font-size:clamp(2rem,4vw,3rem); color:#fff; margin-bottom:1rem;">
-        هل أنت مستعد لتجربة نُخبة؟
+        هل أنت مستعد لتجربة شطا؟
       </h2>
       <p style="color:rgba(255,255,255,0.7); font-size:1.05rem; line-height:1.7; margin-bottom:2.5rem;">
         زُر أحد معارضنا أو تحدّث مع مستشاري التصميم لدينا عبر واتساب لتبدأ في تصميم مساحتك المثالية.

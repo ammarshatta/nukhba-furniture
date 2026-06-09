@@ -3,7 +3,7 @@ title: "Best Wood Types for Luxury Furniture in Egypt: A Complete Guide"
 titleAr: "أفضل أنواع الخشب للأثاث الفاخر في مصر: دليل شامل"
 slug: best-wood-for-luxury-furniture
 publishDate: 2025-02-01
-author: Nukhba Editorial
+author: Shatta Editorial
 category: materials
 excerpt: "Not all wood is equal. This guide explains which wood species produce the most durable, beautiful luxury furniture for Egyptian homes — and why the choice matters more than you think."
 excerptAr: "ليست أنواع الخشب متساوية — دليلك الشامل لاختيار أفضل خشب للأثاث الفاخر في مصر"
@@ -16,7 +16,7 @@ hasAr: true
 bodyAr: |
   # أفضل أنواع الخشب للأثاث الفاخر في مصر
 
-  حين تستثمر في أثاث فاخر لمنزلك، فإن أهم قرار تتخذه هو في الغالب قرار غير مرئي: نوع الخشب. فالفصيلة والجودة وطريقة التصنيع هي التي تحدد إن كان الأثاث سيبقى جميلاً لعقد أم لعمر كامل. في نُخبة، نؤمن أن اختيار المادة الصحيحة هو أول خطوات الحرفة الحقيقية.
+  حين تستثمر في أثاث فاخر لمنزلك، فإن أهم قرار تتخذه هو في الغالب قرار غير مرئي: نوع الخشب. فالفصيلة والجودة وطريقة التصنيع هي التي تحدد إن كان الأثاث سيبقى جميلاً لعقد أم لعمر كامل. في شطا، نؤمن أن اختيار المادة الصحيحة هو أول خطوات الحرفة الحقيقية.
 
   ## لماذا يهم نوع الخشب أكثر مما تتخيل
 
@@ -40,7 +40,7 @@ bodyAr: |
 
   البلوط الأبيض هو الأمتن بين أخشاب الأثاث الشائعة. بنيته الحبيبية المتراصة تجعله مقاوماً للماء بطبيعته، وهو ما يفسر استخدامه تاريخياً في صنع براميل النبيذ وبناء السفن. لطاولات الطعام، تترجم هذه الخصائص إلى مقاومة استثنائية للسوائل والرطوبة والخدش.
 
-  صلابته ١٣٦٠ على مقياس يانكا — أعلى بكثير من الجوز — وهو يتقبل الأصباغ والزيوت بصورة ممتازة. طاولة بلوط من نُخبة كطاولة ميلانو يمكن معالجة سطحها وتجديده عدة مرات دون أي تدهور في جودة الخشب.
+  صلابته ١٣٦٠ على مقياس يانكا — أعلى بكثير من الجوز — وهو يتقبل الأصباغ والزيوت بصورة ممتازة. طاولة بلوط من شطا كطاولة ميلانو يمكن معالجة سطحها وتجديده عدة مرات دون أي تدهور في جودة الخشب.
 
   ### ٣. خشب الساج
 
@@ -70,13 +70,13 @@ bodyAr: |
 
   **٣. اختبار الطرق** — اطرق على السطح. الخشب الصلب ينتج صوتاً مصمتاً رنيناً. MDF الأجوف يبدو خافتاً ورقيقاً.
 
-  ## التزام نُخبة بجودة المواد
+  ## التزام شطا بجودة المواد
 
-  كل قطعة من نُخبة تستخدم المادة الصحيحة في المكان الصحيح. نُحدد الخشب الصلب للمكونات الإنشائية والمرئية، والألواح الهندسية فقط في الألواح الخلفية وقواعد الأدراج حيث لا تُضيف المادة الصلبة أي ميزة أدائية.
+  كل قطعة من شطا تستخدم المادة الصحيحة في المكان الصحيح. نُحدد الخشب الصلب للمكونات الإنشائية والمرئية، والألواح الهندسية فقط في الألواح الخلفية وقواعد الأدراج حيث لا تُضيف المادة الصلبة أي ميزة أدائية.
 
   خشبنا مُجفَّف حرارياً إلى نسبة رطوبة ٨-١٠٪ قبل تسليمه لورشتنا، مما يضمن الاستقرار الأبعادي في مناخ القاهرة. كل دفعة تخضع للفرز البصري والتفتيش قبل القطع.
 
-  حين تستثمر في أثاث نُخبة، فأنت تستثمر في مواد تتحسن مع العمر لا تتدهور.
+  حين تستثمر في أثاث شطا، فأنت تستثمر في مواد تتحسن مع العمر لا تتدهور.
 
   ---
 
@@ -149,13 +149,13 @@ Three quick tests at any showroom:
 
 3. **Knock test** — Knock on the surface. Solid wood produces a solid, resonant sound. Hollow MDF sounds thin and slightly hollow.
 
-## The Nukhba Commitment to Material Quality
+## The Shatta Commitment to Material Quality
 
-Every Nukhba piece uses the right material in the right place. We specify solid wood for structural and visible components, engineered boards only for rear panels and drawer bases where solid wood offers no performance advantage.
+Every Shatta piece uses the right material in the right place. We specify solid wood for structural and visible components, engineered boards only for rear panels and drawer bases where solid wood offers no performance advantage.
 
 Our timber is kiln-dried to 8–10% moisture content before delivery to our workshop, ensuring dimensional stability in Cairo's climate. Each batch is visually graded and inspected before cutting.
 
-When you invest in Nukhba furniture, you are investing in materials that improve with age, not deteriorate.
+When you invest in Shatta furniture, you are investing in materials that improve with age, not deteriorate.
 
 ---
 

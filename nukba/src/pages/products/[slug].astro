@@ -32,7 +32,7 @@ const relatedProducts = d.relatedProducts.length > 0
       .filter(p => p.data.category === d.category && p.data.slug !== d.slug)
       .slice(0, 3);
 
-const siteUrl = import.meta.env.PUBLIC_SITE_URL || 'https://nukhba.com';
+const siteUrl = import.meta.env.PUBLIC_SITE_URL || 'https://shattafurniture.com';
 
 const breadcrumbs = [
   { name: 'الرئيسية', url: `${siteUrl}/` },
@@ -42,7 +42,7 @@ const breadcrumbs = [
 ---
 
 <BaseLayout
-  title={`${d.titleAr || d.title} — أثاث فاخر | نُخبة`}
+  title={`${d.titleAr || d.title} — أثاث فاخر | شطا`}
   description={d.excerptAr || d.excerpt}
   currentPath={`/products/${d.slug}`}
   alternateUrl={`/en/products/${d.slug}`}

@@ -43,11 +43,16 @@ const homepageFaqs = allFaqs
     answer: f.data.answerAr ?? f.data.answer,
   }));
 
-const siteUrl = import.meta.env.PUBLIC_SITE_URL || 'https://nukhba.com';
+// Gallery images for the Instagram section — pulled from real product photos.
+const galleryImages = allProducts
+  .flatMap(p => p.data.images.map(src => ({ src, alt: p.data.titleAr || p.data.title })))
+  .slice(0, 6);
+
+const siteUrl = import.meta.env.PUBLIC_SITE_URL || 'https://shattafurniture.com';
 ---
 
 <BaseLayout
-  title="نُخبة — أثاث فاخر في مصر"
+  title="شطا — أثاث فاخر في مصر"
   description="أفضل علامة تجارية للأثاث الفاخر في مصر. أثاث غرف نوم وصالونات وسفرة ومكاتب مودرن. مصنوع بعناية للمنازل المصرية."
   currentPath="/"
   lang="ar"
@@ -64,7 +69,7 @@ const siteUrl = import.meta.env.PUBLIC_SITE_URL || 'https://nukhba.com';
   <EducationalContent posts={featuredPosts} lang="ar" />
   <TestimonialsSection lang="ar" />
   <FAQSection faqs={homepageFaqs} lang="ar" />
-  <InstagramGallery lang="ar" />
+  <InstagramGallery lang="ar" images={galleryImages} />
   <WhatsAppCTASection lang="ar" />
   <LocationSection locations={allLocations} lang="ar" />
 </BaseLayout>

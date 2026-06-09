@@ -10,7 +10,7 @@ const products = allProducts.sort(
   (a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime()
 );
 
-const siteUrl = import.meta.env.PUBLIC_SITE_URL || 'https://nukhba.com';
+const siteUrl = import.meta.env.PUBLIC_SITE_URL || 'https://shattafurniture.com';
 
 const breadcrumbs = [
   { name: 'Home', url: `${siteUrl}/en` },
@@ -19,8 +19,8 @@ const breadcrumbs = [
 ---
 
 <BaseLayout
-  title="Our Products — Luxury Furniture | Nukhba"
-  description="Browse Nukhba's complete luxury furniture collection. Handcrafted bedroom, living room, dining room and office pieces for Egyptian homes."
+  title="Our Products — Luxury Furniture | Shatta"
+  description="Browse Shatta's complete luxury furniture collection. Handcrafted bedroom, living room, dining room and office pieces for Egyptian homes."
   currentPath="/en/products"
   alternateUrl="/products"
   lang="en"

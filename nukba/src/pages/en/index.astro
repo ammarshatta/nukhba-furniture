@@ -40,11 +40,16 @@ const homepageFaqs = allFaqs
   .slice(0, 6)
   .map(f => ({ question: f.data.question, answer: f.data.answer }));
 
-const siteUrl = import.meta.env.PUBLIC_SITE_URL || 'https://nukhba.com';
+// Gallery images for the Instagram section — pulled from real product photos.
+const galleryImages = allProducts
+  .flatMap(p => p.data.images.map(src => ({ src, alt: p.data.title })))
+  .slice(0, 6);
+
+const siteUrl = import.meta.env.PUBLIC_SITE_URL || 'https://shattafurniture.com';
 ---
 
 <BaseLayout
-  title="Nukhba — Luxury Furniture Egypt"
+  title="Shatta — Luxury Furniture Egypt"
   description="Egypt's premier luxury furniture brand. Premium modern bedroom, living room, dining room and office furniture. Handcrafted for Egyptian homes."
   currentPath="/en"
   lang="en"
@@ -61,7 +66,7 @@ const siteUrl = import.meta.env.PUBLIC_SITE_URL || 'https://nukhba.com';
   <EducationalContent posts={featuredPosts} lang="en" />
   <TestimonialsSection lang="en" />
   <FAQSection faqs={homepageFaqs} lang="en" />
-  <InstagramGallery lang="en" />
+  <InstagramGallery lang="en" images={galleryImages} />
   <WhatsAppCTASection lang="en" />
   <LocationSection locations={allLocations} lang="en" />
 </BaseLayout>

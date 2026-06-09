@@ -1,14 +1,16 @@
 ---
 interface Props {
   lang?: 'en' | 'ar';
+  /** Optional images to show (e.g. derived from products). Falls back to static paths. */
+  images?: { src: string; alt: string }[];
 }
 
-const { lang = 'en' } = Astro.props;
+const { lang = 'en', images } = Astro.props;
 const isAr = lang === 'ar';
 const dir = isAr ? 'rtl' : 'ltr';
 
-const igHandle = '@nukhba.eg';
-const igUrl = 'https://www.instagram.com/nukhba.eg';
+const igHandle = '@shatta_furniture';
+const igUrl = 'https://www.instagram.com/shatta_furniture';
 
 const eyebrow = isAr ? 'تابعنا' : 'Follow Us';
 const heading = isAr ? 'تابع رحلتنا' : 'Follow Our Journey';
@@ -17,14 +19,17 @@ const subtitle = isAr
   : `See our latest designs and décor inspiration on Instagram ${igHandle}`;
 const viewOnIG = isAr ? 'عرض على إنستغرام' : 'View on Instagram';
 
-const galleryImages = [
-  { src: '/images/gallery/gallery-1.jpg', alt: isAr ? 'أثاث نُخبة ١' : 'Nukhba Furniture 1' },
-  { src: '/images/gallery/gallery-2.jpg', alt: isAr ? 'أثاث نُخبة ٢' : 'Nukhba Furniture 2' },
-  { src: '/images/gallery/gallery-3.jpg', alt: isAr ? 'أثاث نُخبة ٣' : 'Nukhba Furniture 3' },
-  { src: '/images/gallery/gallery-4.jpg', alt: isAr ? 'أثاث نُخبة ٤' : 'Nukhba Furniture 4' },
-  { src: '/images/gallery/gallery-5.jpg', alt: isAr ? 'أثاث نُخبة ٥' : 'Nukhba Furniture 5' },
-  { src: '/images/gallery/gallery-6.jpg', alt: isAr ? 'أثاث نُخبة ٦' : 'Nukhba Furniture 6' },
+const fallbackImages = [
+  { src: '/images/gallery/gallery-1.jpg', alt: isAr ? 'أثاث شطا ١' : 'Shatta Furniture 1' },
+  { src: '/images/gallery/gallery-2.jpg', alt: isAr ? 'أثاث شطا ٢' : 'Shatta Furniture 2' },
+  { src: '/images/gallery/gallery-3.jpg', alt: isAr ? 'أثاث شطا ٣' : 'Shatta Furniture 3' },
+  { src: '/images/gallery/gallery-4.jpg', alt: isAr ? 'أثاث شطا ٤' : 'Shatta Furniture 4' },
+  { src: '/images/gallery/gallery-5.jpg', alt: isAr ? 'أثاث شطا ٥' : 'Shatta Furniture 5' },
+  { src: '/images/gallery/gallery-6.jpg', alt: isAr ? 'أثاث شطا ٦' : 'Shatta Furniture 6' },
 ];
+
+// Prefer real images passed in (e.g. product photos); otherwise use static paths.
+const galleryImages = (images && images.length > 0) ? images.slice(0, 6) : fallbackImages;
 ---
 
 <section

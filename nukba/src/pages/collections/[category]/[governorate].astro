@@ -1,0 +1,152 @@
+---
+export const prerender = true;
+
+import { getCollection } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import ProductGrid from '../../../components/product/ProductGrid.astro';
+import { GOVERNORATES, type Governorate } from '../../../lib/governorates';
+import { buildGovernorateLandingSchema, buildBreadcrumbSchema } from '../../../lib/seo';
+
+/**
+ * Programmatic landing pages: every category × every governorate.
+ * Each product in a category appears here automatically — the product keeps
+ * its single canonical URL while "working" across many localized URLs.
+ */
+
+// Pages with fewer products than this are rendered (URL works) but set to
+// noindex to avoid thin/duplicate content. Raise to 3 once the catalog grows.
+const MIN_PRODUCTS_FOR_INDEX = 1;
+
+export async function getStaticPaths() {
+  const categories = await getCollection('categories');
+  const paths = [];
+  for (const category of categories) {
+    for (const gov of GOVERNORATES) {
+      paths.push({
+        params: { category: category.data.slug, governorate: gov.slug },
+        props: { category, gov },
+      });
+    }
+  }
+  return paths;
+}
+
+interface Props {
+  category: CollectionEntry<'categories'>;
+  gov: Governorate;
+}
+
+const { category, gov } = Astro.props;
+const c = category.data;
+const catName = c.nameAr || c.name;
+
+const products = await getCollection(
+  'products',
+  p => p.data.active && p.data.category === c.slug,
+);
+
+const siteUrl = import.meta.env.PUBLIC_SITE_URL || 'https://shattafurniture.com';
+const path = `/collections/${c.slug}/${gov.slug}`;
+const canonical = `${siteUrl}${path}`;
+
+const productCount = products.length;
+const noindex = productCount < MIN_PRODUCTS_FOR_INDEX;
+
+// Price range from real products → unique data per page.
+const prices = products.map(p => p.data.priceValue).filter(Boolean).sort((a, b) => a - b);
+const fmt = (n: number) => n.toLocaleString('en-US');
+const priceRange = prices.length
+  ? `${fmt(prices[0])} – ${fmt(prices[prices.length - 1])} جنيه`
+  : null;
+
+const h1 = `${catName} في ${gov.nameAr}`;
+const title = `${h1} — أسعار وتوصيل وتركيب | شطا للأثاث`;
+const description = productCount
+  ? `${catName} في ${gov.nameAr} من شطا للأثاث الفاخر — ${productCount} ${productCount === 1 ? 'تصميم متاح' : 'تصاميم متاحة'}${priceRange ? ` بأسعار من ${priceRange}` : ''}. توصيل وتركيب إلى ${gov.nameAr} وكل ${gov.regionAr}. اطلب عبر واتساب.`
+  : `${catName} في ${gov.nameAr} من شطا للأثاث الفاخر. توصيل وتركيب إلى ${gov.nameAr}. تواصل معنا عبر واتساب للتفاصيل.`;
+
+const breadcrumbs = [
+  { name: 'الرئيسية', url: `${siteUrl}/` },
+  { name: 'المجموعات', url: `${siteUrl}/collections` },
+  { name: catName, url: `${siteUrl}/collections/${c.slug}` },
+  { name: gov.nameAr, url: canonical },
+];
+
+const schemas = [
+  ...buildGovernorateLandingSchema({
+    categoryName: catName,
+    governorateNameEn: gov.nameEn,
+    governorateNameAr: gov.nameAr,
+    url: canonical,
+    products,
+    lang: 'ar',
+  }),
+  buildBreadcrumbSchema(breadcrumbs),
+];
+
+const waNumber = import.meta.env.PUBLIC_WA_NUMBER || '201112007555';
+const waUrl = `https://wa.me/${waNumber}?text=${encodeURIComponent(`مرحباً، أنا مهتم بـ ${catName} وأريد التوصيل إلى ${gov.nameAr}.`)}`;
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  currentPath={path}
+  alternateUrl={`/en/collections/${c.slug}/${gov.slug}`}
+  lang="ar"
+  ogType="website"
+  ogImage={c.image}
+  breadcrumbs={breadcrumbs}
+  noindex={noindex}
+>
+  {schemas.map(s => (
+    <script type="application/ld+json" set:html={JSON.stringify(s, null, 2)} />
+  ))}
+
+  <!-- Header -->
+  <section class="py-16 lg:py-20" dir="rtl" style="background-color:var(--color-beige);">
+    <div class="max-w-7xl mx-auto px-6 lg:px-12 text-center">
+      <span class="section-eyebrow">{catName} · {gov.nameAr}</span>
+      <h1 class="section-title">{h1}</h1>
+      <p class="section-subtitle" style="margin-inline:auto; text-align:center;">
+        {description}
+      </p>
+    </div>
+  </section>
+
+  <!-- Products -->
+  <section class="py-16 lg:py-24">
+    <div class="max-w-7xl mx-auto px-6 lg:px-12">
+      {productCount > 0 ? (
+        <ProductGrid products={products} lang="ar" showFilter={false} />
+      ) : (
+        <div class="text-center py-16 max-w-md mx-auto">
+          <h2 class="font-serif mb-3" style="font-size:1.5rem; color:var(--color-walnut);">قريباً في {gov.nameAr}</h2>
+          <p class="section-subtitle mb-8" style="margin-inline:auto; text-align:center;">
+            نجهّز حالياً تشكيلة {catName} للتوصيل إلى {gov.nameAr}. تواصل معنا عبر واتساب لمعرفة المتاح.
+          </p>
+          <a href="/collections" class="btn-primary">جميع المجموعات</a>
+        </div>
+      )}
+    </div>
+  </section>
+
+  <!-- Local delivery / unique copy -->
+  <section class="py-14" style="background-color:var(--color-walnut);">
+    <div class="max-w-3xl mx-auto px-6 text-center" dir="rtl">
+      <span class="section-eyebrow" style="color:var(--color-gold);">التوصيل والتركيب</span>
+      <h2 class="font-serif mt-2 mb-4" style="font-size:clamp(1.5rem,3vw,2rem); color:#fff; font-weight:600;">
+        نوصّل {catName} إلى {gov.nameAr}
+      </h2>
+      <p class="mb-8 leading-relaxed" style="font-size:1rem; color:rgba(255,255,255,0.75); max-width:520px; margin-inline:auto;">
+        يخدم فريق شطا للأثاث محافظة {gov.nameAr} وكامل منطقة {gov.regionAr}، مع توصيل وتركيب احترافي
+        {priceRange ? ` لقطع تبدأ أسعارها من ${priceRange}` : ''}. ناقش الأبعاد والخامات والتشطيبات مع مستشارينا مجاناً.
+      </p>
+      <a href={waUrl} target="_blank" rel="noopener noreferrer" class="btn-gold">
+        اطلب التوصيل إلى {gov.nameAr} عبر واتساب
+      </a>
+    </div>
+  </section>
+</BaseLayout>

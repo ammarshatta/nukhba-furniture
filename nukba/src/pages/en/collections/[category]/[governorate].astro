@@ -1,0 +1,139 @@
+---
+export const prerender = true;
+
+import { getCollection } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import ProductGrid from '../../../../components/product/ProductGrid.astro';
+import { GOVERNORATES, type Governorate } from '../../../../lib/governorates';
+import { buildGovernorateLandingSchema, buildBreadcrumbSchema } from '../../../../lib/seo';
+
+// English mirror of the programmatic category × governorate landing pages.
+const MIN_PRODUCTS_FOR_INDEX = 1;
+
+export async function getStaticPaths() {
+  const categories = await getCollection('categories');
+  const paths = [];
+  for (const category of categories) {
+    for (const gov of GOVERNORATES) {
+      paths.push({
+        params: { category: category.data.slug, governorate: gov.slug },
+        props: { category, gov },
+      });
+    }
+  }
+  return paths;
+}
+
+interface Props {
+  category: CollectionEntry<'categories'>;
+  gov: Governorate;
+}
+
+const { category, gov } = Astro.props;
+const c = category.data;
+const catName = c.name;
+
+const products = await getCollection(
+  'products',
+  p => p.data.active && p.data.category === c.slug,
+);
+
+const siteUrl = import.meta.env.PUBLIC_SITE_URL || 'https://shattafurniture.com';
+const path = `/en/collections/${c.slug}/${gov.slug}`;
+const canonical = `${siteUrl}${path}`;
+
+const productCount = products.length;
+const noindex = productCount < MIN_PRODUCTS_FOR_INDEX;
+
+const prices = products.map(p => p.data.priceValue).filter(Boolean).sort((a, b) => a - b);
+const fmt = (n: number) => n.toLocaleString('en-US');
+const priceRange = prices.length
+  ? `EGP ${fmt(prices[0])} – ${fmt(prices[prices.length - 1])}`
+  : null;
+
+const h1 = `${catName} in ${gov.nameEn}`;
+const title = `${h1} — Prices, Delivery & Assembly | Shatta Furniture`;
+const description = productCount
+  ? `${catName} in ${gov.nameEn} by Shatta Furniture — ${productCount} ${productCount === 1 ? 'design' : 'designs'} available${priceRange ? ` from ${priceRange}` : ''}. Delivery & assembly across ${gov.nameEn}. Order via WhatsApp.`
+  : `${catName} in ${gov.nameEn} by Shatta Furniture. Delivery & assembly to ${gov.nameEn}. Contact us on WhatsApp for details.`;
+
+const breadcrumbs = [
+  { name: 'Home', url: `${siteUrl}/en` },
+  { name: 'Collections', url: `${siteUrl}/en/collections` },
+  { name: catName, url: `${siteUrl}/en/collections/${c.slug}` },
+  { name: gov.nameEn, url: canonical },
+];
+
+const schemas = [
+  ...buildGovernorateLandingSchema({
+    categoryName: catName,
+    governorateNameEn: gov.nameEn,
+    governorateNameAr: gov.nameAr,
+    url: canonical,
+    products,
+    lang: 'en',
+  }),
+  buildBreadcrumbSchema(breadcrumbs),
+];
+
+const waNumber = import.meta.env.PUBLIC_WA_NUMBER || '201112007555';
+const waUrl = `https://wa.me/${waNumber}?text=${encodeURIComponent(`Hello, I'm interested in ${catName} delivered to ${gov.nameEn}.`)}`;
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  currentPath={path}
+  alternateUrl={`/collections/${c.slug}/${gov.slug}`}
+  lang="en"
+  ogType="website"
+  ogImage={c.image}
+  breadcrumbs={breadcrumbs}
+  noindex={noindex}
+>
+  {schemas.map(s => (
+    <script type="application/ld+json" set:html={JSON.stringify(s, null, 2)} />
+  ))}
+
+  <section class="py-16 lg:py-20" style="background-color:var(--color-beige);">
+    <div class="max-w-7xl mx-auto px-6 lg:px-12 text-center">
+      <span class="section-eyebrow">{catName} · {gov.nameEn}</span>
+      <h1 class="section-title">{h1}</h1>
+      <p class="section-subtitle" style="margin-inline:auto; text-align:center;">{description}</p>
+    </div>
+  </section>
+
+  <section class="py-16 lg:py-24">
+    <div class="max-w-7xl mx-auto px-6 lg:px-12">
+      {productCount > 0 ? (
+        <ProductGrid products={products} lang="en" showFilter={false} />
+      ) : (
+        <div class="text-center py-16 max-w-md mx-auto">
+          <h2 class="font-serif mb-3" style="font-size:1.5rem; color:var(--color-walnut);">Coming soon to {gov.nameEn}</h2>
+          <p class="section-subtitle mb-8" style="margin-inline:auto; text-align:center;">
+            We're preparing our {catName} range for delivery to {gov.nameEn}. Contact us on WhatsApp for availability.
+          </p>
+          <a href="/en/collections" class="btn-primary">All Collections</a>
+        </div>
+      )}
+    </div>
+  </section>
+
+  <section class="py-14" style="background-color:var(--color-walnut);">
+    <div class="max-w-3xl mx-auto px-6 text-center">
+      <span class="section-eyebrow" style="color:var(--color-gold);">Delivery &amp; Assembly</span>
+      <h2 class="font-serif mt-2 mb-4" style="font-size:clamp(1.5rem,3vw,2rem); color:#fff; font-weight:600;">
+        We deliver {catName} to {gov.nameEn}
+      </h2>
+      <p class="mb-8 leading-relaxed" style="font-size:1rem; color:rgba(255,255,255,0.75); max-width:520px; margin-inline:auto;">
+        Shatta Furniture serves {gov.nameEn} and the wider region with professional delivery and assembly
+        {priceRange ? `, on pieces starting from ${priceRange}` : ''}. Discuss dimensions, materials and finishes with our consultants — free of charge.
+      </p>
+      <a href={waUrl} target="_blank" rel="noopener noreferrer" class="btn-gold">
+        Order delivery to {gov.nameEn} on WhatsApp
+      </a>
+    </div>
+  </section>
+</BaseLayout>

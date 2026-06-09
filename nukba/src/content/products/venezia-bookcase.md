@@ -29,7 +29,7 @@ relatedProducts: [palazzo-sofa-set, riviera-office-desk]
 active: true
 publishDate: 2025-02-15
 bodyAr: |
-  مكتبة فينيزيا المودولار من نُخبة تُؤمن بأن الكتب تستحق بيتاً يليق بها، وأن المكتبة الجميلة هي أثمن لوحة يمكن أن تزيّن بها جدار منزلك. بُنيت من الجوز الصلب الأوروبي في تصميم مودولار يتيح لك التوسع بلا قيود.
+  مكتبة فينيزيا المودولار من شطا تُؤمن بأن الكتب تستحق بيتاً يليق بها، وأن المكتبة الجميلة هي أثمن لوحة يمكن أن تزيّن بها جدار منزلك. بُنيت من الجوز الصلب الأوروبي في تصميم مودولار يتيح لك التوسع بلا قيود.
 
   كل وحدة قائمة بذاتها بعرض 120 سم وارتفاع 220 سم وعمق 35 سم، غير أن جمالها الحقيقي يتجلى حين تُدمج وحدتين أو ثلاثاً لتبني مكتبة جدارية متكاملة تبدو وكأنها صُمِّمت مع البيت منذ البداية. نظام الدبابيس النحاسية يُتيح تعديل ارتفاع الرفوف بزيادات دقيقة، لتناسب كتبك الجيب وألبومات الصور الكبيرة على حد سواء.
 
@@ -40,7 +40,7 @@ bodyAr: |
 
 ## Venezia Modular Bookcase
 
-The **Venezia** is Nukhba's answer to one of modern living's most persistent challenges: how to store and display a growing book collection beautifully. The system is built from solid walnut in a modular format, allowing each owner to configure it to their specific wall and needs.
+The **Venezia** is Shatta's answer to one of modern living's most persistent challenges: how to store and display a growing book collection beautifully. The system is built from solid walnut in a modular format, allowing each owner to configure it to their specific wall and needs.
 
 ### Modular by Design
 

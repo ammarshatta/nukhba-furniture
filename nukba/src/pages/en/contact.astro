@@ -6,10 +6,10 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 const allLocations = await getCollection('locations');
 
 const waNumber = import.meta.env.PUBLIC_WA_NUMBER || '201234567890';
-const waUrl = `https://wa.me/${waNumber}?text=${encodeURIComponent('Hello, I would like to inquire about Nukhba furniture.')}`;
+const waUrl = `https://wa.me/${waNumber}?text=${encodeURIComponent('Hello, I would like to inquire about Shatta furniture.')}`;
 const phoneDisplay = '+20 123 456 7890';
 const phoneHref = `tel:+${waNumber}`;
-const instagramUrl = 'https://www.instagram.com/nukhba_furniture/';
+const instagramUrl = 'https://www.instagram.com/shatta_furniture/';
 
 const breadcrumbs = [
   { name: 'Home', url: '/en' },
@@ -24,8 +24,8 @@ function formatHours(hours: string): string {
 ---
 
 <BaseLayout
-  title="Contact Us | Nukhba"
-  description="Get in touch with Nukhba — Egypt's luxury furniture brand. Chat on WhatsApp, call us, or visit our showrooms in Cairo."
+  title="Contact Us | Shatta"
+  description="Get in touch with Shatta — Egypt's luxury furniture brand. Chat on WhatsApp, call us, or visit our showroom in Damietta."
   currentPath="/en/contact"
   alternateUrl="/contact"
   lang="en"
@@ -38,7 +38,7 @@ function formatHours(hours: string): string {
       <span class="section-eyebrow" style="color:var(--color-gold);">We're Here to Help</span>
       <h1 class="section-title" style="color:#fff; font-size:clamp(2.5rem,5vw,4rem);">Contact Us</h1>
       <p class="section-subtitle mt-4 mx-auto" style="color:rgba(255,255,255,0.7); max-width:520px;">
-        Reach our design consultants via WhatsApp, phone, or visit one of our showrooms across Cairo and Giza.
+        Reach our design consultants via WhatsApp, phone, or visit one of our showroom in Damietta.
       </p>
     </div>
   </section>
@@ -112,7 +112,7 @@ function formatHours(hours: string): string {
             Browse our latest collections, room inspiration, and behind-the-scenes content.
           </p>
           <a href={instagramUrl} target="_blank" rel="noopener noreferrer" class="btn-outline" style="color:var(--color-walnut); justify-content:center;">
-            @nukhba_furniture
+            @shatta_furniture
           </a>
         </div>
 

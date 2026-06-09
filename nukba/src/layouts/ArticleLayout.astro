@@ -46,7 +46,7 @@ function renderMarkdown(text: string): string {
 const isAr = lang === 'ar';
 const d = post.data;
 
-const siteUrl = import.meta.env.PUBLIC_SITE_URL || 'https://nukhba.com';
+const siteUrl = import.meta.env.PUBLIC_SITE_URL || 'https://shattafurniture.com';
 
 const breadcrumbs = [
   { name: isAr ? 'الرئيسية' : 'Home',    url: `${siteUrl}${isAr ? '/' : '/en'}` },
@@ -88,7 +88,7 @@ const updatedLabel   = isAr ? 'تحديث:'                : 'Updated:';
 ---
 
 <BaseLayout
-  title={`${isAr ? (d.titleAr || d.title) : d.title} | نُخبة`}
+  title={`${isAr ? (d.titleAr || d.title) : d.title} | شطا`}
   description={d.excerpt}
   currentPath={isAr ? `/blog/${d.slug}` : `/en/blog/${d.slug}`}
   alternateUrl={alternateUrl}

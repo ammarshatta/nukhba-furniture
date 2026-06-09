@@ -6,10 +6,10 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 const allLocations = await getCollection('locations');
 
 const waNumber = import.meta.env.PUBLIC_WA_NUMBER || '201112007555';
-const waUrl = `https://wa.me/${waNumber}?text=${encodeURIComponent('مرحباً، أودّ الاستفسار عن أثاث نُخبة.')}`;
+const waUrl = `https://wa.me/${waNumber}?text=${encodeURIComponent('مرحباً، أودّ الاستفسار عن أثاث شطا.')}`;
 const phoneDisplay = '+20 123 456 7890';
 const phoneHref = `tel:+${waNumber}`;
-const instagramUrl = import.meta.env.PUBLIC_INSTAGRAM_URL || 'https://www.instagram.com/nukhba_furniture/';
+const instagramUrl = import.meta.env.PUBLIC_INSTAGRAM_URL || 'https://www.instagram.com/shatta_furniture/';
 
 const breadcrumbs = [
   { name: 'الرئيسية', url: '/' },
@@ -24,8 +24,8 @@ function formatHours(hours: string): string {
 ---
 
 <BaseLayout
-  title="اتصل بنا | نُخبة"
-  description="تواصل مع نُخبة — العلامة التجارية للأثاث الفاخر في مصر. تحدّث معنا عبر واتساب أو اتصل بنا أو زُر معارضنا في القاهرة."
+  title="اتصل بنا | شطا"
+  description="تواصل مع شطا — العلامة التجارية للأثاث الفاخر في مصر. تحدّث معنا عبر واتساب أو اتصل بنا أو زُر معرضنا في دمياط."
   currentPath="/contact"
   alternateUrl="/en/contact"
   lang="ar"
@@ -43,7 +43,7 @@ function formatHours(hours: string): string {
       <span class="section-eyebrow" style="color:var(--color-gold);">نحن هنا لمساعدتك</span>
       <h1 class="section-title" style="color:#fff; font-size:clamp(2.5rem,5vw,4rem);">تواصل معنا</h1>
       <p class="section-subtitle mt-4 mx-auto" style="color:rgba(255,255,255,0.7); max-width:520px;">
-        تواصل مع مستشاري التصميم لدينا عبر واتساب أو الهاتف، أو زُر أحد معارضنا في القاهرة والجيزة.
+        تواصل مع مستشاري التصميم لدينا عبر واتساب أو الهاتف، أو زُر معرضنا في دمياط.
       </p>
     </div>
   </section>
@@ -151,7 +151,7 @@ function formatHours(hours: string): string {
             class="btn-outline"
             style="color:var(--color-walnut); justify-content:center;"
           >
-            @nukhba_furniture
+            @shatta_furniture
           </a>
         </div>
 

@@ -31,7 +31,7 @@ relatedProducts: [palazzo-sofa-set]
 active: true
 publishDate: 2025-01-20
 bodyAr: |
-  طقم غرفة نوم امباير من نُخبة هو تجسيد للحلم المصري في غرفة نوم تتنفس الأصالة وتلتحف الرقي. صُمم هذا الطقم لمن يؤمن بأن النوم فنٌّ، وأن كل ليلة تستحق بيئة تليق بعظمتها.
+  طقم غرفة نوم امباير من شطا هو تجسيد للحلم المصري في غرفة نوم تتنفس الأصالة وتلتحف الرقي. صُمم هذا الطقم لمن يؤمن بأن النوم فنٌّ، وأن كل ليلة تستحق بيئة تليق بعظمتها.
 
   يُبنى الطقم من البلوط الأوروبي الصلب مع أسطح مكسوة بقشرة الجوز المُثنّاة بدقة متناهية تُنشئ تناسقاً بصرياً آسراً في نسيج الخشب. الأجهزة النحاسية المُصطبَغة تُضيف بريقاً دافئاً يعيد للذهن صور القصور المصرية العريقة، بينما تُعطي الزجاجة المُقسّاة في واجهات الخزانة لمسة حداثة متزنة.
 
@@ -42,7 +42,7 @@ bodyAr: |
 
 ## Empire Bedroom Suite
 
-The **Empire** collection embodies the Nukhba philosophy: furniture that ages gracefully and gains character over time. This complete bedroom suite is constructed from premium solid oak and bookmatched walnut veneer, with brushed brass hardware that adds warmth without ostentation.
+The **Empire** collection embodies the Shatta philosophy: furniture that ages gracefully and gains character over time. This complete bedroom suite is constructed from premium solid oak and bookmatched walnut veneer, with brushed brass hardware that adds warmth without ostentation.
 
 ### Complete Suite Contents
 

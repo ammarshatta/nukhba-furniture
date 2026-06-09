@@ -27,7 +27,7 @@ const categoryProducts = await getCollection(
   p => p.data.active && p.data.category === d.slug,
 );
 
-const siteUrl = import.meta.env.PUBLIC_SITE_URL || 'https://nukhba.com';
+const siteUrl = import.meta.env.PUBLIC_SITE_URL || 'https://shattafurniture.com';
 
 const breadcrumbs = [
   { name: 'Home', url: `${siteUrl}/en` },
@@ -42,7 +42,7 @@ const countLabel = `${productCount} ${productCount === 1 ? 'Product' : 'Products
 ---
 
 <BaseLayout
-  title={`${d.name} — Luxury Furniture | Nukhba`}
+  title={`${d.name} — Luxury Furniture | Shatta`}
   description={d.description}
   currentPath={`/en/collections/${d.slug}`}
   alternateUrl={`/collections/${d.slug}`}
