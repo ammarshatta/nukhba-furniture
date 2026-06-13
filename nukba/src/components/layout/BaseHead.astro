@@ -1,7 +1,10 @@
 ---
 import '../../styles/tailwind.css';
-const GA4_ID = import.meta.env.PUBLIC_GA4_ID;
-const CLARITY_ID = import.meta.env.PUBLIC_CLARITY_ID;
+// Public (non-secret) analytics IDs. Defaults are baked in so they always ship
+// even when the Cloudflare build env has no PUBLIC_* vars (wrangler.toml [vars]
+// are runtime-only and are NOT available to import.meta.env at build time).
+const GA4_ID = import.meta.env.PUBLIC_GA4_ID || 'G-XBFR0B2XBK';
+const CLARITY_ID = import.meta.env.PUBLIC_CLARITY_ID || 'x6d58609c6';
 ---
 
 <meta charset="UTF-8" />
