@@ -84,8 +84,8 @@ function getCatLabel(cat: string) {
       >
         <BlogCard
           slug={post.data.slug}
-          title={post.data.title}
-          excerpt={post.data.excerpt}
+          title={isAr ? (post.data.titleAr || post.data.title) : post.data.title}
+          excerpt={isAr ? (post.data.excerptAr || post.data.excerpt) : post.data.excerpt}
           coverImage={post.data.coverImage}
           category={post.data.category}
           publishDate={post.data.publishDate}

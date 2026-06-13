@@ -46,12 +46,16 @@ function renderMarkdown(text: string): string {
 const isAr = lang === 'ar';
 const d = post.data;
 
+// Use Arabic title/excerpt on the Arabic page, English on /en.
+const displayTitle = isAr ? (d.titleAr || d.title) : d.title;
+const displayExcerpt = isAr ? (d.excerptAr || d.excerpt) : d.excerpt;
+
 const siteUrl = import.meta.env.PUBLIC_SITE_URL || 'https://shattafurniture.com';
 
 const breadcrumbs = [
   { name: isAr ? 'الرئيسية' : 'Home',    url: `${siteUrl}${isAr ? '/' : '/en'}` },
   { name: isAr ? 'المدونة'  : 'Blog',    url: `${siteUrl}${isAr ? '/blog' : '/en/blog'}` },
-  { name: d.title,                        url: `${siteUrl}/blog/${d.slug}` },
+  { name: displayTitle,                   url: `${siteUrl}/blog/${d.slug}` },
 ];
 
 const categoryLabels: Record<string, { en: string; ar: string }> = {
@@ -88,8 +92,8 @@ const updatedLabel   = isAr ? 'تحديث:'                : 'Updated:';
 ---
 
 <BaseLayout
-  title={`${isAr ? (d.titleAr || d.title) : d.title} | شطا`}
-  description={d.excerpt}
+  title={`${displayTitle} | شطا`}
+  description={displayExcerpt}
   currentPath={isAr ? `/blog/${d.slug}` : `/en/blog/${d.slug}`}
   alternateUrl={alternateUrl}
   lang={lang}
@@ -103,7 +107,7 @@ const updatedLabel   = isAr ? 'تحديث:'                : 'Updated:';
     {d.coverImage ? (
       <img
         src={d.coverImage}
-        alt={d.title}
+        alt={displayTitle}
         loading="eager"
         fetchpriority="high"
         class="w-full object-cover"
@@ -145,7 +149,7 @@ const updatedLabel   = isAr ? 'تحديث:'                : 'Updated:';
         class="section-title mb-5"
         style="line-height:1.15;"
       >
-        {d.title}
+        {displayTitle}
       </h1>
 
       {/* Excerpt */}
@@ -153,7 +157,7 @@ const updatedLabel   = isAr ? 'تحديث:'                : 'Updated:';
         class="section-subtitle mb-8"
         style="max-width:100%; font-size:1.0625rem; line-height:1.75;"
       >
-        {d.excerpt}
+        {displayExcerpt}
       </p>
 
       {/* Meta row */}

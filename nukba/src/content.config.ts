@@ -71,6 +71,7 @@ const blog = defineCollection({
     author: z.string().default('Shatta Editorial'),
     category: z.enum(['guide', 'trends', 'tips', 'materials', 'spaces']),
     excerpt: z.string().max(200),
+    excerptAr: z.string().optional(),
     coverImage: z.string(),
     tags: z.array(z.string()).default([]),
     featured: z.boolean().default(false),
