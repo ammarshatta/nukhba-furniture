@@ -41,6 +41,9 @@ const {
 } = Astro.props;
 
 const siteUrl = import.meta.env.PUBLIC_SITE_URL || 'https://shattafurniture.com';
+// Global testing kill-switch: PUBLIC_NOINDEX=true → noindex the WHOLE site
+// regardless of per-page setting. Flip to false (or remove) at launch.
+const isNoindex = noindex || import.meta.env.PUBLIC_NOINDEX === 'true';
 const siteName = 'Shatta Furniture — Luxury Furniture Egypt';
 const fullTitle = (title.includes('Shatta') || title.includes('شطا')) ? title : `${title} | Shatta Furniture`;
 const resolvedOgImage = ogImage
@@ -72,7 +75,7 @@ if (faqs?.length) schemas.push(buildFAQSchema(faqs));
 <!-- Primary meta -->
 <title>{fullTitle}</title>
 <meta name="description" content={description} />
-{noindex ? <meta name="robots" content="noindex,nofollow" /> : <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />}
+{isNoindex ? <meta name="robots" content="noindex,nofollow" /> : <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />}
 <link rel="canonical" href={canonical} />
 
 <!-- Language alternates (absolute URLs; x-default → Arabic root) -->

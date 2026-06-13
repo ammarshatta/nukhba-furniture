@@ -6,5 +6,5 @@ description: "Elevate every meal with Shatta's dining room collection. Our dinin
 descriptionAr: "ارفع مستوى كل وجبة مع مجموعة غرف الطعام من شطا"
 image: "https://images.unsplash.com/photo-1617806118233-18e1de247200?w=1200&q=80&fm=webp&fit=crop"
 order: 3
-featuredProducts: [milano-dining-table]
+featuredProducts: []
 ---

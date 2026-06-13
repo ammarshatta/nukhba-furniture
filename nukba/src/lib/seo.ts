@@ -245,6 +245,10 @@ export function buildFAQSchema(faqs: Array<{ question: string; answer: string }>
 }
 
 export function buildBreadcrumbSchema(items: Array<{ name: string; url: string }>) {
+  // schema.org requires ABSOLUTE URLs in `item`. Some pages pass relative paths
+  // (e.g. "/about") which Google flags as "Invalid URL in field id". Resolve here.
+  const toAbsolute = (url: string) =>
+    url.startsWith('http') ? url : `${SITE_URL}${url.startsWith('/') ? url : `/${url}`}`;
   return {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
@@ -252,7 +256,7 @@ export function buildBreadcrumbSchema(items: Array<{ name: string; url: string }
       '@type': 'ListItem',
       position: i + 1,
       name: item.name,
-      item: item.url,
+      item: toAbsolute(item.url),
     })),
   };
 }

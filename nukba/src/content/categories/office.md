@@ -6,5 +6,5 @@ description: "Shatta's home office collection redefines productivity. Our execut
 descriptionAr: "مجموعة المكاتب المنزلية من شطا تعيد تعريف الإنتاجية"
 image: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=1200&q=80&fm=webp&fit=crop"
 order: 4
-featuredProducts: [riviera-office-desk]
+featuredProducts: []
 ---

@@ -1,5 +1,7 @@
 ---
 import '../../styles/tailwind.css';
+const GA4_ID = import.meta.env.PUBLIC_GA4_ID;
+const CLARITY_ID = import.meta.env.PUBLIC_CLARITY_ID;
 ---
 
 <meta charset="UTF-8" />
@@ -25,7 +27,9 @@ import '../../styles/tailwind.css';
 <script>
   document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('img').forEach(img => {
-      if (!img.complete || img.naturalWidth === 0) {
+      // Only replace images that have FINISHED loading and genuinely failed.
+      // Lazy images that simply haven't loaded yet must NOT be replaced.
+      if (img.complete && img.naturalWidth === 0 && img.getAttribute('src')) {
         applyFallback(img);
       }
       img.addEventListener('error', () => applyFallback(img));
@@ -45,4 +49,28 @@ import '../../styles/tailwind.css';
     src="https://static.cloudflareinsights.com/beacon.min.js"
     data-cf-beacon={`{"token":"${import.meta.env.PUBLIC_CLOUDFLARE_ANALYTICS_TOKEN}"}`}
   ></script>
+)}
+
+<!-- Google Analytics 4 -->
+{GA4_ID && (
+  <>
+    <script async src={`https://www.googletagmanager.com/gtag/js?id=${GA4_ID}`}></script>
+    <script is:inline define:vars={{ GA4_ID }}>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){ dataLayer.push(arguments); }
+      gtag('js', new Date());
+      gtag('config', GA4_ID);
+    </script>
+  </>
+)}
+
+<!-- Microsoft Clarity -->
+{CLARITY_ID && (
+  <script is:inline define:vars={{ CLARITY_ID }}>
+    (function(c,l,a,r,i,t,y){
+      c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+      t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+      y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", CLARITY_ID);
+  </script>
 )}
