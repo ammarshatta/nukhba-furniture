@@ -5,6 +5,7 @@ import { getCollection, render } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import ProductDetail from '../../../components/product/ProductDetail.astro';
+import SofaAnatomy from '../../../components/home/SofaAnatomy.astro';
 
 export async function getStaticPaths() {
   const products = await getCollection('products', p => p.data.active);
@@ -89,6 +90,9 @@ const breadcrumbs = [
       </div>
     </section>
   )}
+
+  <!-- How this piece is built -->
+  <SofaAnatomy lang="en" showCta={false} />
 </BaseLayout>
 
 <style>
