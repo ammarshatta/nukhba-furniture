@@ -6,7 +6,7 @@ import '../../styles/admin.css';
 // Already logged in
 const sessionToken = Astro.cookies.get('nukba_session')?.value;
 const authed = sessionToken ? await isValidSession(sessionToken) : false;
-if (authed) return Astro.redirect('/admin');
+if (authed) return Astro.redirect('/studio');
 
 const hasError = Astro.url.searchParams.get('error') === '1';
 ---

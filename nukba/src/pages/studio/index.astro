@@ -1,17 +1,14 @@
 ---
 import AdminLayout from '../../layouts/AdminLayout.astro';
-import { getProducts, getCategories } from '../../lib/storyblok';
-import { getTokens } from '../../lib/data';
+// TODO: reconnect to new admin flow
 
-const [products, categories, tokens] = await Promise.all([
-  getProducts(),
-  getCategories(),
-  getTokens(),
-]);
+const products: any[] = [];
+const categories: any[] = [];
+const tokens: any[] = [];
 
-const activeProducts = products.filter(p => p.active).length;
-const totalHits = tokens.reduce((sum, t) => sum + (t.hits ?? 0), 0);
-const recentProducts = [...products].sort((a, b) => b.createdAt.localeCompare(a.createdAt)).slice(0, 5);
+const activeProducts = 0;
+const totalHits = 0;
+const recentProducts: any[] = [];
 ---
 
 <AdminLayout title="Dashboard" subtitle="Overview of your store">
@@ -42,14 +39,13 @@ const recentProducts = [...products].sort((a, b) => b.createdAt.localeCompare(a.
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
       <h3 style="font-size:1rem;color:var(--walnut);">Recent Products</h3>
       <div style="display:flex;gap:8px;">
-        <a href="/admin/ai-generator" class="btn-primary">✨ AI Generator</a>
-        <a href="https://app.storyblok.com" target="_blank" rel="noopener" class="btn-sm">Edit in Storyblok ↗</a>
+        <a href="/studio/ai-generator" class="btn-primary">✨ AI Generator</a>
       </div>
     </div>
 
     {recentProducts.length === 0 ? (
       <p style="color:var(--muted);font-size:.88rem;text-align:center;padding:24px 0;">
-        No products yet. <a href="/admin/ai-generator" style="color:var(--gold);">Generate your first product with AI →</a>
+        No products yet. <a href="/studio/ai-generator" style="color:var(--gold);">Generate your first product with AI →</a>
       </p>
     ) : (
       <table class="a-table">

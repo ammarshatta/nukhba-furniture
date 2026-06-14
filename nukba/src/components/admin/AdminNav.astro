@@ -17,22 +17,22 @@ function active(path: string) {
 
   <ul class="admin-nav">
     <li>
-      <a href="/admin" class={currentPath === '/admin' ? 'active' : ''}>
+      <a href="/studio" class={currentPath === '/studio' ? 'active' : ''}>
         <span class="icon">📊</span> Dashboard
       </a>
     </li>
     <li>
-      <a href="/admin/ai-generator" class={active('/admin/ai-generator')}>
+      <a href="/studio/ai-generator" class={active('/studio/ai-generator')}>
         <span class="icon">✨</span> AI Generator
       </a>
     </li>
     <li>
-      <a href="/admin/tokens" class={active('/admin/tokens')}>
+      <a href="/studio/tokens" class={active('/studio/tokens')}>
         <span class="icon">🔗</span> Campaign Links
       </a>
     </li>
     <li>
-      <a href="/admin/settings" class={active('/admin/settings')}>
+      <a href="/studio/settings" class={active('/studio/settings')}>
         <span class="icon">⚙️</span> Settings
       </a>
     </li>

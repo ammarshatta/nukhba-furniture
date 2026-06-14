@@ -20,7 +20,7 @@ export const POST: APIRoute = async ({ request, cookies }) => {
     return new Response(null, {
       status: 302,
       headers: {
-        Location: '/admin/login?error=1',
+        Location: '/studio/login?error=1',
       },
     });
   }
@@ -31,7 +31,7 @@ export const POST: APIRoute = async ({ request, cookies }) => {
   return new Response(null, {
     status: 302,
     headers: {
-      Location: '/admin',
+      Location: '/studio',
     },
   });
 };

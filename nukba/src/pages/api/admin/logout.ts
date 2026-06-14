@@ -9,7 +9,7 @@ export const POST: APIRoute = ({ cookies }) => {
   return new Response(null, {
     status: 302,
     headers: {
-      Location: '/admin/login',
+      Location: '/studio/login',
     },
   });
 };

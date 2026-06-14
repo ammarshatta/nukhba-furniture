@@ -24,3 +24,6 @@ pnpm-debug.log*
 .idea/
 
 .dev.vars
+
+# stale Vercel build (project is on Cloudflare now)
+.vercel
