@@ -14,7 +14,12 @@ interface CloudflareEnv {
   PUBLIC_SITE_URL: string;
   PUBLIC_WA_NUMBER: string;
   PUBLIC_INSTAGRAM_URL: string;
+  PUBLIC_FACEBOOK_URL: string;
   PUBLIC_CLOUDFLARE_ANALYTICS_TOKEN: string;
+  PUBLIC_GA4_ID: string;
+  PUBLIC_CLARITY_ID: string;
+  // Optional: GA4 Measurement Protocol secret for email-open tracking.
+  GA4_MP_SECRET?: string;
 }
 
 declare module 'cloudflare:workers' {

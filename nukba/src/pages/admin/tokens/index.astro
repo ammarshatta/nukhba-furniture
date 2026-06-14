@@ -1,104 +1,184 @@
 ---
 import AdminLayout from '../../../layouts/AdminLayout.astro';
-// TODO: reconnect to new admin flow
 
-const tokens: any[] = [];
-const baseUrl = import.meta.env.PUBLIC_SITE_URL ?? 'https://nukba.com';
+// Fully client-side campaign link builder — no backend/storage needed.
+// Each recipient gets a unique link carrying cid (person) + seg (segment) +
+// UTM, which BaseHead forwards into Clarity custom tags + GA4 for per-person
+// session attribution. The recipient list is kept in localStorage.
+const baseUrl = import.meta.env.PUBLIC_SITE_URL ?? 'https://shattafurniture.com';
 ---
 
-<AdminLayout title="Tracking Links" subtitle="Create tokens to track traffic sources">
+<AdminLayout title="Campaign Links" subtitle="روابط حملات لكل شخص — تتبّع من فتح وسجّل جلسته">
 
   <div class="a-card" style="margin-bottom:20px;">
-    <h3 style="font-size:.9rem;color:var(--walnut);margin-bottom:14px;">Add New Token</h3>
-    <div style="display:grid;grid-template-columns:1fr 1fr auto;gap:10px;align-items:end;">
+    <h3 style="font-size:.9rem;color:var(--walnut);margin-bottom:14px;">إنشاء رابط لمستلِم</h3>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
       <div class="form-group">
-        <label class="form-label">Token (URL-safe, no spaces)</label>
-        <input class="form-input" id="tokenInput" placeholder="instagram-story" />
+        <label class="form-label">اسم المستلِم</label>
+        <input class="form-input" id="recipientInput" placeholder="م. أحمد — مكتب معماري" />
       </div>
       <div class="form-group">
-        <label class="form-label">Label</label>
-        <input class="form-input" id="labelInput" placeholder="Instagram Story Ad" />
+        <label class="form-label">الفئة (Segment)</label>
+        <select class="form-input" id="segmentInput">
+          <option value="commercial">تجاري (commercial)</option>
+          <option value="architecture">معماري (architecture)</option>
+          <option value="retail">أفراد (retail)</option>
+          <option value="other">أخرى (other)</option>
+        </select>
       </div>
-      <button class="btn-primary" id="addBtn">Add Token</button>
+      <div class="form-group">
+        <label class="form-label">اسم الحملة</label>
+        <input class="form-input" id="campaignInput" placeholder="launch-2026" value="outreach" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">الصفحة الهدف</label>
+        <select class="form-input" id="targetInput">
+          <option value="/">الرئيسية</option>
+          <option value="/products">كل المنتجات</option>
+          <option value="/collections">المجموعات</option>
+          <option value="/blog">المدونة</option>
+          <option value="__custom">مسار مخصّص…</option>
+        </select>
+      </div>
+      <div class="form-group" id="customWrap" style="grid-column:1/-1;display:none;">
+        <label class="form-label">المسار المخصّص (يبدأ بـ /)</label>
+        <input class="form-input" id="customInput" placeholder="/products/cloud-boucle-sofa-set" />
+      </div>
     </div>
+    <button class="btn-primary" id="genBtn" style="margin-top:12px;">توليد الرابط</button>
   </div>
 
   <div class="a-card">
-    <h3 style="font-size:.9rem;color:var(--walnut);margin-bottom:14px;">
-      Tokens ({tokens.length})
-      <span style="font-size:.75rem;color:var(--muted);font-weight:normal;margin-inline-start:6px;">
-        Shareable URL format: {baseUrl}/products/[slug]?ref=TOKEN
-      </span>
-    </h3>
-
-    {tokens.length === 0 ? (
-      <p style="color:var(--muted);text-align:center;padding:24px;">No tokens yet. Create one above to start tracking.</p>
-    ) : (
-      <table class="a-table" id="tokensTable">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;gap:10px;flex-wrap:wrap;">
+      <h3 style="font-size:.9rem;color:var(--walnut);margin:0;">
+        المستلِمون (<span id="countSpan">0</span>)
+      </h3>
+      <button class="btn-primary" id="csvBtn" style="background:var(--walnut);">تصدير CSV</button>
+    </div>
+    <div id="emptyState" style="color:var(--muted);text-align:center;padding:24px;">
+      لا توجد روابط بعد. أنشئ رابطاً من الأعلى.
+    </div>
+    <div style="overflow-x:auto;">
+      <table class="a-table" id="linksTable" style="display:none;">
         <thead>
           <tr>
-            <th>Token</th>
-            <th>Label</th>
-            <th>Hits</th>
-            <th>Created</th>
-            <th>Shareable URL (homepage)</th>
+            <th>المستلِم</th>
+            <th>الفئة</th>
+            <th>الحملة</th>
+            <th>المعرّف (cid)</th>
+            <th>روابط</th>
             <th></th>
           </tr>
         </thead>
-        <tbody>
-          {tokens.map(t => (
-            <tr>
-              <td><code style="background:#f5f0e8;padding:3px 7px;border-radius:3px;font-size:.8rem;">{t.token}</code></td>
-              <td>{t.label}</td>
-              <td><strong>{t.hits ?? 0}</strong></td>
-              <td style="font-size:.75rem;">{new Date(t.createdAt).toLocaleDateString()}</td>
-              <td>
-                <span class="token-url">{baseUrl}/?ref={t.token}</span>
-                <button class="copy-btn" onclick={`copyUrl('${baseUrl}/?ref=${t.token}')`}>Copy</button>
-              </td>
-              <td>
-                <button class="btn-danger" onclick={`deleteToken('${t.token}')`}>🗑</button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
+        <tbody id="linksBody"></tbody>
       </table>
-    )}
+    </div>
   </div>
 
   <div class="a-card" style="margin-top:20px;">
-    <h3 style="font-size:.9rem;color:var(--walnut);margin-bottom:8px;">How to use tracking links</h3>
+    <h3 style="font-size:.9rem;color:var(--walnut);margin-bottom:8px;">إزاي تستخدمها</h3>
     <ol style="color:var(--muted);font-size:.83rem;line-height:2;padding-inline-start:20px;">
-      <li>Create a token above (e.g. <code>instagram-story</code>)</li>
-      <li>Copy a shareable URL: <code>{baseUrl}/products/[slug]?ref=instagram-story</code></li>
-      <li>Share the URL in your ad, post, or QR code</li>
-      <li>When customers click WhatsApp, their message will include <code>[ref:instagram-story]</code></li>
-      <li>You can see hit counts in the table above</li>
+      <li>اكتب اسم المستلِم واختر الفئة والصفحة الهدف، ثم «توليد الرابط».</li>
+      <li>انسخ <strong>رابط واتساب</strong> وابعته للشخص في واتساب، أو <strong>رابط الإيميل</strong> للإيميل.</li>
+      <li>لما يفتح الرابط: تظهر جلسته في <strong>Microsoft Clarity</strong> (فلتر بالـ recipient/segment) وفي <strong>GA4</strong> كحدث <code>campaign_open</code>.</li>
+      <li>للإيميل: انسخ <strong>كود البكسل</strong> وحطه في الإيميل لتتبّع الفتح (تقريبي — النقرة + الجلسة هما الإشارة الأدق).</li>
     </ol>
   </div>
 </AdminLayout>
 
 <script define:vars={{ baseUrl }}>
-  document.getElementById('addBtn')?.addEventListener('click', async () => {
-    const token = (document.getElementById('tokenInput') as HTMLInputElement).value.trim();
-    const label = (document.getElementById('labelInput') as HTMLInputElement).value.trim();
-    if (!token || !label) return window.showToast('Fill in both fields', 'error');
-    const res = await fetch('/api/admin/tokens', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ token, label }) });
-    if (res.ok) { window.showToast('Token created!'); setTimeout(() => location.reload(), 600); }
-    else window.showToast(res.status === 409 ? 'Token already exists' : 'Error', 'error');
+  const KEY = 'shatta_campaign_links';
+  const $ = (id) => document.getElementById(id);
+  const load = () => { try { return JSON.parse(localStorage.getItem(KEY) || '[]'); } catch { return []; } };
+  const save = (a) => localStorage.setItem(KEY, JSON.stringify(a));
+  const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+  function slug(s) {
+    const base = s.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 20);
+    return (base || 'r') + '-' + Math.random().toString(36).slice(2, 6);
+  }
+  function linkFor(channel, row) {
+    const p = new URLSearchParams({
+      utm_source: channel, utm_medium: 'outreach',
+      utm_campaign: row.campaign, seg: row.segment, cid: row.cid,
+    });
+    const path = row.target === '/' ? '/' : row.target;
+    return baseUrl.replace(/\/$/, '') + path + '?' + p.toString();
+  }
+  function pixelFor(row) {
+    const p = new URLSearchParams({ cid: row.cid, seg: row.segment, campaign: row.campaign });
+    return `<img src="${baseUrl.replace(/\/$/, '')}/api/track?${p.toString()}" width="1" height="1" alt="" style="display:none">`;
+  }
+
+  function copy(text) {
+    navigator.clipboard.writeText(text).then(() => window.showToast && window.showToast('تم النسخ!'));
+  }
+  window.__copy = copy;
+  window.__del = (cid) => {
+    if (!confirm('حذف هذا المستلِم من القائمة؟')) return;
+    save(load().filter((r) => r.cid !== cid));
+    render();
+  };
+
+  function render() {
+    const rows = load();
+    $('countSpan').textContent = rows.length;
+    const table = $('linksTable'), empty = $('emptyState'), body = $('linksBody');
+    if (!rows.length) { table.style.display = 'none'; empty.style.display = 'block'; return; }
+    empty.style.display = 'none'; table.style.display = 'table';
+    body.innerHTML = rows.map((r) => {
+      const wa = linkFor('whatsapp', r), em = linkFor('email', r), px = pixelFor(r);
+      return `<tr>
+        <td>${esc(r.recipient)}</td>
+        <td><code style="background:#f5f0e8;padding:2px 6px;border-radius:3px;font-size:.78rem;">${esc(r.segment)}</code></td>
+        <td style="font-size:.8rem;">${esc(r.campaign)}</td>
+        <td><code style="font-size:.75rem;">${esc(r.cid)}</code></td>
+        <td style="white-space:nowrap;">
+          <button class="copy-btn" onclick='window.__copy(${JSON.stringify(wa)})'>نسخ واتساب</button>
+          <button class="copy-btn" onclick='window.__copy(${JSON.stringify(em)})'>نسخ إيميل</button>
+          <button class="copy-btn" onclick='window.__copy(${JSON.stringify(px)})'>كود البكسل</button>
+        </td>
+        <td><button class="btn-danger" onclick='window.__del(${JSON.stringify(r.cid)})'>🗑</button></td>
+      </tr>`;
+    }).join('');
+  }
+
+  $('targetInput')?.addEventListener('change', (e) => {
+    $('customWrap').style.display = e.target.value === '__custom' ? 'block' : 'none';
   });
 
-  async function deleteToken(token: string) {
-    if (!confirm(`Delete token "${token}"?`)) return;
-    const res = await fetch(`/api/admin/tokens/${encodeURIComponent(token)}`, { method: 'DELETE' });
-    if (res.ok) { window.showToast('Deleted'); setTimeout(() => location.reload(), 600); }
-    else window.showToast('Error', 'error');
-  }
+  $('genBtn')?.addEventListener('click', () => {
+    const recipient = $('recipientInput').value.trim();
+    const segment = $('segmentInput').value;
+    const campaign = ($('campaignInput').value.trim() || 'outreach').replace(/\s+/g, '-');
+    let target = $('targetInput').value;
+    if (target === '__custom') {
+      target = $('customInput').value.trim();
+      if (!target.startsWith('/')) target = '/' + target;
+    }
+    if (!recipient) { window.showToast && window.showToast('اكتب اسم المستلِم', 'error'); return; }
+    const rows = load();
+    rows.unshift({ recipient, segment, campaign, target, cid: slug(recipient), created: new Date().toISOString() });
+    save(rows);
+    $('recipientInput').value = '';
+    render();
+    window.showToast && window.showToast('تم توليد الرابط — انسخه من الجدول');
+  });
 
-  function copyUrl(url: string) {
-    navigator.clipboard.writeText(url).then(() => window.showToast('Copied!'));
-  }
+  $('csvBtn')?.addEventListener('click', () => {
+    const rows = load();
+    if (!rows.length) return;
+    const head = ['recipient', 'segment', 'campaign', 'cid', 'whatsapp_link', 'email_link', 'created'];
+    const lines = [head.join(',')].concat(rows.map((r) =>
+      [r.recipient, r.segment, r.campaign, r.cid, linkFor('whatsapp', r), linkFor('email', r), r.created]
+        .map((v) => '"' + String(v).replace(/"/g, '""') + '"').join(',')
+    ));
+    const blob = new Blob([lines.join('\n')], { type: 'text/csv;charset=utf-8;' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'shatta-campaign-links.csv';
+    a.click();
+  });
 
-  (window as any).deleteToken = deleteToken;
-  (window as any).copyUrl = copyUrl;
+  render();
 </script>
