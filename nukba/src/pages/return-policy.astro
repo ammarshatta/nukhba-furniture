@@ -1,0 +1,131 @@
+---
+export const prerender = true;
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const waNumber = import.meta.env.PUBLIC_WA_NUMBER || '201112007555';
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Return Policy', url: '/return-policy' },
+];
+
+const policies = [
+  {
+    icon: 'x',
+    title: 'الطلبات المخصصة',
+    text: 'الطلبات المخصصة غير قابلة للإرجاع.',
+  },
+  {
+    icon: 'check',
+    title: 'الطلبات العامة',
+    text:
+      'الطلبات العامة قابلة للإرجاع خلال ١٤ يوماً بشرط أن تكون القطعة بحالة التصنيع الأصلية، ويُخصم اللف والمشال والنقل والتركيب.',
+  },
+];
+---
+
+<BaseLayout
+  title="سياسة الإرجاع | شطا"
+  description="تعرّف على سياسة الإرجاع والاستبدال في شطا — الطلبات المخصصة والطلبات العامة وشروط الإرجاع خلال ١٤ يوماً."
+  currentPath="/return-policy"
+  alternateUrl="/en/return-policy"
+  lang="ar"
+  breadcrumbs={breadcrumbs}
+>
+  <!-- ── Hero ─────────────────────────────────────────────── -->
+  <section class="relative bg-walnut overflow-hidden" style="padding: 120px 8% 100px;">
+    <div
+      aria-hidden="true"
+      class="absolute inset-0 opacity-10"
+      style="background: radial-gradient(ellipse 80% 60% at 50% 0%, var(--color-gold), transparent);"
+    ></div>
+    <div class="relative max-w-4xl mx-auto text-center">
+      <span class="section-eyebrow" style="color:var(--color-gold);">راحتك تهمنا</span>
+      <h1 class="section-title" style="color:#fff; font-size:clamp(2.5rem,5vw,4rem);">
+        سياسة الإرجاع
+      </h1>
+      <p class="section-subtitle mt-4 mx-auto" style="color:rgba(255,255,255,0.7); max-width:520px;">
+        نوضح لك شروط الإرجاع والاستبدال حتى تتسوّق بثقة واطمئنان.
+      </p>
+    </div>
+  </section>
+
+  <!-- ── Breadcrumb ─────────────────────────────────────── -->
+  <nav aria-label="Breadcrumb" class="bg-beige border-b border-beige-dark">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8 py-3">
+      <ol class="flex items-center gap-2 text-sm" style="color:var(--color-warm-gray);">
+        <li><a href="/" class="hover:text-gold transition-colors">الرئيسية</a></li>
+        <li aria-hidden="true" class="opacity-40">/</li>
+        <li style="color:var(--color-walnut); font-weight:500;">سياسة الإرجاع</li>
+      </ol>
+    </div>
+  </nav>
+
+  <!-- ── Policy content ─────────────────────────────────── -->
+  <section class="bg-cream" style="padding: 96px 8%;">
+    <div class="max-w-3xl mx-auto space-y-6">
+      {policies.map((p) => (
+        <div
+          class="rounded-xl flex items-start gap-4"
+          style="background:#fff; box-shadow:var(--shadow-soft); border:1px solid var(--color-beige-dark); padding:1.75rem;"
+          data-reveal
+        >
+          <span
+            aria-hidden="true"
+            class="shrink-0 flex items-center justify-center rounded-full"
+            style={`width:44px; height:44px; ${p.icon === 'check' ? 'background:rgba(74,124,89,.12); color:var(--color-green);' : 'background:rgba(178,58,58,.1); color:#b23a3a;'}`}
+          >
+            {p.icon === 'check' ? (
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            ) : (
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            )}
+          </span>
+          <div>
+            <h2 style="font-family:var(--font-serif); font-size:1.25rem; color:var(--color-walnut); font-weight:600; margin-bottom:.5rem;">
+              {p.title}
+            </h2>
+            <p style="color:var(--color-warm-gray); font-size:1rem; line-height:1.9;">
+              {p.text}
+            </p>
+          </div>
+        </div>
+      ))}
+
+      <p class="text-sm" style="color:var(--color-warm-gray); line-height:1.8; padding-top:1rem;">
+        للاستفسار عن إرجاع أو استبدال طلبك، يسعدنا مساعدتك عبر واتساب في أي وقت.
+      </p>
+    </div>
+  </section>
+
+  <!-- ── CTA ────────────────────────────────────────────── -->
+  <section class="bg-walnut" style="padding: 80px 8%;">
+    <div class="max-w-3xl mx-auto text-center" data-reveal>
+      <span class="section-eyebrow" style="color:var(--color-gold);">نحن هنا لمساعدتك</span>
+      <h2 style="font-family:var(--font-serif); font-size:clamp(1.8rem,3vw,2.5rem); color:#fff; margin-bottom:1rem;">
+        هل لديك استفسار عن الإرجاع؟
+      </h2>
+      <p style="color:rgba(255,255,255,0.65); font-size:1rem; line-height:1.7; margin-bottom:2rem;">
+        تواصل مع فريق خدمة العملاء وسنساعدك في كل خطوة.
+      </p>
+      <div class="flex flex-wrap gap-4 justify-center">
+        <a
+          href={`https://wa.me/${waNumber}?text=${encodeURIComponent('مرحباً، لديّ استفسار عن سياسة الإرجاع.')}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-3 rounded-lg font-semibold transition-all"
+          style="background:#25D366; color:#fff; padding:0.875rem 2rem; font-size:0.9rem;"
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+            <path d="M12 0C5.373 0 0 5.373 0 12c0 2.117.549 4.104 1.51 5.829L0 24l6.335-1.485A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 0 1-5.007-1.374l-.36-.214-3.722.873.936-3.612-.235-.373A9.818 9.818 0 1 1 12 21.818z"/>
+          </svg>
+          تواصل عبر واتساب
+        </a>
+        <a href="/faq" class="btn-outline" style="color:#fff; border-color:rgba(255,255,255,0.4);">
+          الأسئلة الشائعة
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
