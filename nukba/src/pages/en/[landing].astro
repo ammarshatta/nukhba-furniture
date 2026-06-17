@@ -1,0 +1,51 @@
+---
+export const prerender = true;
+
+import { getCollection } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import LandingBody from '../../components/landing/LandingBody.astro';
+import { resolveLandingProducts, isLandingIndexable } from '../../lib/landings';
+
+export async function getStaticPaths() {
+  const landings = await getCollection('landings');
+  return landings.map(landing => ({
+    params: { landing: landing.data.slug },
+    props: { landing },
+  }));
+}
+
+interface Props {
+  landing: CollectionEntry<'landings'>;
+}
+
+const { landing } = Astro.props;
+const d = landing.data;
+
+const allProducts = await getCollection('products');
+const products = resolveLandingProducts(landing, allProducts);
+const indexable = isLandingIndexable(landing, allProducts);
+
+const siteUrl = import.meta.env.PUBLIC_SITE_URL || 'https://shattafurniture.com';
+const breadcrumbs = [
+  { name: 'Home', url: `${siteUrl}/en` },
+  { name: d.h1, url: `${siteUrl}/en/${d.slug}` },
+];
+// FAQ JSON-LD uses the English strings on the English page.
+const faqs = d.faqs.map(f => ({ question: f.question, answer: f.answer }));
+---
+
+<BaseLayout
+  title={d.title}
+  description={d.metaDescription}
+  currentPath={`/en/${d.slug}`}
+  alternateUrl={`/${d.slug}`}
+  lang="en"
+  ogType="website"
+  ogImage={d.heroImage}
+  breadcrumbs={breadcrumbs}
+  faqs={faqs}
+  noindex={!indexable}
+>
+  <LandingBody landing={landing} products={products} lang="en" />
+</BaseLayout>

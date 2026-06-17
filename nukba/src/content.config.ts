@@ -60,6 +60,63 @@ const categories = defineCollection({
   }),
 });
 
+// SEO landing pages served at clean root URLs (/modern-bedroom, /furniture-damietta…).
+const landings = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/landings' }),
+  schema: z.object({
+    slug: z.string(),
+    title: z.string(),            // <title> / meta (English)
+    titleAr: z.string(),
+    h1: z.string(),
+    h1Ar: z.string(),
+    eyebrow: z.string().default('Shatta'),
+    eyebrowAr: z.string().default('شطا'),
+    metaDescription: z.string(),
+    metaDescriptionAr: z.string(),
+    intro: z.string(),
+    introAr: z.string(),
+    heroImage: z.string(),
+    keywords: z.array(z.string()).default([]),
+    // Long-form bilingual body sections (rendered language-aware below the grid).
+    sections: z.array(z.object({
+      heading: z.string(),
+      headingAr: z.string(),
+      body: z.string(),
+      bodyAr: z.string(),
+    })).default([]),
+    // Product filter (OR-combined). Empty filter → all active products.
+    filter: z.object({
+      categories: z.array(z.string()).default([]),
+      tags: z.array(z.string()).default([]),
+      productSlugs: z.array(z.string()).default([]),
+    }).default({}),
+    // When set, emits LocalBusiness schema for a city/governorate landing.
+    local: z.object({
+      governorateEn: z.string(),
+      governorateAr: z.string(),
+      country: z.enum(['EG', 'SA']).default('EG'),
+      // Districts/neighbourhoods served — rendered as a chip list for local relevance.
+      districts: z.array(z.string()).default([]),
+      districtsAr: z.array(z.string()).default([]),
+      // Delivery copy specific to this city (shipping time, customs, assembly…).
+      deliveryNote: z.string().optional(),
+      deliveryNoteAr: z.string().optional(),
+    }).optional(),
+    faqs: z.array(z.object({
+      question: z.string(),
+      questionAr: z.string(),
+      answer: z.string(),
+      answerAr: z.string(),
+    })).default([]),
+    relatedLinks: z.array(z.object({
+      label: z.string(),
+      labelAr: z.string(),
+      href: z.string(),
+    })).default([]),
+    order: z.number().default(99),
+  }),
+});
+
 const blog = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/blog' }),
   schema: z.object({
@@ -117,4 +174,4 @@ const locations = defineCollection({
   }),
 });
 
-export const collections = { products, categories, blog, faqs, locations };
+export const collections = { products, categories, landings, blog, faqs, locations };

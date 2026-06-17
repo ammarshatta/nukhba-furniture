@@ -1,6 +1,7 @@
 ---
 import type { CollectionEntry } from 'astro:content';
 import ProductCard from './ProductCard.astro';
+import { useT } from '../../lib/i18n';
 
 interface Props {
   product: CollectionEntry<'products'>;
@@ -10,10 +11,13 @@ interface Props {
 
 const { product, related, lang = 'en' } = Astro.props;
 const isAr = lang === 'ar';
+const t = useT(lang);
 const d = product.data;
 
 const displayTitle = isAr ? d.titleAr : d.title;
 const displayExcerpt = isAr ? d.excerptAr : d.excerpt;
+// Localized price label: show "Price on Request" when no real price is set.
+const displayPrice = d.priceValue === 0 ? t.product.priceOnRequest : d.price;
 const waMessage = isAr ? d.waTextAr : d.waText;
 const waNumber = import.meta.env.PUBLIC_WA_NUMBER || '201112007555';
 const waUrl = `https://wa.me/${waNumber}?text=${encodeURIComponent(waMessage)}`;
@@ -133,7 +137,7 @@ const relatedLabel = isAr ? 'قد يعجبك أيضاً' : 'You May Also Like';
           class="font-bold"
           style="font-size:1.5rem; color:var(--color-gold);"
         >
-          {d.price}
+          {displayPrice}
         </span>
         {activeBadge && (
           <span

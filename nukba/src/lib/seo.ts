@@ -84,6 +84,21 @@ export function buildProductSchema(
     ? `${SITE_URL}/en/products/${d.slug}`
     : `${SITE_URL}/products/${d.slug}`;
 
+  // "Price on request" products (priceValue === 0): omit price/priceValidUntil so
+  // Google never renders a misleading "EGP 0". A real priceValue emits a full Offer.
+  const offers: Record<string, unknown> = {
+    '@type': 'Offer',
+    url,
+    priceCurrency: d.currency || 'EGP',
+    availability: 'https://schema.org/InStock',
+    itemCondition: 'https://schema.org/NewCondition',
+    seller: { '@id': `${SITE_URL}/#organization` },
+  };
+  if (d.priceValue > 0) {
+    offers.price = d.priceValue;
+    offers.priceValidUntil = new Date(Date.now() + 90 * 86400000).toISOString().split('T')[0];
+  }
+
   const schema: Record<string, unknown> = {
     '@context': 'https://schema.org',
     '@type': 'Product',
@@ -94,16 +109,7 @@ export function buildProductSchema(
     brand: { '@type': 'Brand', name: BRAND },
     material: d.materials.join(', '),
     image: d.images.map(img => img.startsWith('http') ? img : `${SITE_URL}${img}`),
-    offers: {
-      '@type': 'Offer',
-      url,
-      priceCurrency: d.currency || 'EGP',
-      price: d.priceValue,
-      priceValidUntil: new Date(Date.now() + 90 * 86400000).toISOString().split('T')[0],
-      availability: 'https://schema.org/InStock',
-      itemCondition: 'https://schema.org/NewCondition',
-      seller: { '@id': `${SITE_URL}/#organization` },
-    },
+    offers,
     additionalProperty: [
       { '@type': 'PropertyValue', name: 'Width', value: `${d.dimensions.width}${d.dimensions.unit}` },
       { '@type': 'PropertyValue', name: 'Depth', value: `${d.dimensions.depth}${d.dimensions.unit}` },

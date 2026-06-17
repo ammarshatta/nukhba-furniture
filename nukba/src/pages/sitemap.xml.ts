@@ -2,16 +2,18 @@ import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
 import { buildSitemapXml, type SitemapPair } from '../lib/seo';
 import { GOVERNORATES } from '../lib/governorates';
+import { isLandingIndexable } from '../lib/landings';
 
 // Must match MIN_PRODUCTS_FOR_INDEX in the landing-page routes.
 const MIN_PRODUCTS_FOR_INDEX = 1;
 
 export const GET: APIRoute = async () => {
-  const [products, categories, blog, locations] = await Promise.all([
+  const [products, categories, blog, locations, landings] = await Promise.all([
     getCollection('products', p => p.data.active),
     getCollection('categories'),
     getCollection('blog'),
     getCollection('locations'),
+    getCollection('landings'),
   ]);
 
   const baseUrl = import.meta.env.PUBLIC_SITE_URL || 'https://shattafurniture.com';
@@ -36,13 +38,24 @@ export const GET: APIRoute = async () => {
     }
   }
 
+  // SEO landing pages (clean root URLs) — only indexable ones (≥ threshold of
+  // real products) are listed, so thin-content pages stay out of the sitemap.
+  const landingPairs: SitemapPair[] = landings
+    .filter(l => isLandingIndexable(l, products))
+    .map(l => ({
+      ar: `/${l.data.slug}`,
+      en: `/en/${l.data.slug}`,
+      p: '0.8',
+      f: 'weekly',
+    }));
+
   const xml = buildSitemapXml(
     products.map(p => p.data.slug),
     categories.map(c => c.data.slug),
     blog.map(b => b.data.slug),
     locations.map(l => l.data.slug),
     baseUrl,
-    govPairs,
+    [...govPairs, ...landingPairs],
   );
 
   return new Response(xml, {

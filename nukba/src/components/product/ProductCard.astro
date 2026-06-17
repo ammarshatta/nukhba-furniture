@@ -1,5 +1,6 @@
 ---
 import type { CollectionEntry } from 'astro:content';
+import { useT } from '../../lib/i18n';
 
 interface Props {
   slug: string;
@@ -22,6 +23,7 @@ const {
   title,
   titleAr,
   price,
+  priceValue,
   images,
   badge,
   category,
@@ -33,8 +35,12 @@ const {
 } = Astro.props;
 
 const isAr = lang === 'ar';
+const t = useT(lang);
 const displayTitle = isAr ? titleAr : title;
 const displayExcerpt = isAr ? excerptAr : excerpt;
+// When no real price is set (priceValue === 0) show a localized "Price on Request"
+// label instead of the raw Arabic string stored in the markdown.
+const displayPrice = priceValue === 0 ? t.product.priceOnRequest : price;
 const waMessage = isAr ? waTextAr : waText;
 const waNumber = import.meta.env.PUBLIC_WA_NUMBER || '201112007555';
 const waUrl = `https://wa.me/${waNumber}?text=${encodeURIComponent(waMessage)}`;
@@ -134,7 +140,7 @@ const categoryDisplay = isAr
       class="font-semibold"
       style="color:var(--color-gold); font-size:1rem;"
     >
-      {price}
+      {displayPrice}
     </p>
 
     <!-- Excerpt — 1 line clamp -->

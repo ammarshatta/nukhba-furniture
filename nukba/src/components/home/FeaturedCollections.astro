@@ -1,5 +1,6 @@
 ---
 import type { CollectionEntry } from 'astro:content';
+import { localizeUrl } from '../../lib/i18n';
 
 interface Props {
   categories: CollectionEntry<'categories'>[];
@@ -39,7 +40,7 @@ const sorted = [...categories].sort((a, b) => a.data.order - b.data.order).slice
       {sorted.map((category, i) => {
         const name = isAr ? category.data.nameAr : category.data.name;
         const desc = isAr ? category.data.descriptionAr : category.data.description;
-        const href = isAr ? `/ar/collections/${category.data.slug}` : `/collections/${category.data.slug}`;
+        const href = localizeUrl(`/collections/${category.data.slug}`, lang);
         return (
           <a
             href={href}

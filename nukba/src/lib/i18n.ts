@@ -57,13 +57,14 @@ const translations = {
         whatsapp: 'واتساب',
         privacy: 'الخصوصية',
       },
-      copyright: '© ٢٠٢٤ شطا للأثاث الفاخر — جميع الحقوق محفوظة',
+      copyright: 'شطا للأثاث الفاخر — جميع الحقوق محفوظة',
     },
     product: {
       orderNow: 'اطلب الآن',
       waLabel: 'تحدث مع مستشارنا',
       category: 'التصنيف',
       price: 'السعر',
+      priceOnRequest: 'السعر عند الطلب',
       related: 'منتجات ذات صلة',
       badges: { 'new-': 'جديد', sale: 'خصم', top: 'الأكثر مبيعاً' },
       share: 'مشاركة',
@@ -143,13 +144,14 @@ const translations = {
         whatsapp: 'WhatsApp',
         privacy: 'Privacy Policy',
       },
-      copyright: '© 2024 Shatta Luxury Furniture — All rights reserved',
+      copyright: 'Shatta Luxury Furniture — All rights reserved',
     },
     product: {
       orderNow: 'Order Now',
       waLabel: 'Chat with Advisor',
       category: 'Category',
       price: 'Price',
+      priceOnRequest: 'Price on Request',
       related: 'Related Products',
       badges: { 'new-': 'New', sale: 'Sale', top: 'Best Seller' },
       share: 'Share',
@@ -183,4 +185,16 @@ export function getAlternateUrl(currentPath: string, currentLang: Lang): string 
   if (currentLang === 'ar') return '/en' + (currentPath === '/' ? '' : currentPath);
   const stripped = currentPath.replace(/^\/en/, '') || '/';
   return stripped;
+}
+
+/**
+ * Localizes an internal path for the given language.
+ * Arabic is the root (`/...`); English lives under `/en/...`.
+ * Strips any existing `/ar` or `/en` prefix first, so it is safe to pass
+ * either a clean path (`/collections`) or an already-prefixed one.
+ * Use this for ALL internal links so English pages never link to Arabic pages.
+ */
+export function localizeUrl(path: string, lang: Lang): string {
+  const clean = path.replace(/^\/(ar|en)(?=\/|$)/, '') || '/';
+  return lang === 'en' ? '/en' + (clean === '/' ? '' : clean) : clean;
 }

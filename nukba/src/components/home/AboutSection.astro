@@ -1,4 +1,6 @@
 ---
+import { localizeUrl } from '../../lib/i18n';
+
 interface Props {
   lang?: 'en' | 'ar';
 }
@@ -37,7 +39,7 @@ const content = isAr
       imgAlt: 'Shatta Showroom',
     };
 
-const ctaHref = isAr ? '/ar/about' : '/about';
+const ctaHref = localizeUrl('/about', lang);
 ---
 
 <section

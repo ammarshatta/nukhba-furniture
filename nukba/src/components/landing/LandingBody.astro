@@ -1,0 +1,248 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import ProductGrid from '../product/ProductGrid.astro';
+import FAQSection from '../home/FAQSection.astro';
+import { localizeUrl } from '../../lib/i18n';
+
+interface Props {
+  landing: CollectionEntry<'landings'>;
+  products: CollectionEntry<'products'>[];
+  lang?: 'en' | 'ar';
+}
+
+const { landing, products, lang = 'ar' } = Astro.props;
+const isAr = lang === 'ar';
+const d = landing.data;
+const siteUrl = import.meta.env.PUBLIC_SITE_URL || 'https://shattafurniture.com';
+const waNumber = import.meta.env.PUBLIC_WA_NUMBER || '201112007555';
+
+const h1 = isAr ? d.h1Ar : d.h1;
+const eyebrow = isAr ? d.eyebrowAr : d.eyebrow;
+const intro = isAr ? d.introAr : d.intro;
+const homeLabel = isAr ? 'الرئيسية' : 'Home';
+const productCount = products.length;
+
+// Self URL for schema (Arabic at root, English under /en).
+const selfUrl = `${siteUrl}${localizeUrl(`/${d.slug}`, lang)}`;
+const productUrl = (slug: string) =>
+  `${siteUrl}${localizeUrl(`/products/${slug}`, lang)}`;
+
+// Landing JSON-LD: CollectionPage (+ LocalBusiness for city pages).
+const collectionPage = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: isAr ? d.titleAr : d.title,
+  description: isAr ? d.metaDescriptionAr : d.metaDescription,
+  url: selfUrl,
+  isPartOf: { '@id': `${siteUrl}/#website` },
+  mainEntity: {
+    '@type': 'ItemList',
+    numberOfItems: productCount,
+    itemListElement: products.slice(0, 20).map((p, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      url: productUrl(p.data.slug),
+      name: isAr ? (p.data.titleAr || p.data.title) : p.data.title,
+    })),
+  },
+};
+const schemas: object[] = [collectionPage];
+if (d.local) {
+  const country = d.local.country ?? 'EG';
+  schemas.push({
+    '@context': 'https://schema.org',
+    '@type': ['FurnitureStore', 'LocalBusiness'],
+    name: `Shatta — ${d.local.governorateEn}`,
+    alternateName: `شطا — ${d.local.governorateAr}`,
+    url: selfUrl,
+    telephone: `+${waNumber}`,
+    priceRange: country === 'SA' ? 'SAR 1,000 – SAR 30,000' : 'EGP 5,000 – EGP 150,000',
+    address: { '@type': 'PostalAddress', addressRegion: d.local.governorateEn, addressCountry: country },
+    areaServed: { '@type': 'AdministrativeArea', name: d.local.governorateEn },
+    parentOrganization: { '@id': `${siteUrl}/#organization` },
+  });
+}
+
+// City-specific delivery copy + districts served (local relevance).
+const deliveryNote = d.local ? (isAr ? d.local.deliveryNoteAr : d.local.deliveryNote) : undefined;
+const districts = d.local ? (isAr ? d.local.districtsAr : d.local.districts) : [];
+
+const waText = isAr
+  ? `مرحباً، أنا مهتم بـ${h1} وأودّ الاستفسار.`
+  : `Hello, I'm interested in ${h1}. Could you share details?`;
+const waUrl = `https://wa.me/${waNumber}?text=${encodeURIComponent(waText)}`;
+const waLabel = isAr ? 'تحدث معنا عبر واتساب' : 'Chat with us on WhatsApp';
+const relatedHeading = isAr ? 'صفحات ذات صلة' : 'Related Pages';
+const emptyNote = isAr
+  ? 'نُجهّز حالياً المزيد من القطع لهذه الفئة. تواصل معنا لطلب تفصيل خاص أو تصفّح بقية تشكيلتنا.'
+  : 'We are currently adding more pieces to this category. Contact us for a custom order or browse the rest of our collection.';
+---
+
+{schemas.map(schema => (
+  <script type="application/ld+json" set:html={JSON.stringify(schema, null, 2)} />
+))}
+
+<!-- ── Hero ─────────────────────────────────────────────────── -->
+<section class="relative overflow-hidden" style="min-height:min(440px,58vw);" aria-labelledby="landing-heading">
+  <img
+    src={d.heroImage}
+    alt={h1}
+    loading="eager"
+    class="absolute inset-0 w-full h-full object-cover"
+  />
+  <div
+    class="absolute inset-0"
+    style="background:linear-gradient(to right, rgba(20,10,5,0.85) 0%, rgba(20,10,5,0.6) 55%, rgba(20,10,5,0.3) 100%);"
+    aria-hidden="true"
+  ></div>
+
+  <div class="relative flex items-end h-full max-w-7xl mx-auto px-6 lg:px-12 pb-14 pt-28" dir={isAr ? 'rtl' : 'ltr'}>
+    <div class="max-w-2xl">
+      <nav aria-label="Breadcrumb" class="mb-6">
+        <ol class="flex items-center gap-2 flex-wrap" style="font-size:0.8rem; color:rgba(255,255,255,0.6);">
+          <li><a href={localizeUrl('/', lang)} style="color:inherit;">{homeLabel}</a></li>
+          <li aria-hidden="true" style="color:rgba(255,255,255,0.35);">/</li>
+          <li aria-current="page" style="color:rgba(255,255,255,0.9); font-weight:500;">{h1}</li>
+        </ol>
+      </nav>
+
+      <span class="section-eyebrow" style="color:var(--color-gold-light);">{eyebrow}</span>
+      <h1
+        id="landing-heading"
+        class="font-serif mt-2 mb-4"
+        style="font-size:clamp(2rem,5vw,3.25rem); color:#fff; font-weight:600; line-height:1.15; letter-spacing:-0.02em;"
+      >
+        {h1}
+      </h1>
+      <p class="leading-relaxed" style="font-size:1.0625rem; color:rgba(255,255,255,0.78); max-width:560px; line-height:1.75;">
+        {intro}
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ── Products ─────────────────────────────────────────────── -->
+<section class="py-16 lg:py-24" style="background-color:var(--color-cream);" dir={isAr ? 'rtl' : 'ltr'}>
+  <div class="max-w-7xl mx-auto px-6 lg:px-12">
+    {productCount > 0 ? (
+      <ProductGrid products={products} lang={lang} showFilter={false} />
+    ) : (
+      <p class="text-center max-w-xl mx-auto" style="color:var(--color-warm-gray); font-size:1.0625rem; line-height:1.8;">
+        {emptyNote}
+      </p>
+    )}
+  </div>
+</section>
+
+<!-- ── Long-form bilingual body sections ────────────────────── -->
+{d.sections.length > 0 && (
+  <section class="py-12 lg:py-16" style="background-color:#fff;" dir={isAr ? 'rtl' : 'ltr'}>
+    <div class="max-w-3xl mx-auto px-6 lg:px-8 landing-prose">
+      {d.sections.map(s => (
+        <>
+          <h2>{isAr ? s.headingAr : s.heading}</h2>
+          {(isAr ? s.bodyAr : s.body).split(/\n\s*\n/).map(para => <p>{para.trim()}</p>)}
+        </>
+      ))}
+    </div>
+  </section>
+)}
+
+<!-- ── Delivery + districts served (city landings) ──────────── -->
+{(deliveryNote || (districts && districts.length > 0)) && (
+  <section class="py-12" style="background-color:var(--color-beige);" dir={isAr ? 'rtl' : 'ltr'}>
+    <div class="max-w-3xl mx-auto px-6 text-center">
+      <h2 class="section-title mb-4" style="font-size:clamp(1.4rem,3vw,2rem);">
+        {isAr ? 'التوصيل والمناطق' : 'Delivery & Areas'}
+      </h2>
+      {deliveryNote && (
+        <p class="mb-6 leading-relaxed mx-auto" style="font-size:1.0625rem; color:var(--color-warm-gray); max-width:560px; line-height:1.8;">
+          {deliveryNote}
+        </p>
+      )}
+      {districts && districts.length > 0 && (
+        <div class="flex flex-wrap gap-2 justify-center">
+          {districts.map(area => (
+            <span
+              class="inline-flex items-center px-3 py-1.5 rounded-full text-sm"
+              style="background:rgba(196,164,74,0.15); color:var(--color-walnut); border:1px solid rgba(196,164,74,0.35);"
+            >
+              {area}
+            </span>
+          ))}
+        </div>
+      )}
+    </div>
+  </section>
+)}
+
+<!-- ── FAQ ──────────────────────────────────────────────────── -->
+{d.faqs.length > 0 && <FAQSection faqs={d.faqs} lang={lang} />}
+
+<!-- ── Related internal links ───────────────────────────────── -->
+{d.relatedLinks.length > 0 && (
+  <section class="py-12" style="background-color:var(--color-cream);" dir={isAr ? 'rtl' : 'ltr'}>
+    <div class="max-w-3xl mx-auto px-6 text-center">
+      <h2 class="section-title mb-6" style="font-size:clamp(1.4rem,3vw,2rem);">{relatedHeading}</h2>
+      <div class="flex flex-wrap gap-3 justify-center">
+        {d.relatedLinks.map(link => (
+          <a
+            href={localizeUrl(link.href, lang)}
+            class="btn-outline"
+            style="color:var(--color-walnut); border-color:var(--color-walnut);"
+          >
+            {isAr ? link.labelAr : link.label}
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+)}
+
+<!-- ── CTA strip ────────────────────────────────────────────── -->
+<section class="py-14" style="background-color:var(--color-walnut);">
+  <div class="max-w-3xl mx-auto px-6 text-center" data-reveal>
+    <h2 class="font-serif mt-2 mb-4" style="font-size:clamp(1.5rem,3vw,2rem); color:#fff; font-weight:600;">
+      {isAr ? 'هل أنت مستعد لتجهيز مساحتك؟' : 'Ready to furnish your space?'}
+    </h2>
+    <p class="mb-8 leading-relaxed" style="font-size:1rem; color:rgba(255,255,255,0.7); max-width:440px; margin-inline:auto;">
+      {isAr
+        ? 'تحدث مع مستشار الأثاث لدينا لمناقشة الخامات والمقاسات والتشطيبات — استشارة مجانية.'
+        : 'Talk to our furniture advisor about materials, sizes and finishes — free consultation.'}
+    </p>
+    <a href={waUrl} target="_blank" rel="noopener noreferrer" class="btn-gold">{waLabel}</a>
+  </div>
+</section>
+
+<style>
+  .landing-prose :global(h2) {
+    font-family: var(--font-serif);
+    font-size: clamp(1.4rem, 3vw, 1.9rem);
+    color: var(--color-walnut);
+    font-weight: 600;
+    margin: 1.75rem 0 0.85rem;
+    line-height: 1.25;
+  }
+  .landing-prose :global(h3) {
+    font-size: 1.2rem;
+    color: var(--color-walnut);
+    font-weight: 600;
+    margin: 1.25rem 0 0.6rem;
+  }
+  .landing-prose :global(p) {
+    color: var(--color-warm-gray);
+    font-size: 1.0625rem;
+    line-height: 1.85;
+    margin-bottom: 1rem;
+  }
+  .landing-prose :global(ul),
+  .landing-prose :global(ol) {
+    color: var(--color-warm-gray);
+    font-size: 1.0625rem;
+    line-height: 1.8;
+    margin: 0 1.25rem 1rem;
+    list-style: revert;
+  }
+  .landing-prose :global(li) { margin-bottom: 0.4rem; }
+  .landing-prose :global(a) { color: var(--color-gold); text-decoration: underline; }
+</style>

@@ -1,4 +1,6 @@
 ---
+import { localizeUrl } from '../../lib/i18n';
+
 interface Props {
   lang?: 'en' | 'ar';
 }
@@ -19,7 +21,7 @@ const content = {
     : 'Premium modern furniture handcrafted for Egyptian homes. Explore timeless collections.',
   cta1: isAr ? 'استكشف المجموعات' : 'Explore Collections',
   cta2: isAr ? 'تواصل عبر واتساب' : 'WhatsApp Us',
-  cta1Href: isAr ? '/ar/collections' : '/collections',
+  cta1Href: localizeUrl('/collections', lang),
 };
 ---
 
