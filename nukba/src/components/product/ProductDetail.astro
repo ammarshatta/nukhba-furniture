@@ -19,7 +19,7 @@ const displayExcerpt = isAr ? d.excerptAr : d.excerpt;
 // Localized price label: show "Price on Request" when no real price is set.
 const displayPrice = d.priceValue === 0 ? t.product.priceOnRequest : d.price;
 const waMessage = isAr ? d.waTextAr : d.waText;
-const waNumber = import.meta.env.PUBLIC_WA_NUMBER || '201112007555';
+const waNumber = import.meta.env.PUBLIC_WA_NUMBER || '201040101056';
 const waUrl = `https://wa.me/${waNumber}?text=${encodeURIComponent(waMessage)}`;
 
 const categoryDisplay = d.category.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());

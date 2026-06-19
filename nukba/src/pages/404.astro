@@ -10,7 +10,7 @@ const isAr = !Astro.url.pathname.startsWith('/en');
 const lang = isAr ? 'ar' : 'en';
 const dir = isAr ? 'rtl' : 'ltr';
 
-const waNumber = import.meta.env.PUBLIC_WA_NUMBER || '201112007555';
+const waNumber = import.meta.env.PUBLIC_WA_NUMBER || '201040101056';
 
 const allProducts = await getCollection('products', p => p.data.active);
 

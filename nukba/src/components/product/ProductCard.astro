@@ -42,7 +42,7 @@ const displayExcerpt = isAr ? excerptAr : excerpt;
 // label instead of the raw Arabic string stored in the markdown.
 const displayPrice = priceValue === 0 ? t.product.priceOnRequest : price;
 const waMessage = isAr ? waTextAr : waText;
-const waNumber = import.meta.env.PUBLIC_WA_NUMBER || '201112007555';
+const waNumber = import.meta.env.PUBLIC_WA_NUMBER || '201040101056';
 const waUrl = `https://wa.me/${waNumber}?text=${encodeURIComponent(waMessage)}`;
 const productUrl = isAr ? `/products/${slug}` : `/en/products/${slug}`;
 

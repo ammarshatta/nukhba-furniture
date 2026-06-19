@@ -10,7 +10,7 @@ compatibility_flags = ["nodejs_compat"]
 
 [vars]
 PUBLIC_SITE_URL = "https://shattafurniture.com"
-PUBLIC_WA_NUMBER = "201112007555"
+PUBLIC_WA_NUMBER = "201040101056"
 PUBLIC_INSTAGRAM_URL = "https://instagram.com/shatta_furniture"
 PUBLIC_FACEBOOK_URL = "https://www.facebook.com/citymodern"
 PUBLIC_CLOUDFLARE_ANALYTICS_TOKEN = ""

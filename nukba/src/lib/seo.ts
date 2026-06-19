@@ -3,7 +3,7 @@ import type { CollectionEntry } from 'astro:content';
 const SITE_URL = import.meta.env.PUBLIC_SITE_URL || 'https://shattafurniture.com';
 const BRAND = 'Shatta Furniture';
 const BRAND_AR = 'شطا';
-const WA_NUMBER = import.meta.env.PUBLIC_WA_NUMBER || '201112007555';
+const WA_NUMBER = import.meta.env.PUBLIC_WA_NUMBER || '201040101056';
 const INSTAGRAM = import.meta.env.PUBLIC_INSTAGRAM_URL || 'https://www.instagram.com/shatta_furniture';
 const FACEBOOK = import.meta.env.PUBLIC_FACEBOOK_URL || 'https://www.facebook.com/citymodern';
 
