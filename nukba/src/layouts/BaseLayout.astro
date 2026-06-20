@@ -85,5 +85,47 @@ const resolvedCanonical = canonical ?? `${siteUrl}${currentPath}`;
     );
     document.querySelectorAll('[data-reveal]').forEach(el => observer.observe(el));
   </script>
+
+  <!--
+    WhatsApp links: inject the current page URL into the prefilled message so the
+    sales team sees exactly which page the customer came from, and fire a GA4 +
+    Clarity event so clicks are trackable. One delegated handler covers every
+    WhatsApp button on the site (FAB, product cards, CTAs, nav, footer…).
+  -->
+  <script>
+    document.addEventListener('click', (e) => {
+      const target = e.target;
+      const link = target && target.closest
+        ? target.closest('a[href*="wa.me"], a[href*="api.whatsapp.com"]')
+        : null;
+      if (!link) return;
+
+      // Append the current page URL to the prefilled message (idempotent —
+      // dataset.waText keeps the original message so repeat clicks don't stack).
+      try {
+        const url = new URL(link.href);
+        const original = link.dataset.waText ?? (url.searchParams.get('text') || '');
+        link.dataset.waText = original;
+        const pageUrl = window.location.href.split('#')[0];
+        const sep = original ? '\n\n' : '';
+        url.searchParams.set('text', original + sep + pageUrl);
+        link.href = url.toString();
+      } catch (_) { /* leave href untouched on parse failure */ }
+
+      // Track the click.
+      const label = (link.getAttribute('aria-label') || link.textContent || '')
+        .replace(/\s+/g, ' ').trim().slice(0, 80);
+      if (window.gtag) {
+        window.gtag('event', 'whatsapp_click', {
+          button_label: label,
+          page_location: window.location.href,
+          page_title: document.title,
+        });
+      }
+      if (window.clarity) {
+        window.clarity('event', 'whatsapp_click');
+      }
+    }, true);
+  </script>
 </body>
 </html>
