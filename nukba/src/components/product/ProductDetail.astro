@@ -53,6 +53,9 @@ const depthLabel = isAr ? 'العمق' : 'Depth';
 const heightLabel = isAr ? 'الارتفاع' : 'Height';
 const faqsLabel = isAr ? 'الأسئلة الشائعة' : 'Frequently Asked Questions';
 const relatedLabel = isAr ? 'قد يعجبك أيضاً' : 'You May Also Like';
+const disclaimerText = isAr
+  ? 'جميع البيانات والمقاسات المذكورة هي لأغراض استرشادية فقط، وقد تختلف عن الواقع.'
+  : 'All data and measurements are for reference purposes only and may differ from the actual product.';
 ---
 
 <div dir={isAr ? 'rtl' : 'ltr'}>
@@ -71,7 +74,7 @@ const relatedLabel = isAr ? 'قد يعجبك أيضاً' : 'You May Also Like';
             id="pd-main-img"
             src={d.images[0]}
             alt={displayTitle}
-            class="w-full h-full object-cover transition-all duration-500"
+            class="w-full h-full object-contain transition-all duration-500"
             loading="eager"
           />
         ) : (
@@ -219,6 +222,13 @@ const relatedLabel = isAr ? 'قد يعجبك أيضاً' : 'You May Also Like';
           ))}
         </div>
       </div>
+
+      <!-- Reference-only disclaimer -->
+      <p
+        style="color:var(--color-warm-gray); font-size:0.8125rem; line-height:1.6; font-style:italic;"
+      >
+        {disclaimerText}
+      </p>
 
       <!-- WhatsApp CTA -->
       <a

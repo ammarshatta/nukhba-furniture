@@ -13,9 +13,9 @@
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.95.1",
-    "@astrojs/cloudflare": "^13.5.0",
+    "@astrojs/cloudflare": "^14.0.2",
     "@tailwindcss/vite": "^4.3.0",
-    "astro": "^6.3.1",
+    "astro": "^7.0.4",
     "tailwindcss": "^4.3.0",
     "uuid": "^14.0.0"
   }
