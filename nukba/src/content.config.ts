@@ -1,6 +1,31 @@
 import { defineCollection, z } from 'astro:content';
 import { glob } from 'astro/loaders';
 
+// Blank CMS number fields arrive as '' or null — treat those as "not provided"
+// instead of coercing them to 0.
+const optionalNumber = z.preprocess(
+  (v) => (v === '' || v === null ? undefined : v),
+  z.coerce.number().optional(),
+);
+
+// One measured piece. A set (sofa + armchairs + table) lists several; a single
+// piece lists one, and may leave the label empty.
+const dimensionEntry = z.object({
+  label: z.string().optional(),
+  labelAr: z.string().optional(),
+  width: optionalNumber,
+  depth: optionalNumber,
+  height: optionalNumber,
+  unit: z.string().default('cm'),
+});
+
+// Always normalised to an array: a plain mapping (every hand-written file) is
+// wrapped, a list from the CMS passes through, and a missing value becomes [].
+const dimensionsSchema = z.preprocess(
+  (v) => (v == null ? [] : Array.isArray(v) ? v : [v]),
+  z.array(dimensionEntry),
+);
+
 const products = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/products' }),
   schema: z.object({
@@ -10,13 +35,8 @@ const products = defineCollection({
     category: z.string(),
     excerpt: z.string().max(200),
     excerptAr: z.string().max(200),
-    materials: z.array(z.string()),
-    dimensions: z.object({
-      width: z.number(),
-      depth: z.number(),
-      height: z.number(),
-      unit: z.string().default('cm'),
-    }),
+    materials: z.array(z.string()).default([]),
+    dimensions: dimensionsSchema,
     price: z.string(),
     priceValue: z.number(),
     currency: z.string().default('EGP'),

@@ -41,7 +41,6 @@ const badgeLabel = activeBadge
   : '';
 const badgeStyle = activeBadge ? badgeStyles[activeBadge] ?? '' : '';
 
-const dimUnit = d.dimensions.unit || 'cm';
 const hasFaqs = d.faqs && d.faqs.length > 0;
 const hasMultipleImages = d.images.length > 1;
 
@@ -51,6 +50,19 @@ const dimensionsLabel = isAr ? 'الأبعاد' : 'Dimensions';
 const widthLabel = isAr ? 'العرض' : 'Width';
 const depthLabel = isAr ? 'العمق' : 'Depth';
 const heightLabel = isAr ? 'الارتفاع' : 'Height';
+// Dimensions are optional: a product may list one entry per piece (sets), and
+// any axis may be missing — render only the pieces that carry a measurement.
+const dimGroups = (d.dimensions ?? [])
+  .map(dim => ({
+    piece: (isAr ? dim.labelAr || dim.label : dim.label || dim.labelAr) || '',
+    unit: dim.unit || 'cm',
+    values: [
+      { label: widthLabel, value: dim.width },
+      { label: depthLabel, value: dim.depth },
+      { label: heightLabel, value: dim.height },
+    ].filter((v): v is { label: string; value: number } => typeof v.value === 'number'),
+  }))
+  .filter(g => g.values.length > 0);
 const faqsLabel = isAr ? 'الأسئلة الشائعة' : 'Frequently Asked Questions';
 const relatedLabel = isAr ? 'قد يعجبك أيضاً' : 'You May Also Like';
 const disclaimerText = isAr
@@ -179,7 +191,8 @@ const disclaimerText = isAr
         </div>
       )}
 
-      <!-- Dimensions table -->
+      <!-- Dimensions table — one block per piece of the set -->
+      {dimGroups.length > 0 && (
       <div>
         <p
           class="text-xs font-semibold uppercase tracking-widest mb-3"
@@ -187,41 +200,49 @@ const disclaimerText = isAr
         >
           {dimensionsLabel}
         </p>
-        <div
-          class="grid grid-cols-3 gap-px overflow-hidden rounded-xl"
-          style="border:1px solid var(--color-beige-dark);"
-        >
-          {[
-            { label: widthLabel, value: d.dimensions.width },
-            { label: depthLabel, value: d.dimensions.depth },
-            { label: heightLabel, value: d.dimensions.height },
-          ].map(dim => (
-            <div
-              class="flex flex-col items-center py-4 px-3"
-              style="background:var(--color-beige-light);"
-            >
-              <span
-                class="font-bold"
-                style="font-size:1.25rem; color:var(--color-walnut);"
+        <div class="flex flex-col gap-3">
+          {dimGroups.map(group => (
+            <div>
+              {group.piece && (
+                <p class="text-sm font-medium mb-1.5" style="color:var(--color-walnut);">
+                  {group.piece}
+                </p>
+              )}
+              <div
+                class="grid gap-px overflow-hidden rounded-xl"
+                style={`border:1px solid var(--color-beige-dark); grid-template-columns:repeat(${group.values.length}, minmax(0, 1fr));`}
               >
-                {dim.value}
-              </span>
-              <span
-                class="text-xs font-medium uppercase tracking-wide"
-                style="color:var(--color-warm-gray);"
-              >
-                {dimUnit}
-              </span>
-              <span
-                class="text-xs mt-1"
-                style="color:var(--color-warm-gray);"
-              >
-                {dim.label}
-              </span>
+                {group.values.map(dim => (
+                  <div
+                    class="flex flex-col items-center py-4 px-3"
+                    style="background:var(--color-beige-light);"
+                  >
+                    <span
+                      class="font-bold"
+                      style="font-size:1.25rem; color:var(--color-walnut);"
+                    >
+                      {dim.value}
+                    </span>
+                    <span
+                      class="text-xs font-medium uppercase tracking-wide"
+                      style="color:var(--color-warm-gray);"
+                    >
+                      {group.unit}
+                    </span>
+                    <span
+                      class="text-xs mt-1"
+                      style="color:var(--color-warm-gray);"
+                    >
+                      {dim.label}
+                    </span>
+                  </div>
+                ))}
+              </div>
             </div>
           ))}
         </div>
       </div>
+      )}
 
       <!-- Reference-only disclaimer -->
       <p

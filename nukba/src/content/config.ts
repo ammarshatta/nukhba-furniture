@@ -1,5 +1,26 @@
 import { defineCollection, z } from 'astro:content';
 
+// See src/content.config.ts — same normalisation for optional CMS numbers and
+// for `dimensions` written either as a mapping or as a single-item list.
+const optionalNumber = z.preprocess(
+  (v) => (v === '' || v === null ? undefined : v),
+  z.coerce.number().optional(),
+);
+
+const dimensionEntry = z.object({
+  label: z.string().optional(),
+  labelAr: z.string().optional(),
+  width: optionalNumber,
+  depth: optionalNumber,
+  height: optionalNumber,
+  unit: z.string().default('cm'),
+});
+
+const dimensionsSchema = z.preprocess(
+  (v) => (v == null ? [] : Array.isArray(v) ? v : [v]),
+  z.array(dimensionEntry),
+);
+
 const products = defineCollection({
   type: 'content',
   schema: z.object({
@@ -9,13 +30,8 @@ const products = defineCollection({
     category: z.string(),
     excerpt: z.string().max(200),
     excerptAr: z.string().max(200),
-    materials: z.array(z.string()),
-    dimensions: z.object({
-      width: z.number(),
-      depth: z.number(),
-      height: z.number(),
-      unit: z.string().default('cm'),
-    }),
+    materials: z.array(z.string()).default([]),
+    dimensions: dimensionsSchema,
     price: z.string(),
     priceValue: z.number(),
     currency: z.string().default('EGP'),

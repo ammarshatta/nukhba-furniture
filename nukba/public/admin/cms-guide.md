@@ -31,13 +31,22 @@ Complete guide for managing content on the Shatta website via the CMS at `/admin
    - **Price (display)** — e.g. `EGP 45,000`
    - **Price (number)** — e.g. `45000`
    - **Images** — Add one or more image URLs (Unsplash or Cloudinary)
-   - **Active** — Toggle ON for the product to appear on the site
+   - **Published** — Toggle ON for the product to appear on the site. Leave it OFF to keep the product as a draft (see *Drafts & preview* below)
    - **Publish Date** — Set to today or a future date
 4. Optional fields:
    - **Featured** — Toggle ON to show the product on the home page Best Sellers section
    - **Badge** — Choose `new`, `sale`, or `bestseller`
-   - **Materials** — List materials used
-   - **Dimensions** — Width, depth, height in cm
+   - **Materials** — List materials used (optional — leave the list empty and the Materials section is hidden)
+   - **Dimensions** — Optional. Add **one entry per piece**: a set can list the sofa, the armchair and the table separately, each with its own Width / Depth / Height. Name the piece in EN/AR (e.g. `Sofa` / `كنبة`); leave the name empty for a single-piece product. Any measurement you leave blank is simply not shown
+
+### Drafts & Preview
+
+- A product with **Published** OFF is a draft: it does not appear in listings, search, related products, or the sitemap.
+- To view a draft before publishing, open:
+  `https://shattafurniture.com/preview/YOUR-SLUG?key=YOUR_PREVIEW_KEY`
+  Add `&lang=en` for the English version. The page is `noindex` and blocked in `robots.txt`, so Google never sees it.
+- The key is the `PREVIEW_KEY` secret: `wrangler secret put PREVIEW_KEY --name nukhba-furniture`. Anyone logged into `/studio` can open preview links without the key.
+- Preview reads the deployed content, so the draft still has to be saved **and** deployed before the link shows your latest edit.
    - **Description (body)** — Full English description in markdown
    - **Description (AR body)** — Full Arabic description (plain prose paragraphs)
    - **WhatsApp Message (EN / AR)** — Pre-filled WhatsApp inquiry text

@@ -40,6 +40,22 @@ export async function requireAuth(cookies: AstroCookies): Promise<void> {
   }
 }
 
+/**
+ * Draft preview access: either an admin session cookie, or the shared
+ * PREVIEW_KEY passed as ?key=… so a link can be handed to someone who is not
+ * logged into /studio. With no PREVIEW_KEY configured, only the session works.
+ */
+export async function isPreviewAuthorized(
+  cookies: AstroCookies,
+  key: string | null,
+): Promise<boolean> {
+  const previewKey = env.PREVIEW_KEY;
+  if (previewKey && key === previewKey) return true;
+
+  const token = cookies.get(COOKIE_NAME)?.value;
+  return !!token && (await isValidSession(token));
+}
+
 export function setSessionCookie(cookies: AstroCookies, token: string): void {
   cookies.set(COOKIE_NAME, token, {
     httpOnly: true,

@@ -99,6 +99,27 @@ export function buildProductSchema(
     offers.priceValidUntil = new Date(Date.now() + 90 * 86400000).toISOString().split('T')[0];
   }
 
+  // Materials and dimensions are optional — omit the keys entirely rather than
+  // emitting empty strings or "undefinedcm" values.
+  const materials = d.materials ?? [];
+  // One dimensions entry per piece — prefix the property name with the piece
+  // label ("Armchair Width") so a set does not emit three identical "Width" keys.
+  const additionalProperty = (d.dimensions ?? []).flatMap(dim => {
+    const unit = dim.unit || 'cm';
+    const piece = dim.label || dim.labelAr;
+    return ([
+      ['Width', dim.width],
+      ['Depth', dim.depth],
+      ['Height', dim.height],
+    ] as const)
+      .filter(([, value]) => typeof value === 'number')
+      .map(([name, value]) => ({
+        '@type': 'PropertyValue',
+        name: piece ? `${piece} ${name}` : name,
+        value: `${value}${unit}`,
+      }));
+  });
+
   const schema: Record<string, unknown> = {
     '@context': 'https://schema.org',
     '@type': 'Product',
@@ -107,15 +128,11 @@ export function buildProductSchema(
     description: d.excerpt,
     sku: d.slug,
     brand: { '@type': 'Brand', name: BRAND },
-    material: d.materials.join(', '),
     image: d.images.map(img => img.startsWith('http') ? img : `${SITE_URL}${img}`),
     offers,
-    additionalProperty: [
-      { '@type': 'PropertyValue', name: 'Width', value: `${d.dimensions.width}${d.dimensions.unit}` },
-      { '@type': 'PropertyValue', name: 'Depth', value: `${d.dimensions.depth}${d.dimensions.unit}` },
-      { '@type': 'PropertyValue', name: 'Height', value: `${d.dimensions.height}${d.dimensions.unit}` },
-    ],
   };
+  if (materials.length > 0) schema.material = materials.join(', ');
+  if (additionalProperty.length > 0) schema.additionalProperty = additionalProperty;
 
   // Review / AggregateRating — emitted ONLY when real review data exists.
   // Never fabricate ratings: fake reviews violate Google's guidelines.

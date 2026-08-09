@@ -59,16 +59,23 @@ collections:
       - label: Materials
         name: materials
         widget: list
+        required: false
         field: { label: Material, name: material, widget: string }
+      # One entry per piece — a set can list the sofa, the armchairs and the
+      # table separately. Leave the piece name empty for a single-piece product.
       - label: Dimensions
         name: dimensions
         widget: list
         required: false
+        label_singular: Piece
+        summary: "{{fields.label}} {{fields.width}}×{{fields.depth}}×{{fields.height}}"
         fields:
-          - { label: Width, name: width, widget: number }
-          - { label: Depth, name: depth, widget: number }
-          - { label: Height, name: height, widget: number }
-          - { label: Unit, name: unit, widget: string, default: cm }
+          - { label: Piece (EN), name: label, widget: string, required: false, hint: "e.g. Sofa, Armchair, Coffee table — leave empty for a single piece" }
+          - { label: Piece (AR), name: labelAr, widget: string, required: false, hint: "مثال: كنبة، فوتيه، ترابيزة" }
+          - { label: Width, name: width, widget: number, required: false, value_type: int }
+          - { label: Depth, name: depth, widget: number, required: false, value_type: int }
+          - { label: Height, name: height, widget: number, required: false, value_type: int }
+          - { label: Unit, name: unit, widget: string, default: cm, required: false }
       - { label: Description (body), name: body, widget: markdown }
       - label: Description (AR body)
         name: bodyAr
@@ -102,7 +109,9 @@ collections:
           - { label: Stars (1-5), name: stars, widget: number, value_type: int, min: 1, max: 5 }
           - { label: Review Text, name: text, widget: text }
           - { label: Date, name: date, widget: string, required: false, hint: "e.g. 2026-05-01" }
-      - { label: Active, name: active, widget: boolean, default: true }
+      # Unchecked = draft: hidden from the whole site (listings, search, sitemap)
+      # and viewable only at /preview/<slug>?key=<PREVIEW_KEY>.
+      - { label: Published, name: active, widget: boolean, default: true, hint: "Uncheck to save as a draft — preview it at /preview/SLUG?key=YOUR_PREVIEW_KEY" }
       - { label: Publish Date, name: publishDate, widget: datetime }
 
   - name: categories

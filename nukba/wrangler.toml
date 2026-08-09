@@ -34,3 +34,4 @@ GITHUB_CLIENT_ID = "Ov23liaz269sMqpDOK2c"
 #   wrangler secret put ADMIN_SESSION_SECRET --name nukhba-furniture
 #   wrangler secret put ANTHROPIC_API_KEY --name nukhba-furniture
 #   wrangler secret put CLOUDINARY_CLOUD_NAME --name nukhba-furniture
+#   wrangler secret put PREVIEW_KEY --name nukhba-furniture   # /preview/<slug>?key=…

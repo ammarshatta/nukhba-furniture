@@ -1,0 +1,143 @@
+---
+// Draft preview: renders a product exactly as it will look once published,
+// including products with `active: false` (drafts), which appear nowhere else
+// on the site. Server-rendered so it never lands in the static build.
+export const prerender = false;
+
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProductDetail from '../../components/product/ProductDetail.astro';
+import SofaAnatomy from '../../components/home/SofaAnatomy.astro';
+import { isPreviewAuthorized } from '../../lib/auth';
+
+const notFound = new Response('Not found', { status: 404 });
+
+if (!(await isPreviewAuthorized(Astro.cookies, Astro.url.searchParams.get('key')))) {
+  return notFound;
+}
+
+const { slug } = Astro.params;
+// No `active` filter here — seeing unpublished entries is the point.
+const allProducts = await getCollection('products');
+const product = allProducts.find(p => p.data.slug === slug);
+
+if (!product) return notFound;
+
+const { Content } = await render(product);
+const d = product.data;
+const isAr = Astro.url.searchParams.get('lang') !== 'en';
+
+// Related products stay limited to published ones, as on the live page.
+const published = allProducts.filter(p => p.data.active);
+const relatedProducts = d.relatedProducts.length > 0
+  ? published
+      .filter(p => d.relatedProducts.includes(p.data.slug) && p.data.slug !== d.slug)
+      .slice(0, 3)
+  : published
+      .filter(p => p.data.category === d.category && p.data.slug !== d.slug)
+      .slice(0, 3);
+
+// Keep ?key= when switching language, otherwise the link locks the viewer out.
+const otherLangParams = new URLSearchParams(Astro.url.search);
+if (isAr) otherLangParams.set('lang', 'en');
+else otherLangParams.delete('lang');
+const otherLangQuery = otherLangParams.toString();
+const otherLangHref = `/preview/${d.slug}${otherLangQuery ? `?${otherLangQuery}` : ''}`;
+---
+
+<BaseLayout
+  title={isAr ? `معاينة — ${d.titleAr || d.title}` : `Preview — ${d.title}`}
+  description={isAr ? (d.excerptAr || d.excerpt) : d.excerpt}
+  currentPath={isAr ? `/products/${d.slug}` : `/en/products/${d.slug}`}
+  lang={isAr ? 'ar' : 'en'}
+  ogType="product"
+  ogImage={d.images[0]}
+  faqs={d.faqs}
+  noindex={true}
+>
+  <!-- Preview banner — never rendered on the live product page -->
+  <div
+    style="background:var(--color-walnut); color:#fff; padding:0.75rem 1.5rem; text-align:center; font-size:0.875rem;"
+  >
+    <strong>{isAr ? 'وضع المعاينة' : 'Preview mode'}</strong>
+    <span style="opacity:0.85; margin-inline-start:0.5rem;">
+      {d.active
+        ? (isAr ? 'هذا المنتج منشور بالفعل على الموقع.' : 'This product is already published.')
+        : (isAr
+            ? 'مسودة — غير ظاهرة على الموقع حتى تفعيل «Published».'
+            : 'Draft — hidden from the site until “Published” is checked.')}
+    </span>
+    <a href={otherLangHref} style="color:var(--color-gold); margin-inline-start:0.75rem; text-decoration:underline;">
+      {isAr ? 'English' : 'العربية'}
+    </a>
+  </div>
+
+  <section class="py-12 lg:py-20">
+    <div class="max-w-7xl mx-auto px-6 lg:px-12">
+      <ProductDetail product={product} related={relatedProducts} lang={isAr ? 'ar' : 'en'} />
+    </div>
+  </section>
+
+  {isAr
+    ? d.bodyAr && (
+        <section class="py-12 lg:py-16 border-t" style="border-color:var(--color-beige-dark);">
+          <div class="max-w-3xl mx-auto px-6 lg:px-12">
+            <div class="prose-nukhba" dir="rtl">
+              {d.bodyAr.split('\n\n').map((para: string) => para.trim() && <p>{para.trim()}</p>)}
+            </div>
+          </div>
+        </section>
+      )
+    : (
+        <section class="py-12 lg:py-16 border-t" style="border-color:var(--color-beige-dark);">
+          <div class="max-w-3xl mx-auto px-6 lg:px-12">
+            <div class="prose-nukhba">
+              <Content />
+            </div>
+          </div>
+        </section>
+      )}
+
+  <SofaAnatomy lang={isAr ? 'ar' : 'en'} showCta={false} />
+</BaseLayout>
+
+<style>
+  .prose-nukhba :global(h2) {
+    font-family: var(--font-serif);
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--color-walnut);
+    margin-top: 2.5rem;
+    margin-bottom: 0.75rem;
+    letter-spacing: -0.02em;
+  }
+  .prose-nukhba :global(h3) {
+    font-family: var(--font-serif);
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--color-walnut);
+    margin-top: 2rem;
+    margin-bottom: 0.5rem;
+  }
+  .prose-nukhba :global(p) {
+    color: var(--color-warm-gray);
+    font-size: 1.0625rem;
+    line-height: 1.8;
+    margin-bottom: 1.25rem;
+  }
+  .prose-nukhba :global(strong) {
+    color: var(--color-walnut);
+    font-weight: 600;
+  }
+  .prose-nukhba :global(ul),
+  .prose-nukhba :global(ol) {
+    padding-inline-start: 1.5rem;
+    margin-bottom: 1.25rem;
+  }
+  .prose-nukhba :global(li) {
+    color: var(--color-warm-gray);
+    font-size: 1.0625rem;
+    line-height: 1.7;
+    margin-bottom: 0.4rem;
+  }
+</style>

@@ -8,6 +8,7 @@ Allow: /
 Disallow: /admin/
 Disallow: /studio/
 Disallow: /api/admin/
+Disallow: /preview/
 
 Sitemap: ${siteUrl}/sitemap.xml
 `,
